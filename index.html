@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>المسابقة الكبرى</title>
+    <title>منصة كنوز الإسلام - صدقة جارية لروح المرحوم بصري بومدين</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبات التصدير المستقرة مع es6-promise للتدعيم -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.2.8/es6-promise.auto.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <style>
         :root {
             --primary-color: #0d5c3a;
             --primary-dark: #0a472d;
+            --primary-light: #15803d;
             --gold-color: #d4af37;
             --gold-hover: #b8860b;
             --bg-color: #f2f7f4;
             --card-bg: #ffffff;
             --text-color: #1b382b;
+            --shadow-subtle: 0 12px 40px rgba(13, 92, 58, 0.12);
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
 
         html, body {
@@ -33,6 +35,7 @@
             color: var(--text-color);
             font-family: 'Amiri', serif;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .wrapper {
@@ -41,7 +44,6 @@
             min-height: 100%;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            box-sizing: border-box;
         }
 
         .content-area {
@@ -50,12 +52,77 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding-bottom: 20px;
+            padding-bottom: 40px;
+        }
+
+        .navbar-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 8px 12px;
+            box-shadow: 0 4px 20px rgba(13, 92, 58, 0.08);
+            border-bottom: 1px solid #d1fae5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            margin-bottom: 15px;
+        }
+
+        .nav-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            flex: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .tab-btn i {
+            font-size: 0.95rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #f0fdf4;
+            color: var(--gold-hover);
+        }
+
+        .tab-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(13, 92, 58, 0.25);
         }
 
         .logo-container {
-            margin-top: 20px;
-            margin-bottom: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -63,553 +130,395 @@
             width: 100%;
             text-align: center;
             user-select: none;
+            animation: fadeInDown 0.8s ease-out;
         }
         
         .main-logo {
-            max-width: 95px;
+            max-width: 90px;
             height: auto;
             object-fit: contain;
             border: none;
+            background: transparent;
             box-shadow: none;
             margin: 0 auto 8px auto;
             display: block;
-            transition: transform 0.3s ease;
-        }
-        .main-logo:hover {
-            transform: scale(1.05);
         }
 
-        .part-indicator {
-            background: linear-gradient(135deg, var(--primary-color), #15803d);
-            color: #ffffff;
+        .dedication-banner {
+            background: linear-gradient(135deg, #0d5c3a, #0a472d);
+            color: #fff;
             border: 1px solid var(--gold-color);
-            padding: 6px 18px;
-            border-radius: 20px;
+            padding: 12px 25px;
+            border-radius: 30px;
             font-size: 1rem;
+            font-family: 'Reem Kufi', sans-serif;
             font-weight: bold;
-            margin-top: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 20px rgba(13, 92, 58, 0.25);
             display: inline-block;
             text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .main-container {
             width: 90%;
-            max-width: 620px;
-            margin: 15px auto;
+            max-width: 720px;
+            margin: 0 auto;
         }
 
         .card {
             background-color: var(--card-bg);
-            padding: 25px;
-            margin-bottom: 15px;
-            border-radius: 16px;
-            box-shadow: 0 5px 18px rgba(13, 92, 58, 0.08);
-            border-top: 5px solid var(--primary-color);
-            border-bottom: 2px solid var(--gold-color);
-            box-sizing: border-box;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 22px;
+            box-shadow: var(--shadow-subtle);
+            border-top: 6px solid var(--primary-color);
+            border-bottom: 3px solid var(--gold-color);
+            text-align: right;
+            position: relative;
         }
 
         .card-title {
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             color: var(--primary-color);
             margin-top: 0;
-            margin-bottom: 12px;
+            margin-bottom: 18px;
             font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .card-text {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             line-height: 1.9;
             color: var(--text-color);
-        }
-
-        .prize-badge {
-            background: linear-gradient(135deg, #d4af37, #b8860b);
-            color: #0f2e1b;
-            padding: 12px 15px;
-            border-radius: 12px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            box-shadow: 0 3px 8px rgba(212, 175, 55, 0.3);
-        }
-
-        .rules-list {
-            padding-right: 20px;
-            margin: 10px 0;
-        }
-        .rules-list li {
-            margin-bottom: 10px;
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-        .rules-subtitle {
-            font-family: 'Reem Kufi', sans-serif;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 1.15rem;
-            border-right: 4px solid var(--gold-color);
-            padding-right: 8px;
-        }
-
-        /* --- تحسين واجهة الأجزاء (Dashboard) لتكون احترافية --- */
-        .dashboard-header-card {
-            background: linear-gradient(135deg, #0d5c3a, #116631);
-            color: #ffffff;
-            border-top: 5px solid var(--gold-color);
-            border-bottom: 3px solid var(--gold-color);
-            text-align: center;
-            padding: 20px;
-        }
-        .dashboard-header-card .card-title {
-            color: #ffffff;
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-
-        .parts-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin-top: 15px;
-        }
-        .part-card {
-            background: #ffffff;
-            border: 2px solid #bbf7d0;
-            border-radius: 14px;
-            padding: 20px;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(13, 92, 58, 0.05);
-        }
-        .part-card:hover:not(.locked) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(13, 92, 58, 0.12);
-            border-color: var(--primary-color);
-        }
-        .part-card.locked {
-            background: #f8fafc;
-            border-color: #e2e8f0;
-            opacity: 0.8;
-        }
-        .part-card.completed {
-            background: #f0fdf4;
-            border-color: #4ade80;
-            border-right: 6px solid #15803d;
-        }
-        .part-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .part-name {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        .part-card.locked .part-name {
-            color: #64748b;
-        }
-        .part-status-badge {
-            font-size: 0.85rem;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-        .badge-locked { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
-        .badge-available { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-        .badge-completed { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
-
-        .part-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-            border: 1px solid #e2e8f0;
-        }
-        .part-card.completed .part-stats {
-            background: #ffffff;
-            border-color: #bbf7d0;
-        }
-        .stat-item {
-            color: #475569;
-        }
-        .stat-item b {
-            color: var(--primary-color);
-        }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-        .option-btn {
-            background-color: #fcfdfc;
-            border: 1px solid #bbf7d0;
-            padding: 12px 15px;
-            border-radius: 8px;
+            margin-bottom: 20px;
             text-align: right;
-            font-size: 1.1rem;
-            font-family: 'Amiri', serif;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .option-btn:hover:not(:disabled) {
-            background-color: #f0fdf4;
-            border-color: var(--primary-color);
-        }
-        .option-btn.selected {
-            background-color: #e6f4ea;
-            border-color: var(--primary-color);
-            font-weight: bold;
-        }
-        .option-btn.correct-highlight {
-            background-color: #dcfce7 !important;
-            border-color: #15803d !important;
-            color: #14532d !important;
-            font-weight: bold;
-        }
-        .option-btn.wrong-highlight {
-            background-color: #fee2e2 !important;
-            border-color: #b91c1c !important;
-            color: #7f1d1d !important;
         }
 
-        .form-group {
-            margin-top: 15px;
-            margin-bottom: 15px;
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+            text-align: center;
         }
-        .form-control {
-            width: 100%;
-            padding: 12px;
+
+        .countdown-box {
+            background: linear-gradient(135deg, #f0fdf4, #e6f4ed);
             border: 1px solid #a7f3d0;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-family: 'Amiri', serif;
-            font-size: 1.1rem;
-            background-color: #fcfdfc;
-            color: var(--text-color);
+            border-radius: 14px;
+            padding: 14px 5px;
+            box-shadow: 0 4px 12px rgba(13,92,58,0.06);
         }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 5px rgba(13, 92, 58, 0.3);
+
+        .countdown-number {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.85rem;
+            color: #4b5563;
+            margin-top: 5px;
+            display: block;
         }
 
         .btn {
             color: white;
             border: none;
             width: 100%;
-            padding: 14px;
-            font-size: 1.2rem;
-            font-family: 'Reem Kufi', sans-serif;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: all 0.2s;
-        }
-        .btn:disabled {
-            background: #cbd5e1 !important;
-            border-color: #94a3b8 !important;
-            color: #64748b !important;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .primary-btn { 
-            background: linear-gradient(135deg, var(--primary-color), #15803d);
-            border-bottom: 3px solid var(--gold-color);
-        }
-        .primary-btn:hover:not(:disabled) { 
-            background: linear-gradient(135deg, var(--primary-dark), #116631); 
-        }
-        .secondary-btn { 
-            background-color: var(--gold-color);
-            color: #0f2e1b;
-        }
-        .secondary-btn:hover:not(:disabled) { background-color: var(--gold-hover); }
-
-        .result-message {
-            display: none;
-            font-size: 1.15rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .result-success { background-color: #dcfce7; color: #14532d; border: 1px solid #86efac; }
-        .result-fail { background-color: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
-
-        .reveal-text {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background-color: #f0fdf4;
-            border-right: 4px solid var(--gold-color);
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-
-        .live-stats-container {
-            display: flex;
-            justify-content: space-between;
-            background-color: #e6f4ea;
-            border: 1px solid #a7f3d0;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            background-color: #d1fae5;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 10px;
-            background: linear-gradient(90deg, var(--gold-color), var(--primary-color));
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        #pdf-content {
-            display: block !important;
-            background-color: #ffffff !important;
-            color: var(--text-color) !important;
-            direction: rtl !important;
-            padding: 20px !important;
-        }
-
-        .report-card {
-            border: 2px dashed var(--primary-color);
-            padding: 12px;
-            background-color: #f4fdf8 !important;
-            border-radius: 10px;
-            margin-top: 10px;
-            clear: both;
-        }
-        .report-title {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-bottom: 10px;
-            border-bottom: 2px solid var(--gold-color);
-            padding-bottom: 6px;
-            text-align: center;
-        }
-        .report-item {
-            font-size: 1rem;
-            margin: 6px 0 !important;
-            color: var(--text-color);
-            line-height: 1.6;
-            text-align: right;
-            display: block;
-        }
-
-        .pdf-dedication {
-            text-align: center;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-top: 2px;
-            margin-bottom: 10px;
-            line-height: 1.5;
-            display: block;
-        }
-
-        .token-container-box {
-            direction: ltr !important;
-            text-align: left !important;
-            display: inline-block;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            letter-spacing: 1px;
-            background-color: #e6f4ea !important;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid #a7f3d0;
-        }
-
-        .pdf-table-title {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 0.95rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-top: 12px;
-            margin-bottom: 5px;
-            border-right: 3px solid var(--gold-color);
-            padding-right: 6px;
-        }
-        .pdf-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            direction: rtl !important;
-        }
-        .pdf-table th, .pdf-table td {
-            border: 1px solid #a7f3d0;
-            padding: 5px 6px;
-            text-align: center;
-        }
-        .pdf-table th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: bold;
-        }
-        .text-success-score { color: #15803d; font-weight: bold; }
-        .text-danger-score { color: #b91c1c; font-weight: bold; }
-
-        .warning-box {
-            background-color: #fef2f2;
-            border-right: 4px solid #ef4444;
-            padding: 12px;
-            border-radius: 6px;
-            color: #991b1b;
-            font-weight: bold;
-            font-size: 1rem;
-            margin-top: 10px;
-            line-height: 1.6;
-        }
-
-        .notice-box {
-            background-color: #f0fdf4;
-            border-right: 4px solid #10b981;
-            padding: 12px;
-            border-radius: 6px;
-            color: #065f46;
-            font-weight: bold;
-            font-size: 1rem;
-            margin-top: 12px;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .blocked-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .countdown-screen {
-            display: none;
-            text-align: center;
-        }
-        .grandmother-img {
-            width: 130px;
-            height: 130px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 3px solid var(--gold-color);
-            box-shadow: 0 4px 10px rgba(13, 92, 58, 0.2);
-            margin: 10px auto;
-            display: block;
-        }
-        .tribute-box {
-            background-color: #f4fdf8;
-            border: 1px solid #a7f3d0;
-            border-radius: 10px;
             padding: 15px;
-            margin-bottom: 20px;
-        }
-        .tribute-title {
+            font-size: 1.15rem;
             font-family: 'Reem Kufi', sans-serif;
-            color: var(--primary-color);
-            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .tribute-date {
-            color: var(--gold-hover);
-            font-size: 0.95rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .timer-box {
-            display: flex;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            transition: var(--transition-smooth);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            border-bottom: 4px solid var(--gold-color);
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(13, 92, 58, 0.2);
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            direction: ltr;
+            gap: 8px;
         }
-        .timer-segment {
-            background-color: var(--primary-color);
-            color: var(--gold-color);
-            border: 1px solid var(--gold-color);
-            padding: 10px;
-            border-radius: 8px;
-            min-width: 60px;
+        
+        .btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #116631);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13, 92, 58, 0.3);
         }
-        .timer-num {
-            font-size: 1.6rem;
-            font-weight: bold;
-            display: block;
-            font-family: sans-serif;
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-color), var(--gold-hover));
+            border-bottom: 4px solid #92400e;
+            color: #1b382b;
         }
-        .timer-label {
-            font-size: 0.8rem;
+        
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #b8860b, #92400e);
             color: #ffffff;
         }
 
-        .support-container {
-            margin-top: auto;
-            margin-bottom: 15px;
-            text-align: center;
-            width: 100%;
-            padding: 10px 0;
+        .action-card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
         }
-        .support-title {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1rem;
+
+        .action-card-item {
+            background: linear-gradient(135deg, #f0fdf4, #e6f4ed);
+            border: 1px solid #a7f3d0;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(13,92,58,0.05);
+        }
+
+        .action-card-item:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(135deg, #dcfce7, #ccfbf1);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(13,92,58,0.15);
+        }
+
+        .action-card-item i {
+            font-size: 2rem;
             color: var(--primary-color);
             margin-bottom: 10px;
+            display: block;
+        }
+
+        .action-card-item span {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.05rem;
             font-weight: bold;
+            color: var(--primary-color);
         }
-        .support-icons {
+
+        .news-item {
+            background: #fffdf9;
+            border: 1px solid #e6d5a7;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-right: 5px solid var(--gold-color);
+            transition: var(--transition-smooth);
+        }
+
+        .news-item:hover {
+            box-shadow: 0 6px 20px rgba(212,175,55,0.18);
+            transform: translateX(-3px);
+        }
+
+        .news-item-title {
+            font-family: 'Reem Kufi', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            font-weight: bold;
             display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .news-item-date {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .locked-notice-box {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            border-radius: 16px;
+            padding: 22px;
+            text-align: center;
+            color: #991b1b;
+            margin-bottom: 20px;
+            font-family: 'Reem Kufi', sans-serif;
+            line-height: 1.8;
+        }
+
+        .timeline-container {
+            position: relative;
+            margin: 20px 0;
+            padding-right: 20px;
+            border-right: 2px dashed #a7f3d0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -25px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gold-color);
+            border: 2px solid white;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 30, 20, 0.65);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-smooth);
+            padding: 20px;
         }
-        .support-link {
-            text-decoration: none;
-            font-size: 1.7rem;
-            transition: transform 0.2s, color 0.2s;
-            display: inline-block;
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
-        .support-link:hover { transform: scale(1.15); }
-        .facebook-icon { color: #1877F2; }
-        .whatsapp-icon { color: #25D366; }
-        .telegram-icon { color: #26A5E4; }
-        .email-icon { color: #ea4335; }
+
+        .modal-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 580px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border-top: 6px solid var(--primary-color);
+            border-bottom: 4px solid var(--gold-color);
+            padding: 30px;
+            text-align: right;
+            transform: translateY(20px) scale(0.95);
+            transition: var(--transition-smooth);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 1.1rem;
+        }
+
+        .modal-close-btn:hover {
+            background: #dc2626;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 40px;
+        }
+
+        .form-group {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #a7f3d0;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-family: 'Amiri', serif;
+            font-size: 1.05rem;
+            background-color: #fcfdfc;
+            color: var(--text-color);
+            transition: var(--transition-smooth);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(13, 92, 58, 0.15);
+            background-color: #ffffff;
+        }
 
         footer {
-            padding: 18px;
+            padding: 22px;
             font-size: 0.95rem;
             color: var(--primary-color);
             text-align: center;
@@ -618,6 +527,27 @@
             width: 100%;
             box-sizing: border-box;
             border-top: 1px solid #a7f3d0;
+            margin-top: auto;
+        }
+
+        @media (max-width: 600px) {
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tab-btn {
+                font-size: 0.75rem;
+                padding: 6px 4px;
+                gap: 4px;
+            }
+            .tab-btn i {
+                font-size: 0.85rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .action-card-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -626,978 +556,426 @@
     <div class="wrapper">
         <div class="content-area">
             
-            <div class="logo-container" id="main-logo-header">
-                <img src="https://lh3.googleusercontent.com/d/1lzBzzmhHYpQRdLe7HV2Dq83UTIqw6K1Z" alt="شعار كنز الإسلام" class="main-logo" id="app-logo">
-                <div id="part-tag" class="part-indicator">المسابقة الكبرى</div>
+            <div class="navbar-container">
+                <nav class="nav-inner">
+                    <div class="nav-tabs">
+                        <button class="tab-btn active" onclick="switchTab('home', event)">
+                            <i class="fa-solid fa-house"></i>
+                            <span>الرئيسية</span>
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('news', event)">
+                            <i class="fa-solid fa-bullhorn"></i>
+                            <span>المستجدات</span>
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('articles', event)">
+                            <i class="fa-solid fa-pen-nib"></i>
+                            <span>المقالات</span>
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('account', event)">
+                            <i class="fa-solid fa-user-lock"></i>
+                            <span>الحساب</span>
+                        </button>
+                    </div>
+                </nav>
             </div>
 
-            <!-- 1. شاشة العد التنازلي -->
-            <div id="countdown-screen" class="main-container countdown-screen">
-                <div class="card">
-                    <img src="https://lh3.googleusercontent.com/d/1lxD42MD3uIOXCw9Yb_HQTv2XQglRYLFK" alt="صورة الجدة" class="grandmother-img">
-                    <div class="tribute-box">
-                        <div class="tribute-title">إهداء وترحم لروح الجدة الطاهرة المرحومة بوداود مباركة</div>
-                        <div class="tribute-date">تاريخ الوفاة: الإثنين 07 أوت 2017</div>
-                        <p style="font-size: 1.05rem; margin: 0; line-height: 1.7;">
-                            اللهم اغفر لها وارحمها وعافها واعف عنها، وأكرم نزلها ووسع مدخلها واجعل قبرها روضة من رياض الجنة.
+            <div class="logo-container">
+                <img src="https://lh3.googleusercontent.com/d/1lzBzzmhHYpQRdLe7HV2Dq83UTIqw6K1Z" alt="شعار كنز الإسلام" class="main-logo">
+                <div class="dedication-banner">
+                    <i class="fa-solid fa-heart" style="color: var(--gold-color);"></i> صدقة جارية لروح المرحوم الوالد: <b>بصري بومدين</b>
+                </div>
+            </div>
+
+            <div class="main-container">
+                
+                <!-- 1. الرئيسية -->
+                <div id="home-tab" class="tab-content active">
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-lock" style="color: var(--gold-color);"></i> الموقع مغلق حالياً للصيانة وتجهيز الافتتاح</div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #e6f4ed); border: 1px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 15px rgba(13,92,58,0.08);">
+                            <i class="fa-solid fa-quran" style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
+                            <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 0 0 8px 0; font-size: 1.25rem;">أثر مبارك وعلم ينتفع به</h3>
+                            <p style="margin: 0; font-family: 'Amiri', serif; font-size: 1.1rem; color: var(--text-color); line-height: 1.8;">
+                                اللهم اجعل هذا العمل المبارك، وكل حرف ونفع يُنشر عبر هذه المنصة، صدقة جارية ونوراً ساطعاً في قبر المرحوم الوالد <b>بصري بومدين</b>، وتغمده بواسع رحمتك وأسكنه فسيح جناتك.
+                            </p>
+                        </div>
+
+                        <p class="card-text">
+                            نعمل بكل جهد على تطوير البنية التحتية للمنصة ورفع مستوى الأداء. سيتم إعادة فتح البوابة الرسمية للموقع رسمياً يوم <b>21/11/2026</b> في تمام الساعة الثامنة مساءً بتوقيت مكة المكرمة.
                         </p>
-                    </div>
+                        
+                        <div class="countdown-grid">
+                            <div class="countdown-box">
+                                <span class="countdown-number" id="days">--</span>
+                                <span class="countdown-label">يوم</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-number" id="hours">--</span>
+                                <span class="countdown-label">ساعة</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-number" id="minutes">--</span>
+                                <span class="countdown-label">دقيقة</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-number" id="seconds">--</span>
+                                <span class="countdown-label">ثانية</span>
+                            </div>
+                        </div>
 
-                    <div class="card-title" style="text-align: center; font-size: 1.3rem; color: var(--primary-color);">
-                        ⏳ العد التنازلي لافتتاح المسابقة الكبرى
-                    </div>
-                    <p style="font-size: 1.05rem; text-align: center; color: var(--text-color); margin-bottom: 5px;">
-                        تفتح المسابقة رسمياً يوم الجمعة 07 أوت 2026 الساعة 14:30 مساءً
-                    </p>
+                        <hr style="border: 0; border-top: 1px dashed #a7f3d0; margin: 25px 0;">
 
-                    <div class="timer-box">
-                        <div class="timer-segment">
-                            <span id="timer-days" class="timer-num">00</span>
-                            <span class="timer-label">أيام</span>
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 24px; margin-top: 15px;">
+                            <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.35rem; display: flex; align-items: center; gap: 10px;">
+                                <i class="fa-solid fa-trophy" style="color: var(--gold-color);"></i> الحدث الرئيسي للافتتاح: الإعلان عن نتائج "المسابقة الكبرى 1"
+                            </h3>
+                            <p style="line-height: 1.9; margin-bottom: 15px; text-align: right;">
+                                يأتي الافتتاح الكبير المقرر في تاريخ <b>21/11/2026</b> خصيصاً ليشكل المحطة التاريخية البارزة للإعلان الرسمي عن أسماء الفائزين وتتويج المتصدرين في فعاليات <b>"المسابقة الكبرى 1"</b> في فروعها المتعددة التي شملت حفظ القرآن الكريم، السيرة النبوية الشريفة، والبحوث الفقهية المعاصرة.
+                            </p>
+                            
+                            <div class="timeline-container">
+                                <div class="timeline-item">
+                                    <b>فرز التقييمات واختبارات الإتقان:</b> خضعت إجابات المشاركين لعمليات مراجعة دقيقة وصارمة تحت إشراف لجان تحكيم متخصصة لضمان أعلى معايير الشفافية والموضوعية.
+                                </div>
+                                <div class="timeline-item">
+                                    <b>لوحة الشرف وتوزيع الجوائز:</b> سيتم نشر اللوحة الشرفية الكاملة للمتوجين الأوائل وتفعيل برامج الجوائز الرمزية والعينية فور انطلاق الصفحة الرئيسية في الموعد المحدد.
+                                </div>
+                            </div>
                         </div>
-                        <div class="timer-segment">
-                            <span id="timer-hours" class="timer-num">00</span>
-                            <span class="timer-label">ساعات</span>
+
+                        <div class="action-card-grid">
+                            <div class="action-card-item" onclick="openModal('dedicationModal')">
+                                <i class="fa-solid fa-hands-praying"></i>
+                                <span>رسالة إهداء الوالد</span>
+                            </div>
+                            <div class="action-card-item" onclick="openModal('platformModal')">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span>عن المنصة والأهداف</span>
+                            </div>
                         </div>
-                        <div class="timer-segment">
-                            <span id="timer-mins" class="timer-num">00</span>
-                            <span class="timer-label">دقائق</span>
-                        </div>
-                        <div class="timer-segment">
-                            <span id="timer-secs" class="timer-num">00</span>
-                            <span class="timer-label">ثواني</span>
+
+                        <div style="margin-top: 25px; text-align: center;">
+                            <p style="font-size: 1rem; color: #4b5563; margin-bottom: 12px;">يمكنكم استعراض إصداراتنا ومشاريعنا الحالية عبر موقعنا المفتوح:</p>
+                            <a href="https://khaledbasri745-byte.github.io/KHBSR-/" target="_blank" class="btn btn-gold" style="text-decoration: none; display: inline-flex; width: auto; padding: 12px 30px;">
+                                <i class="fa-solid fa-globe"></i> زيارة منصة KHBSR الرسمية
+                            </a>
                         </div>
                     </div>
                 </div>
+
+                <!-- 2. آخر المستجدات والإطلاقات -->
+                <div id="news-tab" class="tab-content">
+                    <div class="card" style="text-align: right;">
+                        <div class="card-title"><i class="fa-solid fa-bullhorn" style="color: var(--primary-color);"></i> آخر المستجدات والجدول الزمني للإطلاقات</div>
+                        
+                        <div class="news-item" style="border-right-color: var(--gold-color); background: #fffdf9;">
+                            <div class="news-item-title" style="color: var(--primary-color);">
+                                <i class="fa-solid fa-book-open-reader" style="color: var(--gold-color);"></i> إطلاق نافذة "قصص ومعلومات دينية" الخاصة بأيام الجمعة
+                            </div>
+                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> تاريخ بدء النشر: 27/11/2026</span>
+                            <p style="margin: 0; line-height: 1.8; color: var(--text-color);">
+                                تعلن إدارة المنصة عن إطلاق سلسلة أسبوعية حصرية تبث كل يوم جمعة بدءاً من تاريخ <b>27/11/2026</b>، تتضمن باقة منتقاة من القصص القرآنية الموثقة، العبر النبوية، والمعلومات الفقهية والإسلامية المختارة بعناية لإثراء الروح المعرفية للمستفيدين تزامناً مع نفحات يوم الجمعة المبارك.
+                            </p>
+                        </div>
+
+                        <div class="news-item" style="border-right-color: var(--primary-color); background: #f0fdf4;">
+                            <div class="news-item-title" style="color: var(--primary-color);">
+                                <i class="fa-solid fa-mobile-screen-button"></i> موعد الإطلاق الرسمي لتطبيق "كنوز الإسلام" الهاتفي
+                            </div>
+                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> التاريخ المحدد: 21 نوفمبر 2027</span>
+                            <p style="margin: 0; line-height: 1.8; color: var(--text-color);">
+                                تعلن إدارة المنصة رسمياً أن تاريخ <b>21/11/2027</b> سيكون موعد الإصدار العالمي لتطبيق الهواتف الذكية المستقل (Android & iOS). سيتضمن التطبيق واجهات عصرية مصممة بأعلى معايير الأداء، نظام إشعارات ذكي، مكتبة تفاعلية متكاملة، ووصولاً مباشراً ومبسطاً لجميع الفعاليات والمسابقات القادمة.
+                            </p>
+                        </div>
+
+                        <div class="news-item">
+                            <div class="news-item-title">
+                                <i class="fa-solid fa-star" style="color: var(--gold-color);"></i> الجدول الزمني لدورات "المسابقة الكبرى" السنوية
+                            </div>
+                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> 21 نوفمبر من كل عام</span>
+                            <p style="margin: 0; line-height: 1.8;">
+                                تم اعتماد تاريخ 21 نوفمبر من كل سنة ميلادية موعداً سنوياً ثابتاً لإطلاق دورات التنافس المعرفي الكبرى، لتكون محطة سنوية مرتقبة لطلبة العلم وحفظة القرآن الكريم حول العالم الإسلامي.
+                            </p>
+                        </div>
+
+                        <div class="news-item">
+                            <div class="news-item-title">
+                                <i class="fa-solid fa-moon"></i> الترتيبات الخاصة بفوازير ومسابقات شهر رمضان المبارك
+                            </div>
+                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> قيد التحضير والتطوير</span>
+                            <p style="margin: 0; line-height: 1.8;">
+                                يجري العمل على تصميم مسابقات يومية تفاعلية ولوحات شرف خاصة بشهر رمضان الفضيل، والتي ستتطلب إنشاء حساب مسبق عبر المنصة لتفعيل تجميع النقاط والمشاركة.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. قسم المقالات (سيرة الشيخ سيدي بومدين البصري رحمه الله) -->
+                <div id="articles-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-pen-nib" style="color: var(--gold-color);"></i> الشيخ سيدي بومدين البصري رحمه الله</div>
+                        
+                        <div style="font-size: 1.15rem; line-height: 2.1; color: var(--text-color); text-align: justify;">
+                            <p style="margin-top: 0; font-weight: bold; color: var(--primary-color); text-align: center; font-family: 'Reem Kufi', sans-serif; font-size: 1.3rem;">
+                                قامةٌ من قامات القنادسة، ورجلٌ جمع بين النضال، والعلم، والتعليم، والإمامة والإصلاح، وترك وراءه سيرةً حافلة بالعطاء وبصمةً طيبة لا تزال حاضرة في ذاكرة أبناء المنطقة.
+                            </p>
+
+                            <p>
+                                وُلد الشيخ سيدي بومدين البصري سنة 1934 بالقنادسة، ونشأ في بيت علم ودين. وفي سن الثانية عشرة، حفظ القرآن الكريم على يد سي حمادة مؤدن، معلّم القرآن بالقصر، ثم واصل دراسته في الفقه والحديث واللغة العربية وآدابها على يد والده الشيخ محمد البصري، إلى جانب عدد من علماء القنادسة.
+                            </p>
+
+                            <p>
+                                ومنذ شبابه، اختار طريق النضال، فالتحق سنة 1955 بجبهة التحرير الوطني ضمن المنظمة الخاصة. وبأوامر من قيادة الثورة، شارك رفقة الشهيد رابح رزوق في التخطيط للهجوم على مركز الخيالة ببلهادي، وهي العملية التي نُفذت بنجاح في مارس 1956. كما تولّى مهمة جمع التبرعات للثورة من عمال المناجم وسكان القصر.
+                            </p>
+
+                            <p>
+                                وبعد أن اكتشفت السلطات الاستعمارية الفرنسية تورطه في العملية، اضطر إلى مغادرة المنطقة والالتحاق بصفوف جيش التحرير الوطني في أبريل 1956، حاملاً معه مبلغ 4000 فرنك فرنسي من تبرعات الثورة، إضافة إلى الوثائق السرية التي كانت بحوزته.
+                            </p>
+
+                            <p>
+                                التحق بسرية القائد حمزة، واسمه الحقيقي خيثري البشير، وشارك في عدة عمليات على محاور جبل بني سمير وجبل مزي وزوزفانة، كما شارك في العملية الشهيرة المعروفة باسم «المحول الأخضر» تحت قيادة الشهيد سليمان دحماني، المعروف بشعيب.
+                            </p>
+
+                            <p>
+                                وفي سنة 1961، أصيب على مستوى عينيه إثر قصف بقنابل النابالم بمنطقة عين الصفراء، فنُقل إلى مقر القيادة ببني ونيف، حيث واصل بعد ذلك خدمته في الشرطة العسكرية.
+                            </p>
+
+                            <p>
+                                وبعد الاستقلال، عُرض عليه الالتحاق بالجيش الوطني الشعبي ضابطاً في الشرطة العسكرية، غير أنه اختار طريقاً آخر، طريق التعليم وبناء الإنسان. فقد آمن بأن معركة الاستقلال لا تكتمل إلا ببناء جيل متعلم ومتمسك بلغته العربية.
+                            </p>
+
+                            <p>
+                                وهكذا، كان يوم 13 نوفمبر 1962 محطةً بارزة في مسيرته، حين أصبح أول مدرس للغة العربية في ولاية بشار.
+                            </p>
+
+                            <p>
+                                تنقل في مساره التعليمي بين بشار وتيميمون، ثم عاد إلى التدريس بمدرسة باستور في بشار. وفي سنة 1964، استُدعي إلى الجيش الوطني الشعبي بتلمسان لفترة تدريب، وعُرض عليه كذلك منصب قاضٍ، لكنه اعتذر لأسباب صحية، ليعود بعدها إلى القنادسة، حيث واصل رسالته التعليمية، ثم تولّى إدارة مدرسة البنات، التي حملت لاحقاً اسم رفيقه الشهيد رابح رزوق.
+                            </p>
+
+                            <p>
+                                وفي سنة 1973، توّج مساره العلمي بالحصول على شهادة الليسانس في الأدب العربي من جامعة وهران، بالتزامن مع مواصلته خدمة الناس إماماً متطوعاً في مسجد سيدي الحاج العتيق ومسجد سيدي محمد.
+                            </p>
+
+                            <p>
+                                لم يكن عطاؤه مقتصراً على التعليم والإمامة، فقد كان حاضراً في شؤون الناس، يسعى إلى الإصلاح والصلح، ويساعد في صياغة بعض الوثائق المدنية، ومنها عقود الزواج والميراث. ولهذا عُرف في القنادسة بلقب «الفقيه»، وهو لقب يختصر مكانةً علمية وإنسانية اكتسبها بالعمل والاستقامة.
+                            </p>
+
+                            <p>
+                                تقاعد سنة 1989، لكنه لم يتقاعد عن العطاء؛ فقد ظل حاضراً بعلمه ونصحه ووقاره بين أبناء بلدته.
+                            </p>
+
+                            <p>
+                                كان الشيخ سيدي بومدين البصري رحمه الله رجل نزاهة واستقامة، يفرض احترامه بهدوء حضوره، قليل الكلام، كثير الفعل، متواضعاً رغم مكانته، أنيقاً في مظهره، رفيعاً في أخلاقه، وكانت أفعاله شاهدةً على معدن رجلٍ عاش حياته وفياً لمبادئه وخادماً لمجتمعه.
+                            </p>
+
+                            <p>
+                                رحل عن دنيانا فجر يوم الأحد 21 نوفمبر 2021، لكن أمثال هؤلاء لا يغيبون؛ فتبقى سيرتهم في ذاكرة الناس، وتبقى أعمالهم شاهدةً عليهم.
+                            </p>
+
+                            <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center;">
+                                <p style="margin: 0; font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); font-size: 1.2rem;">
+                                    رحم الله الشيخ سيدي بومدين البصري رحمةً واسعة، وجزاه عن العلم والتعليم والنضال وخدمة الناس خير الجزاء.
+                                </p>
+                                <p style="margin-top: 10px; margin-bottom: 0; font-style: italic; color: #4b5563;">
+                                    اللهمَّ ألحقه بعبادك الصالحين في جنات النعيم، واغفر له وارحمه، واجعل ما قدّمه من علمٍ وعملٍ صالحٍ وصدقةٍ وإصلاحٍ في ميزان حسناته، وارفع به درجاته، واغفر لموتى المسلمين أجمعين.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 4. الحساب والدخول -->
+                <div id="account-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-user-lock" style="color: var(--gold-color);"></i> بوابة الحسابات والمصادقة المركزية</div>
+                        
+                        <div class="locked-notice-box">
+                            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.2rem; margin-bottom: 12px; display: block; color: #dc2626;"></i>
+                            <b>قسم إنشاء الحسابات وتسجيل الدخول مغلق تماماً</b><br>
+                            لا يمكن إنشاء حساب جديد أو تسجيل الدخول في الوقت الحالي نظراً لأن المنصة مغلقة كلياً. سيتم فتح بوابات التسجيل وإصدار معرفات المستخدمين (ID) تلقائياً فور الافتتاح الرسمي للموقع بتاريخ <b>21/11/2026</b>.
+                        </div>
+
+                        <div style="opacity: 0.5; pointer-events: none; filter: grayscale(40%);">
+                            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
+                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: #4b5563; margin-top: 0; font-size: 1.15rem;">
+                                    <i class="fa-solid fa-user-plus"></i> نموذج إنشاء حساب جديد (مغلق)
+                                </h3>
+                                <div class="form-group">
+                                    <label class="form-label">الاسم الكامل:</label>
+                                    <input type="text" class="form-control" placeholder="مغلق حتى تاريخ الافتتاح..." disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">البريد الإلكتروني:</label>
+                                    <input type="text" class="form-control" placeholder="مغلق حتى تاريخ الافتتاح..." disabled>
+                                </div>
+                                <button class="btn btn-disabled">إتمام التسجيل (غير متاح)</button>
+                            </div>
+
+                            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px;">
+                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: #4b5563; margin-top: 0; font-size: 1.15rem;">
+                                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول بالمعرف ID (مغلق)
+                                </h3>
+                                <div class="form-group">
+                                    <label class="form-label">معرف المستخدم (ID):</label>
+                                    <input type="text" class="form-control" placeholder="أدخل معرف الـ ID..." disabled>
+                                </div>
+                                <button class="btn btn-disabled">التحقق من الحساب (غير متاح)</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-            <!-- 2. شاشة الشروط والقوانين (تظهر مرة واحدة فقط) -->
-            <div id="welcome-screen" class="main-container" style="display: none;">
-                <div class="prize-badge">
-                    <i class="fas fa-trophy"></i> الفائز الأول يحصل على جائزة قيمة!
-                </div>
-                <div class="card">
-                    <div class="card-title" style="text-align: center; font-size: 1.5rem; border-bottom: 2px solid var(--gold-color); padding-bottom: 8px;">📜 قوانين وشروط المسابقة</div>
-                    
-                    <div class="rules-subtitle">أولًا: نظام احتساب النقاط</div>
-                    <p class="card-text" style="font-size: 1.05rem; margin-bottom: 5px;">تتكون المسابقة من ثلاثة أجزاء، ويتم احتساب النقاط على النحو الآتي:</p>
-                    <ul class="rules-list card-text">
-                        <li><b>الجزء الأول:</b> 15 سؤالاً (2.0 نقطة لكل إجابة صحيحة). المجموع: 30 نقطة.</li>
-                        <li><b>الجزء الثاني:</b> 10 أسئلة (1.5 نقطة لكل إجابة صحيحة). المجموع: 15 نقطة.</li>
-                        <li><b>الجزء الثالث:</b> 10 أسئلة (1.5 نقطة لكل إجابة صحيحة). المجموع: 15 نقطة.</li>
-                    </ul>
-
-                    <div class="rules-subtitle">معدل الإجابة والمعدل العام</div>
-                    <ul class="rules-list card-text">
-                        <li><b>معدل الإجابة للجزء</b> = عدد الإجابات الصحيحة في الجزء ÷ مجموع أسئلة الجزء</li>
-                        <li><b>المعدل العام للمسابقة</b> = (مجموع النقاط المحصلة) ÷ 3</li>
-                    </ul>
-
-                    <div class="rules-subtitle">ثانيًا: شروط التأهل</div>
-                    <ul class="rules-list card-text">
-                        <li>إذا بلغ معدل الإجابة <b>80% أو أكثر</b>، يتأهل المشارك إلى المرحلة المؤهلة للمسابقة النهائية.</li>
-                        <li>إذا حصل المشارك على معدل عام <b>لا يقل عن 10/20</b>، يصبح مؤهلًا رسميًا للمسابقة النهائية.</li>
-                    </ul>
-
-                    <div class="rules-subtitle">ثالثًا: القوانين العامة</div>
-                    <ol class="rules-list card-text" style="padding-right: 25px;">
-                        <li>يُمنع منعًا باتًا الخروج من واجهة الموقع أثناء إجراء الاختبار تجنباً للإقصاء.</li>
-                        <li>يُمنع المشاركة أكثر من مرة واحدة.</li>
-                        <li>يجب تحميل نتيجة الـ PDF وإرسالها عبر البريد لاعتماد النتيجة.</li>
-                    </ol>
-
-                    <button class="btn primary-btn" style="margin-top: 15px; font-size: 1.3rem;" onclick="acceptRulesAndProceed()">ابدأ المسابقة الآن 🚀</button>
-                </div>
-            </div>
-
-            <!-- 3. واجهة الأجزاء (Dashboard) المطورة والمنظمة -->
-            <div id="parts-dashboard" class="main-container" style="display: none;">
-                <div class="card dashboard-header-card">
-                    <div class="card-title">🗺️ لوحة تحكم أجزاء المسابقة</div>
-                    <p class="card-text" style="font-size: 1.05rem; color: #f0fdf4; margin: 0;">
-                        أتمم الأجزاء بالتسلسل. يتم حفظ تقدمك تلقائياً في الكاش لتعود من حيث أبدیت متى شئت.
-                    </p>
-                </div>
-
-                <div class="parts-grid">
-                    <div id="card-part-1" class="part-card">
-                        <div class="part-header">
-                            <span class="part-name">📖 الجزء الأول: السند الديني</span>
-                            <span id="badge-part-1" class="part-status-badge badge-available">متاح للبدء</span>
-                        </div>
-                        <div class="part-stats">
-                            <div class="stat-item">عدد الأسئلة: <b>15</b></div>
-                            <div class="stat-item">إجابات صحيحة: <b id="p1-correct">0 / 15</b></div>
-                            <div class="stat-item">النقاط: <b id="p1-points">0.0 / 30</b></div>
-                            <div class="stat-item">معدل الجزء: <b id="p1-rate">0%</b></div>
-                        </div>
-                        <button id="btn-part-1" class="btn primary-btn" style="margin-bottom:0;" onclick="startSpecificPart(1)">دخول الجزء الأول 🎯</button>
-                    </div>
-
-                    <div id="card-part-2" class="part-card locked">
-                        <div class="part-header">
-                            <span class="part-name">❓ الجزء الثاني: الخيارات المباشرة</span>
-                            <span id="badge-part-2" class="part-status-badge badge-locked">🔒 مغلق</span>
-                        </div>
-                        <div class="part-stats">
-                            <div class="stat-item">عدد الأسئلة: <b>10</b></div>
-                            <div class="stat-item">إجابات صحيحة: <b id="p2-correct">0 / 10</b></div>
-                            <div class="stat-item">النقاط: <b id="p2-points">0.0 / 15</b></div>
-                            <div class="stat-item">معدل الجزء: <b id="p2-rate">0%</b></div>
-                        </div>
-                        <button id="btn-part-2" class="btn primary-btn" style="margin-bottom:0;" disabled onclick="startSpecificPart(2)">دخول الجزء الثاني 🎯</button>
-                    </div>
-
-                    <div id="card-part-3" class="part-card locked">
-                        <div class="part-header">
-                            <span class="part-name">🧩 الجزء الثالث: الفوازير والألغاز</span>
-                            <span id="badge-part-3" class="part-status-badge badge-locked">🔒 مغلق</span>
-                        </div>
-                        <div class="part-stats">
-                            <div class="stat-item">عدد الأسئلة: <b>10</b></div>
-                            <div class="stat-item">إجابات صحيحة: <b id="p3-correct">0 / 10</b></div>
-                            <div class="stat-item">النقاط: <b id="p3-points">0.0 / 15</b></div>
-                            <div class="stat-item">معدل الجزء: <b id="p3-rate">0%</b></div>
-                        </div>
-                        <button id="btn-part-3" class="btn primary-btn" style="margin-bottom:0;" disabled onclick="startSpecificPart(3)">دخول الجزء الثالث 🎯</button>
-                    </div>
-                </div>
-
-                <button id="finish-all-btn" class="btn secondary-btn" style="margin-top: 20px; display: none; font-size: 1.25rem;" onclick="showNameRegistrationScreen()">
-                    الانتقال لإنهاء المسابقة وحفظ النتيجة 🏆
-                </button>
-            </div>
-
-            <!-- 4. شاشة الحظر -->
-            <div id="blocked-screen" class="main-container blocked-screen">
-                <div class="card" style="border-top: 5px solid #ef4444;">
-                    <div class="card-title" style="color: #dc2626; text-align: center;">⚠️ تنبيه نظام الحماية</div>
-                    <p id="blocked-text" class="card-text" style="text-align: center; font-weight: bold;"></p>
-                </div>
-            </div>
-
-            <!-- 5. شاشة الأسئلة والاختبار -->
-            <div id="quiz-screen" class="main-container" style="display: none;">
-                <div class="progress-bar-container">
-                    <div id="progress-fill" class="progress-bar-fill"></div>
-                </div>
-
-                <div class="live-stats-container">
-                    <span id="live-question-index">السؤال: 1 / 15</span>
-                    <span id="live-current-score">النقاط: 0.0 / 60</span>
-                </div>
-
-                <div class="card" id="narrative-card">
-                    <div id="info-title" class="card-title">📖 السند الديني</div>
-                    <div id="info-body" class="card-text">جاري التحميل...</div>
-                </div>
-
-                <div class="card">
-                    <div id="question-title" class="card-title">❓ السؤال</div>
-                    <div id="question-body" class="card-text" style="font-weight: bold; color: var(--primary-color); margin-bottom: 15px;">جاري التحميل...</div>
-
-                    <div class="form-group" id="text-input-group">
-                        <input type="text" id="user-answer-input" class="form-control" placeholder="اكتب إجابتك هنا بوضوح...">
-                    </div>
-
-                    <div class="options-container" id="options-group" style="display: none;"></div>
-
-                    <button id="action-btn" class="btn primary-btn" onclick="processAction()">تأكيد الإجابة والتحقق</button>
-                    <div id="result-box" class="result-message"></div>
-                    <button id="reveal-btn" class="btn secondary-btn" style="display:none;" onclick="showCorrectAnswer()">إظهار الإجابة النموذجية</button>
-                    <div id="reveal-text" class="reveal-text"></div>
-                </div>
-            </div>
-
-            <!-- 6. شاشة تسجيل البيانات -->
-            <div id="name-screen" class="main-container" style="display: none;">
-                <div class="card">
-                    <div class="card-title">✍️ تسجيل بيانات المتسابق</div>
-                    <p class="card-text">يرجى كتابة اسمك الثلاثي الكامل ليتم حفظه وإدراجه ضمن وثيقة النقاط الرسمية والنهائية:</p>
-                    <div class="form-group">
-                        <input type="text" id="participant-name" class="form-control" placeholder="اكتب اسمك الكامل هنا...">
-                    </div>
-
-                    <div class="notice-box">
-                        📢 ملاحظة هامة جداً:<br>
-                        النتائج النهائية للمسابقة تصدر بتاريخ <b>21 نوفمبر 2026</b>.<br>
-                        علماً بأن الموقع يغلق رسمياً أمام المشاركات بتاريخ <b>01 نوفمبر 2026</b>.
-                    </div>
-
-                    <div class="warning-box">
-                        ⚠️ تنبيه هام جداً للمصداقية:<br>
-                        أنت ملزم ومجبر الآن على تحميل ملف الـ PDF لنتيجتك المعتمدة وإرساله مباشرة دون أي تعديل لضمان احتساب علامتك في المسابقة.
-                    </div>
-                    <button class="btn primary-btn" style="margin-top: 15px;" onclick="validateNameAndProceed()">تأكيد البيانات وعرض التقرير الشامل 🏆</button>
-                </div>
-            </div>
-
-            <!-- 7. شاشة النتيجة وتقرير الـ PDF -->
-            <div id="result-screen" class="main-container" style="display: none;">
-                <div class="card" id="pdf-content">
-                    <div style="text-align:center; margin-bottom: 10px;">
-                        <img src="https://lh3.googleusercontent.com/d/1lzBzzmhHYpQRdLe7HV2Dq83UTIqw6K1Z" alt="شعار" style="max-width: 70px; height: auto;">
-                    </div>
-                    <div class="report-title">📋 وثيقة التقييم والشفافية المعتمدة</div>
-                    
-                    <div class="pdf-dedication">
-                        مسابقة تطبيق كنوز الاسلام الكبرى - صدقة جارية بصري بومدين رحمه الله
-                    </div>
-
-                    <div class="report-card">
-                        <div class="report-item">👤 اسم المتسابق الكامل: <b id="pdf-name">--</b></div>
-                        <div class="report-item">📅 تاريخ ووقت الحفظ: <b id="pdf-datetime">--</b></div>
-                        <div class="report-item">
-                            <span>🔑 رمز التوثيق المشفر: </span>
-                            <div class="token-container-box" id="pdf-token">----------------</div>
-                        </div>
-                        <hr style="border: 0; border-top: 1px dashed #a7f3d0; margin: 8px 0;">
-                        <div class="report-item">📊 إجمالي الأسئلة الإجمالي: <b>35 سؤالاً موزعة على 3 أجزاء</b></div>
-                        <div class="report-item" style="color: #15803d;">الإجابات الصحيحة الكلية: <b id="total-correct">0</b></div>
-                        <div class="report-item" style="color: #b91c1c;">الإجابات الخاطئة الكلية: <b id="total-wrong">0</b></div>
-                        <div class="report-item" style="font-size: 1.05rem; color: var(--primary-color);">إجمالي النقاط المستحقة: <b id="final-points">0.0</b> / 60 نقطة</div>
-                        <div class="report-item" style="font-size: 1.25rem; font-weight: bold; color: var(--primary-color); text-align: center; margin-top: 8px; background-color: #e6f4ea; padding: 6px; border-radius: 6px; border: 1px solid #a7f3d0;">
-                            المعدل النهائي العام: <span id="final-grade" style="color:var(--gold-color);">0.0</span> / 20
-                        </div>
-                        <div class="report-item" id="qualification-status-box" style="font-size: 1.1rem; font-weight: bold; text-align: center; margin-top: 8px; padding: 6px; border-radius: 6px; display: none;">
-                            حالة المتسابق: <span id="qualification-text">--</span>
-                        </div>
-                    </div>
-
-                    <div class="pdf-table-title">📊 تفاصيل الجزء الأول - أسئلة السند الديني</div>
-                    <table class="pdf-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%;">رقم السند</th>
-                                <th style="width: 65%;">إجابتك المسجلة</th>
-                                <th style="width: 20%;">النتيجة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-part1-rows"></tbody>
-                    </table>
-
-                    <div class="pdf-table-title">📊 تفاصيل الجزء الثاني - أسئلة الخيارات المباشرة</div>
-                    <table class="pdf-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%;">رقم السؤال</th>
-                                <th style="width: 65%;">الخيار الذي اخترته</th>
-                                <th style="width: 20%;">النتيجة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-part2-rows"></tbody>
-                    </table>
-
-                    <div class="pdf-table-title">📊 تفاصيل الجزء الثالث - الألغاز والفوازير الدينية</div>
-                    <table class="pdf-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%;">رقم الفزورة</th>
-                                <th style="width: 65%;">إجابتك المكتوبة</th>
-                                <th style="width: 20%;">النتيجة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-part3-rows"></tbody>
-                    </table>
-                </div>
-
-                <div class="notice-box">
-                    📢 ملاحظة هامة بعد إنهاء الاختبار:<br>
-                    النتائج النهائية تصدر بتاريخ <b>21 نوفمبر 2026</b>.<br>
-                    علماً بأن التسجيل والموقع يغلق رسمياً بتاريخ <b>01 نوفمبر 2026</b>.
-                </div>
-
-                <button id="download-pdf-btn" class="btn primary-btn" onclick="generatePdfAndEmail()">تحميل تقرير الـ PDF التفصيلي وإرسال النتيجة</button>
-            </div>
-
-        </div>
-
-        <div class="support-container">
-            <div class="support-title">الاتصال بالدعم الفني للمسابقة</div>
-            <div class="support-icons">
-                <a href="https://www.facebook.com/share/18383Rcefn/" target="_blank" class="support-link facebook-icon" title="تواصل عبر فيسبوك">
-                    <i class="fab fa-facebook"></i>
-                </a>
-                <a href="https://wa.me/qr/JW5SID6E6BGNL1" target="_blank" class="support-link whatsapp-icon" title="تواصل عبر واتساب">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <a href="https://t.me/khaledbasri" target="_blank" class="support-link telegram-icon" title="تواصل عبر تلغرام">
-                    <i class="fab fa-telegram"></i>
-                </a>
-                <a href="mailto:khaled.basri745@gmail.com" class="support-link email-icon" title="راسلنا عبر الإيميل">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
         </div>
 
         <footer>
-            موقع كنوز الإسلام صدقة جارية لروح الوالد بصري بومدين &copy; 2026
+            جميع الحقوق محفوظة لمنصة كنوز الإسلام &copy; 2026 - صدقة جارية لروح المرحوم الوالد بصري بومدين
         </footer>
     </div>
 
+    <!-- نافذة إشعار المقالة الترحيبية عند فتح الموقع -->
+    <div id="articlePopupModal" class="modal-overlay active" onclick="closeModalOutside(event, 'articlePopupModal')">
+        <div class="modal-container" style="border-top-color: var(--gold-color);">
+            <div class="modal-close-btn" onclick="closeModal('articlePopupModal')"><i class="fa-solid fa-xmark"></i></div>
+            <h3 class="modal-title"><i class="fa-solid fa-book-bookmark" style="color: var(--gold-color);"></i> إشعار المقالة المميزة</h3>
+            <div style="font-family: 'Amiri', serif; font-size: 1.1rem; line-height: 1.8; color: var(--text-color);">
+                <p style="margin-top: 0; font-weight: bold; color: var(--primary-color);">
+                    مرحباً بكم في منصة كنوز الإسلام. نضع بين أيديكم سيرة عطرة لقامة من قامات القنادسة:
+                </p>
+                <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 14px; padding: 15px; text-align: center; margin: 15px 0;">
+                    <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.2rem; color: var(--primary-color); display: block; font-weight: bold;">الشيخ سيدي بومدين البصري رحمه الله</span>
+                    <span style="font-size: 0.9rem; color: #4b5563; display: block; margin-top: 4px;">رجل النضال، العلم، والتعليم والإصلاح (1934 - 2021)</span>
+                </div>
+                <p style="margin-bottom: 0;">
+                    يمكنكم الاطلاع على تفاصيل سيرته الكاملة والمباركة عبر الانتقال إلى قسم <b>"المقالات"</b> في القائمة الرئيسية للموقع.
+                </p>
+            </div>
+            <button class="btn btn-gold" style="margin-top: 25px;" onclick="goToArticleTab()">قراءة المقالة كاملة الآن</button>
+        </div>
+    </div>
+
+    <!-- النافذة المنبثقة الأولى: رسالة إهداء الوالد بومدين بصري -->
+    <div id="dedicationModal" class="modal-overlay" onclick="closeModalOutside(event, 'dedicationModal')">
+        <div class="modal-container">
+            <div class="modal-close-btn" onclick="closeModal('dedicationModal')"><i class="fa-solid fa-xmark"></i></div>
+            <h3 class="modal-title"><i class="fa-solid fa-hands-praying" style="color: var(--gold-color);"></i> رسالة وفاء وصدقة جارية</h3>
+            <div style="font-family: 'Amiri', serif; font-size: 1.15rem; line-height: 2; color: var(--text-color);">
+                <p style="margin-top: 0;">
+                    أُسست هذه المنصة الرقمية المباركة وتُكرس بكل أعمالها، ومسابقاتها، وعلومه النافعة لتكون <b>صدقة جارية خالصة لوجه الله تعالى</b>، وإهداءً متواضعاً لروح والدنا الحبيب المرحوم:
+                </p>
+                <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 14px; padding: 15px; text-align: center; margin: 15px 0;">
+                    <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.3rem; color: var(--primary-color); display: block; font-weight: bold;">المرحوم الوالد: بصري بومدين</span>
+                    <span style="font-size: 0.95rem; color: #4b5563; display: block; margin-top: 5px;">تغمده الله بواسع رحمته وأسكنه الفردوس الأعلى</span>
+                </div>
+                <p style="margin-bottom: 0;">
+                    نسأل الله العلي القدير أن يجعل كل حرف يُقرأ، وكل علم يُستفاد منه عبر هذا الموقع في ميزان حسناته، وأن يرحمه برحمته الواسعة التي وسعت كل شيء. آمين يارب العالمين.
+                </p>
+            </div>
+            <button class="btn btn-gold" style="margin-top: 25px;" onclick="closeModal('dedicationModal')">إغلاق النافذة</button>
+        </div>
+    </div>
+
+    <!-- النافذة المنبثقة الثانية: معلومات عن المنصة -->
+    <div id="platformModal" class="modal-overlay" onclick="closeModalOutside(event, 'platformModal')">
+        <div class="modal-container">
+            <div class="modal-close-btn" onclick="closeModal('platformModal')"><i class="fa-solid fa-xmark"></i></div>
+            <h3 class="modal-title"><i class="fa-solid fa-circle-info" style="color: var(--primary-color);"></i> عن منصة كنوز الإسلام</h3>
+            <div style="font-family: 'Amiri', serif; font-size: 1.12rem; line-height: 1.9; color: var(--text-color);">
+                <p style="margin-top: 0;">
+                    منصة رقمية إسلامية متكاملة تهدف إلى إثراء المحتوى الديني الموثق، نشر المعارف القرآنية، والسيرة النبوية، وتنظيم مسابقات علمية سنوية كبرى تخدم طلبة العلم وحفظة كتاب الله.
+                </p>
+                <ul style="padding-right: 20px; margin: 15px 0; text-align: right;">
+                    <li style="margin-bottom: 8px;">تنظيم مسابقات سنوية كبرى في حفظ القرآن والسيرة.</li>
+                    <li style="margin-bottom: 8px;">إصدار سلاسل أسبوعية في القصص والعبر الدينية كل يوم جمعة.</li>
+                    <li style="margin-bottom: 8px;">التطوير المستمر لأدوات رقمية وتطبيقات ذكية تخدم المتابع المسلم.</li>
+                </ul>
+                <p style="margin-bottom: 0;">
+                    تخضع المنصة لإشراف تقني وعلمي دقيق لضمان تقديم محتوى عالي الجودة يتناسب مع تطلعات المستفيدين في شتى بقاع العالم الإسلامي.
+                </p>
+            </div>
+            <button class="btn" style="margin-top: 25px;" onclick="closeModal('platformModal')">فهمت ذلك</button>
+        </div>
+    </div>
+
     <script>
-        const OPENING_DATE = new Date("2026-08-07T14:30:00").getTime();
-        const CLOSING_DATE = new Date("2026-11-01T23:59:59").getTime();
+        function switchTab(tabId, event) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-        const quizData = [
-            // --- الجزء الأول (15 سؤالاً)
-            { type: "text", weight: 2.0, part: 1, info: "أقسم الله تعالى في هذه الآية بمخلوقٍ حيواني معروف عند العرب، عُرف بالقوة والكرامة في قوله تعالى: ﴿وَالْعَادِيَاتِ ضَبْحًا﴾.", question: "ما المقصود بـ العاديات في قوله تعالى: ﴿وَالْعَادِيَاتِ ضَبْحًا﴾؟", keywords: ["الخيل", "الحصان", "الفرس", "خيل", "حصان", "فرس"], officialAnswer: "الخيل في ساحة المعارك." },
-            { type: "text", weight: 2.0, part: 1, info: "ورد في الروايات أن نبيًا من بني إسرائيل وقعت له معجزة في ساحة القتال، إذ حُبست الشمس بأمر الله حتى أتمّ ما كان فيه. وقد جاء ذكر هذا المعنى في الحديث الشريف.", question: "من هو هذا النبي الذي حُبست له الشمس بأمر الله؟", keywords: ["يوشع بن نون", "يوشع", "نون"], officialAnswer: "يوشع بن نون." },
-            { type: "text", weight: 2.0, part: 1, info: "ذكر الله في قصة لقاء نبيٍ من بني إسرائيل بعبدٍ صالح، علّمه من العلم ما لم يكن يعلمه، ورافقه في رحلة شهدت أحداثًا ظاهرها الاستغراب وباطنها الحكمة.", question: "من هو هذا العبد الصالح المذكور في القصة? ", keywords: ["الخضر", "خضر", "الخضر عليه السلام"], officialAnswer: "الخضر عليه السلام." },
-            { type: "text", weight: 2.0, part: 1, info: "نزلت آيات في سورة من قصار السور، تبدأ بقوله تعالى: ﴿عَبَسَ وَتَوَلَّى﴾ وفيها بيان موقفٍ وقع في بداية الدعوة، حين جاء رجلٌ من أصحاب العذر في البصر يطلب العلم، فعاتب القرآن ذلك الموقف، ورفع من شأن طالب الحق في قوله تعالى: ﴿وَمَا يُدْرِيكَ لَعَلَّهُ يَزَّكَّى﴾.", question: "ما اسم الصحابي الأعمى المذكور في هذه الحادثة؟", keywords: ["عبد الله بن ام مكتوم", "عبدالله بن أم مكتوم", "ابن ام مكتوم", "ابن أم مكتوم"], officialAnswer: "عبد الله بن أم مكتوم." },
-            { type: "text", weight: 2.0, part: 1, info: "ذُكر في المعراج أن النبي ﷺ التقى في السماء الرابعة بنبيٍ مكرَّم، وقد رُفع إلى هذا الموضع تكريمًا له، وكان من أوائل من كتبوا بالقلم وعُرف بكثرة عبادته وعلو منزلته عند الله.", question: "من هو هذا النبي الذي لقيه النبي ﷺ في السماء الرابعة؟", keywords: ["ادريس", "إدريس", "إدريس عليه السلام", "ادريس عليه السلام"], officialAnswer: "نبي الله إدريس عليه السلام." },
-            { type: "text", weight: 2.0, part: 1, info: "قومٌ ذُكروا في القرآن وقع منهم تحايل على أمرٍ إلهي، فكانت عاقبتهم عبرةً باقية في الكتاب العزيز، حيث مُسخوا جزاءً لما فعلوه.", question: "من هم هذا القوم المذكورون في القرآن؟", keywords: ["اصحاب السبت", "أصحاب السبت", "أصحاب سبت", "اصحاب السبت"], officialAnswer: "أهل السبت." },
-            { type: "text", weight: 2.0, part: 1, info: "مرّ رجلٌ على قريةٍ خربةٍ فقال متعجبًا: ﴿أَنَّىٰ يُحْيِي هَٰذِهِ اللَّهُ بَعْدَ مَوْتِهَا﴾ فأماته الله مئة عام ثم بعثه، وجعل أمامه دليلًا على إحياء الموتى أمام عينيه.", question: "من هو هذا الرجل المذكور في القصة؟", keywords: ["العزير", "عزير", "العزير عليه السلام"], officialAnswer: "العزير." },
-            { type: "text", weight: 2.0, part: 1, info: "ذكر الله تعالى في القرآن أن نبي الله سليمان طلب ممن حوله أن يأتيه بعرش ملكةٍ قبل وصوله إليه، فتقدّم رجلٌ آتاه الله علمًا عظيمًا، وقال إنه سيأتي بالعرش قبل أن يرتد إليه طرفه، فكان الأمر كذلك بإذن الله، فلما رآه مستقراً عنده قال: ﴿هَٰذَا مِنْ فَضْلِ رَبِّي لِيَبْلُوَنِي أَأَشْكُرُ أَمْ أَكْفُرُ﴾. وهذه القصة وردت في سورة النمل, الآيتين 38–40.", question: "من هو الرجل الذي أتى بعرش بلقيس في لمح البصر بإذن الله؟", keywords: ["اصف بن برخيا", "آصف بن برخيا", "اصف", "آصف"], officialAnswer: "آصف بن برخيا." },
-            { type: "text", weight: 2.0, part: 1, info: "كان في أصحاب رسول الله ﷺ رجلٌ بلغ من الفضل والمنزلة عند الله أن أخبر النبي ﷺ أن عرش الرحمن اهتز عند وفاته، وهي من أعظم المناقب التي وردت في حق أحدٍ من الصحابة.", question: "من هو هذا الصحابي الجليل؟", keywords: ["سعد بن معاذ", "سعد بن معاذ رضي الله عنه", "سعد"], officialAnswer: "سعد بن معاذ رضي الله عنه." },
-            { type: "text", weight: 2.0, part: 1, info: "يروي أهل السير والتاريخ أن المسلمين، أثناء الفتوحات الإسلامية في عهد عمر بن الخطاب، عثروا على جثمان نبيٍّ محفوظٍ لم يتغير، فاستشار قائد الجيش أمير المؤمنين، فأمر بدفنه سرًّا حتى لا يفتتن الناس به.", question: "من هو هذا النبي الذي دُفن في خلافة عمر بن الخطاب رضي الله عنه؟", keywords: ["دانيال", "دانيال عليه السلام", "نبي الله دانيال"], officialAnswer: "نبي الله دانيال عليه السلام." },
-            { type: "text", weight: 2.0, part: 1, info: "يروي أهل الحديث أن قومًا من الأمم السابقة كذبوا نبيّهم واستكبروا عن دعوته، فابتلاهم الله بعذابٍ من السماء تمثل في ريحٍ شديدةٍ باردةٍ وصاخبة استمرت أيامًا متتابعة.", question: "ما اسم القوم الذين أهلكهم الله بهذه الرياح الشديدة؟", keywords: ["عاد", "قوم عاد"], officialAnswer: "قوم عاد." },
-            { type: "text", weight: 2.0, part: 1, id: "prophet_moon_q", info: "ثبت في القرآن الكريم والسنّة الصحيحة وقوع آيةٍ عظيمةٍ من آيات الله، حيث طلب قومٌ آيةً تدل على صدق الرسالة، وقد أشار إليها القرآن بقوله تعالى: ﴿اقْتَرَبَتِ السَّاعَةُ وَانشَقَّ الْقَمَرُ﴾.", question: "من هو النبي الذي وقعت له معجزة انشقاق القمر؟", keywords: ["صلى الله عليه وسلم", "عليه الصلاة والسلام", "ﷺ"], officialAnswer: "نبي الله محمد ﷺ." },
-            { type: "text", weight: 2.0, part: 1, info: "يروي أهل الحديث أن رجلًا من الصحابة كان حريصًا على إقامة الصلاة في جماعة، فاستشار النبي ﷺ في وسيلةٍ يُجمع بها الناس إلى الصلاة، فأُقِرَّت صيغة النداء المشهورة (الأذان).", question: "من هو هذا الصحابي الذي أشار بفكرة النداء للصلاة؟", keywords: ["عبد الله بن زيد", "عبد الله بن زيد بن ربه", "عبدالله بن زيد"], officialAnswer: "عبد الله بن زيد بن ربه الأنصاري." },
-            { type: "text", weight: 2.0, part: 1, info: "يروي القرآن الكريم حادثةً عظيمة تعرّضت فيها امرأةٌ عفيفةٌ صالحة لاتهامٍ شديد بالباطل، حتى نزل الوحي يبرّئها براءةً كاملة من فوق سبع سماوات.", question: "من هي المرأة التي برّأها الله في هذه الحادثة العظيمة؟", keywords: ["عائشة", "عائشه", "عائشة رضي الله عنها", "ام المؤمنين عائشة"], officialAnswer: "أم المؤمنين عائشة رضي الله عنها." },
-            { type: "text", weight: 2.0, part: 1, info: "يروي أهل التاريخ والسير أن أحد القادة من الصحابة كان معروفًا بالشجاعة والبأس الشديد في القتال، وقام أمير المؤمنين عمر بن الخطاب بعزله عن القيادة لحكمة شرعية.", question: "من هو هذا الصحابي القائد الذي اشتهر بالقوة وتم عزله عن قيادة الجيش في عهد عمر بن الخطاب؟", keywords: ["خالد بن الوليد", "خالد", "سيف الله المسلول"], officialAnswer: "خالد بن الوليد رضي الله عنه." },
-
-            // --- الجزء الثاني (10 أسئلة)
-            { type: "options", weight: 1.5, part: 2, question: "كم مرة ذكر نبي الله موسى عليه السلام في القرآن الكريم؟", options: ["36 مرة", "75 مرة", "136 مرة", "180 مرة"], answerIndex: 2, officialAnswer: "136 مرة" },
-            { type: "options", weight: 1.5, part: 2, question: "من هو الصحابي الذي لُقب بـ أمين هذه الأمة؟", options: ["أبو عبيدة بن الجراح", "عمر بن الخطاب", "علي بن أبي طالب", "أبو بكر الصديق"], answerIndex: 0, officialAnswer: "أبو عبيدة بن الجراح" },
-            { type: "options", weight: 1.5, part: 2, question: "ما هي أول صلاة فُرِضت على النبي محمد ﷺ؟", options: ["صلاة الفجر", "صلاة الظهر", "صلاة العصر", "صلاة العشاء"], answerIndex: 1, officialAnswer: "صلاة الظهر" },
-            { type: "options", weight: 1.5, part: 2, question: "أي سورة لُقِّبت ببراءة؟", options: ["سورة الأنفال", "سورة الإخلاص", "سورة يوسف", "سورة التوبة"], answerIndex: 3, officialAnswer: "سورة التوبة" },
-            { type: "options", weight: 1.5, part: 2, question: "من هو الصحابي الأكثر رواية للأحاديث النبوية الشريفة؟", options: ["عبد الله بن عمر", "عبد الرحمن بن صخر الدوسي", "عمر بن الخطاب", "أمنا عائشة"], answerIndex: 1, officialAnswer: "عبد الرحمن بن صخر الدوسي (أبو هريرة رضي الله عنه)" },
-            { type: "options", weight: 1.5, part: 2, question: "أولو العزم من الأنبياء عليهم السلام خمسة، فمن هم؟", options: ["إبراهيم، إسحاق، إسماعيل، يعقوب، يوسف", "آدم، نوح، إدريس، سليمان، محمد ﷺ", "داود، يحيى، موسى، عيسى، نوح", "نوح، إبراهيم، موسى، عيسى، محمد ﷺ"], answerIndex: 3, officialAnswer: "نوح، إبراهيم، موسى، عيسى، محمد ﷺ" },
-            { type: "options", weight: 1.5, part: 2, question: "كم نبي ذُكر في القرآن الكريم؟", options: ["20 نبيًا", "25 نبيًا", "30 نبيًا", "100 نبي"], answerIndex: 1, officialAnswer: "25 نبيًا" },
-            { type: "options", weight: 1.5, part: 2, question: "من هو النبي الذي اتُّهِمَ زورًا وبهتانًا؟", options: ["النبي يحيى عليه السلام", "النبي محمد ﷺ", "النبي يوسف عليه السلام", "النبي إبراهيم عليه السلام"], answerIndex: 2, officialAnswer: "النبي يوسف عليه السلام" },
-            { type: "options", weight: 1.5, part: 2, question: "من هو أصغر السلاطين والخلفاء الراشدين سنّاً عند وفاته؟", options: ["أبو بكر الصديق", "عمر بن الخطاب", "عثمان بن عفان", "علي بن أبي طالب"], answerIndex: 3, officialAnswer: "علي بن أبي طالب" },
-            { type: "options", weight: 1.5, part: 2, question: "كم عدد غزوات الرسول محمد ﷺ التي قاتل فيها بنفسه؟", options: ["27 غزوة", "15 غزوة", "9 غزوات", "30 غزوة"], answerIndex: 0, officialAnswer: "27 غزوة" },
-
-            // --- الجزء الثالث (10 أسئلة)
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: بنت نبي، وأخت نبي، وزوجة نبي، وابنها رُفِع إلى درجة الأنبياء؛ فمن هي؟", keywords: ["ليا", "ليّا"], officialAnswer: "ليا." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: ولد قبل أبيه، ومات قبل أمه، ودُفن في بطن جدته؛ فمن هو؟", keywords: ["هابيل"], officialAnswer: "هابيل." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: أربعة مخلوقات لم يولدوا من رحم امرأة؛ فمن هم؟", keywords: ["آدم", "حواء", "كبش إسماعيل", "ناقة صالح", "ادم", "حوا", "كبش اسماعيل", "ناقه صالح"], officialAnswer: "آدم، وحواء، وكبش إسماعيل، وناقة صالح." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: رجل دخل للجنة ولم يسجد ولا سجدة لله، فمن هو؟", keywords: ["الأصيرم", "عمرو بن ثابت", "الاصيرم", "عمرو بن ثابت رضي الله عنه"], officialAnswer: "الأصيرم (عمرو بن ثابت رضي الله عنه)." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: ولد في بطن الكعبة، فمن هو؟", keywords: ["علي بن ابي طالب", "علي بن أبي طالب", "علي"], officialAnswer: "علي بن أبي طالب." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: يتنفس ولا يملك رئتان، ليس بإنسان ولا بحيوان، ذكر في القرآن، فما هو؟", keywords: ["الصبح", "صبح"], officialAnswer: "الصبح." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: اتُّهِمَ بجريمة لم يقترفها، وذُكر في أعظم قصص القرآن الكريم؛ فمن هو؟", keywords: ["ذئب يوسف", "الذئب", "ذئب"], officialAnswer: "ذئب يوسف." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: نبي تربى في كنف عدوه، وخرج من عنده رسولًا، ومات مربيه على يده؛ فمن هو؟", keywords: ["موسى", "موسى عليه السلام"], officialAnswer: "موسى عليه السلام." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: أربعة رجال حكموا معظم الأرض؛ اثنان منهم كانا مؤمنين صالحين، واثنان كانا ظالمين جبارين، فمن هم؟", keywords: ["ذو القرنين", "سليمان", "النمرود", "بختنصر", "بخت نصر"], officialAnswer: "الصالحان: ذو القرنين، وسليمان عليه السلام. والظالمان: النمرود، وبختنصر." },
-            { type: "text", weight: 1.5, part: 3, question: "فزورة: خلق الله من كل شيء زوجين، إلا شيء واحد خلقه وحيدًا، والله معه؛ فما هو؟", keywords: ["الصبر", "صبر"], officialAnswer: "الصبر." }
-        ];
-
-        let activePart = null;
-        let activeQuestionsIndices = [];
-        let currentQuestionInPartPos = 0;
-
-        let cumulativePoints = 0.0;
-        let scoreCorrect = 0;
-        let scoreWrong = 0;
-        let selectedOptionIdx = null; 
-        let detailedResults = [];
-
-        // الهيكل الافتراضي لحالة الأجزاء (سيتم استرجاعها من localStorage)
-        let partStatus = {
-            1: { completed: false, correct: 0, points: 0.0, total: 15 },
-            2: { completed: false, correct: 0, points: 0.0, total: 10 },
-            3: { completed: false, correct: 0, points: 0.0, total: 10 }
-        };
-
-        let isQuizFinishedFinished = false; 
-        let timerInterval = null;
-        let isPdfDownloaded = false;
-        let antiCheatActive = false;
-
-        window.onload = function() {
-            const now = new Date().getTime();
-
-            if (now > CLOSING_DATE) {
-                triggerBlockView(`
-                    🔒 المسابقة مغلقة حالياً.<br><br>
-                    <b>تاريخ الفتح:</b> الجمعة 07 أوت 2026 (14:30 مساءً)<br>
-                    <b>تاريخ الإغلاق:</b> الأحد 01 نوفمبر 2026 (23:59 مساءً)<br><br>
-                    📌 <b>تنبيه هام:</b> تصدر القوائم والنتائج رسمياً بتاريخ <b>21 نوفمبر 2026</b>.
-                `);
-                return;
-            }
-
-            if (localStorage.getItem("quiz_grand_completed_2026") === "true") {
-                triggerBlockView("عذراً! لقد قمت بالإجابة على هذه المسابقة الكبرى مسبقاً ولا يمكنك الإعادة.");
-                return;
-            } else if (localStorage.getItem("quiz_grand_disqualified_2026") === "true") {
-                triggerBlockView("أنت مقصي تماماً من هذه المسابقة بسبب محاولة الغش أو مغادرة نطاق الأسئلة!");
-                return;
-            }
-
-            // استرجاع التقدم المحفوظ من الكاش إن وجد
-            loadProgressFromCache();
-
-            if (now < OPENING_DATE) {
-                document.getElementById("welcome-screen").style.display = "none";
-                document.getElementById("countdown-screen").style.display = "block";
-                document.getElementById("main-logo-header").style.display = "flex";
-                startCountdown();
+            document.getElementById(tabId + '-tab').classList.add('active');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
             } else {
-                // التحقق هل وافد جديد ولم يشاهد الشروط، أم أنه وافق عليها مسبقاً
-                const rulesAccepted = localStorage.getItem("rules_accepted_2026");
-                if (!rulesAccepted) {
-                    document.getElementById("countdown-screen").style.display = "none";
-                    document.getElementById("welcome-screen").style.display = "block";
-                    document.getElementById("main-logo-header").style.display = "flex";
-                } else {
-                    // إذا وافق مسبقاً، اذهب مباشرة إلى لوحة الأجزاء
-                    goToDashboard();
-                }
+                // إذا تم التبديل برمجياً، قم بتنشيط زر التبويب المناسب
+                const tabs = document.querySelectorAll('.tab-btn');
+                if(tabId === 'home') tabs[0].classList.add('active');
+                if(tabId === 'news') tabs[1].classList.add('active');
+                if(tabId === 'articles') tabs[2].classList.add('active');
+                if(tabId === 'account') tabs[3].classList.add('active');
             }
-        };
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-        function loadProgressFromCache() {
-            const savedStatus = localStorage.getItem("quiz_parts_status_2026");
-            const savedPoints = localStorage.getItem("quiz_cumulative_points_2026");
-            const savedCorrect = localStorage.getItem("quiz_score_correct_2026");
-            const savedWrong = localStorage.getItem("quiz_score_wrong_2026");
-            const savedDetails = localStorage.getItem("quiz_detailed_results_2026");
+        function goToArticleTab() {
+            closeModal('articlePopupModal');
+            switchTab('articles');
+        }
 
-            if (savedStatus) {
-                partStatus = JSON.parse(savedStatus);
-            }
-            if (savedPoints) {
-                cumulativePoints = parseFloat(savedPoints);
-            }
-            if (savedCorrect) {
-                scoreCorrect = parseInt(savedCorrect);
-            }
-            if (savedWrong) {
-                scoreWrong = parseInt(savedWrong);
-            }
-            if (savedDetails) {
-                detailedResults = JSON.parse(savedDetails);
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModalOutside(event, modalId) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(modalId);
             }
         }
 
-        function saveProgressToCache() {
-            localStorage.setItem("quiz_parts_status_2026", JSON.stringify(partStatus));
-            localStorage.setItem("quiz_cumulative_points_2026", cumulativePoints);
-            localStorage.setItem("quiz_score_correct_2026", scoreCorrect);
-            localStorage.setItem("quiz_score_wrong_2026", scoreWrong);
-            localStorage.setItem("quiz_detailed_results_2026", JSON.stringify(detailedResults));
-        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
 
-        function acceptRulesAndProceed() {
-            localStorage.setItem("rules_accepted_2026", "true");
-            goToDashboard();
-        }
+        const countDownDate = new Date("Nov 21, 2026 20:00:00").getTime();
 
-        function startCountdown() {
-            updateTimerValues();
-            timerInterval = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = OPENING_DATE - now;
-
-                if (distance <= 0) {
-                    clearInterval(timerInterval);
-                    const rulesAccepted = localStorage.getItem("rules_accepted_2026");
-                    if (!rulesAccepted) {
-                        document.getElementById("countdown-screen").style.display = "none";
-                        document.getElementById("welcome-screen").style.display = "block";
-                        document.getElementById("main-logo-header").style.display = "flex";
-                    } else {
-                        goToDashboard();
-                    }
-                } else {
-                    updateTimerValues();
-                }
-            }, 1000);
-        }
-
-        function updateTimerValues() {
+        const x = setInterval(function() {
             const now = new Date().getTime();
-            const distance = OPENING_DATE - now;
-            if (distance < 0) return;
+            const distance = countDownDate - now;
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("timer-days").innerText = String(days).padStart(2, '0');
-            document.getElementById("timer-hours").innerText = String(hours).padStart(2, '0');
-            document.getElementById("timer-mins").innerText = String(minutes).padStart(2, '0');
-            document.getElementById("timer-secs").innerText = String(seconds).padStart(2, '0');
-        }
-
-        function goToDashboard() {
-            document.getElementById("welcome-screen").style.display = "none";
-            document.getElementById("countdown-screen").style.display = "none";
-            document.getElementById("quiz-screen").style.display = "none";
-            document.getElementById("name-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "none";
-            
-            document.getElementById("parts-dashboard").style.display = "block";
-            document.getElementById("main-logo-header").style.display = "flex";
-            
-            document.getElementById("part-tag").innerText = "أجزاء المسابقة الكبرى";
-            updateDashboardUI();
-        }
-
-        function updateDashboardUI() {
-            // الجزء الأول
-            if (partStatus[1].completed) {
-                document.getElementById("card-part-1").className = "part-card completed";
-                document.getElementById("badge-part-1").className = "part-status-badge badge-completed";
-                document.getElementById("badge-part-1").innerText = "✓ مكتمل";
-                document.getElementById("btn-part-1").innerText = "🔒 تم إكمال الجزء الأول";
-                document.getElementById("btn-part-1").disabled = true;
-            } else {
-                document.getElementById("card-part-1").className = "part-card";
-                document.getElementById("badge-part-1").className = "part-status-badge badge-available";
-                document.getElementById("badge-part-1").innerText = "متاح للبدء";
-                document.getElementById("btn-part-1").disabled = false;
-                document.getElementById("btn-part-1").innerText = "دخول الجزء الأول 🎯";
-            }
-            document.getElementById("p1-correct").innerText = `${partStatus[1].correct} / 15`;
-            document.getElementById("p1-points").innerText = `${partStatus[1].points.toFixed(1)} / 30`;
-            let rate1 = (partStatus[1].correct / 15) * 100;
-            document.getElementById("p1-rate").innerText = `${rate1.toFixed(1)}%`;
-
-            // الجزء الثاني (يفتح فقط إذا اكتمل الأول)
-            if (partStatus[1].completed && !partStatus[2].completed) {
-                document.getElementById("card-part-2").className = "part-card";
-                document.getElementById("badge-part-2").className = "part-status-badge badge-available";
-                document.getElementById("badge-part-2").innerText = "متاح للبدء";
-                document.getElementById("btn-part-2").disabled = false;
-                document.getElementById("btn-part-2").innerText = "دخول الجزء الثاني 🎯";
-            } else if (partStatus[2].completed) {
-                document.getElementById("card-part-2").className = "part-card completed";
-                document.getElementById("badge-part-2").className = "part-status-badge badge-completed";
-                document.getElementById("badge-part-2").innerText = "✓ مكتمل";
-                document.getElementById("btn-part-2").innerText = "🔒 تم إكمال الجزء الثاني";
-                document.getElementById("btn-part-2").disabled = true;
-            } else {
-                document.getElementById("card-part-2").className = "part-card locked";
-                document.getElementById("badge-part-2").className = "part-status-badge badge-locked";
-                document.getElementById("badge-part-2").innerText = "🔒 مغلق";
-                document.getElementById("btn-part-2").disabled = true;
-                document.getElementById("btn-part-2").innerText = "دخول الجزء الثاني 🎯";
-            }
-            document.getElementById("p2-correct").innerText = `${partStatus[2].correct} / 10`;
-            document.getElementById("p2-points").innerText = `${partStatus[2].points.toFixed(1)} / 15`;
-            let rate2 = (partStatus[2].correct / 10) * 100;
-            document.getElementById("p2-rate").innerText = `${rate2.toFixed(1)}%`;
-
-            // الجزء الثالث (يفتح فقط إذا اكتمل الثاني)
-            if (partStatus[2].completed && !partStatus[3].completed) {
-                document.getElementById("card-part-3").className = "part-card";
-                document.getElementById("badge-part-3").className = "part-status-badge badge-available";
-                document.getElementById("badge-part-3").innerText = "متاح للبدء";
-                document.getElementById("btn-part-3").disabled = false;
-                document.getElementById("btn-part-3").innerText = "دخول الجزء الثالث 🎯";
-            } else if (partStatus[3].completed) {
-                document.getElementById("card-part-3").className = "part-card completed";
-                document.getElementById("badge-part-3").className = "part-status-badge badge-completed";
-                document.getElementById("badge-part-3").innerText = "✓ مكتمل";
-                document.getElementById("btn-part-3").innerText = "🔒 تم إكمال الجزء الثالث";
-                document.getElementById("btn-part-3").disabled = true;
-            } else {
-                document.getElementById("card-part-3").className = "part-card locked";
-                document.getElementById("badge-part-3").className = "part-status-badge badge-locked";
-                document.getElementById("badge-part-3").innerText = "🔒 مغلق";
-                document.getElementById("btn-part-3").disabled = true;
-                document.getElementById("btn-part-3").innerText = "دخول الجزء الثالث 🎯";
-            }
-            document.getElementById("p3-correct").innerText = `${partStatus[3].correct} / 10`;
-            document.getElementById("p3-points").innerText = `${partStatus[3].points.toFixed(1)} / 15`;
-            let rate3 = (partStatus[3].correct / 10) * 100;
-            document.getElementById("p3-rate").innerText = `${rate3.toFixed(1)}%`;
-
-            if (partStatus[1].completed && partStatus[2].completed && partStatus[3].completed) {
-                document.getElementById("finish-all-btn").style.display = "block";
-            } else {
-                document.getElementById("finish-all-btn").style.display = "none";
-            }
-        }
-
-        function startSpecificPart(pNum) {
-            if (partStatus[pNum].completed) return;
-            if (pNum === 2 && !partStatus[1].completed) return;
-            if (pNum === 3 && !partStatus[2].completed) return;
-
-            activePart = pNum;
-            activeQuestionsIndices = [];
-            quizData.forEach((q, idx) => {
-                if (q.part === pNum) activeQuestionsIndices.push(idx);
-            });
-
-            currentQuestionInPartPos = 0;
-            document.getElementById("parts-dashboard").style.display = "none";
-            document.getElementById("quiz-screen").style.display = "block";
-
-            antiCheatActive = true;
-            loadCurrentPartQuestion();
-        }
-
-        function loadCurrentPartQuestion() {
-            document.getElementById("main-logo-header").style.display = "none";
-
-            const globalIndex = activeQuestionsIndices[currentQuestionInPartPos];
-            const currentData = quizData[globalIndex];
-
-            const partProgress = ((currentQuestionInPartPos) / activeQuestionsIndices.length) * 100;
-            document.getElementById("progress-fill").style.width = partProgress + "%";
-            document.getElementById("live-question-index").innerText = `السؤال: ${currentQuestionInPartPos + 1} / ${activeQuestionsIndices.length}`;
-            document.getElementById("live-current-score").innerText = `إجمالي النقاط: ${cumulativePoints.toFixed(1)} / 60`;
-
-            const narrativeCard = document.getElementById("narrative-card");
-
-            if (activePart === 1) {
-                narrativeCard.style.display = "block";
-                document.getElementById("info-title").innerText = `📖 السند رقم ${currentQuestionInPartPos + 1} من 15`;
-                document.getElementById("info-body").innerText = currentData.info;
-            } else {
-                narrativeCard.style.display = "none";
-            }
-
-            document.getElementById("question-title").innerText = `❓ سؤال رقم ${currentQuestionInPartPos + 1} من ${activeQuestionsIndices.length}`;
-            document.getElementById("question-body").innerText = currentData.question;
-
-            const textGroup = document.getElementById("text-input-group");
-            const optionsGroup = document.getElementById("options-group");
-            
-            document.getElementById("result-box").style.display = "none";
-            document.getElementById("reveal-btn").style.display = "none";
-            document.getElementById("reveal-text").style.display = "none";
-
-            if (currentData.type === "text") {
-                textGroup.style.display = "block";
-                optionsGroup.style.display = "none";
-                document.getElementById("user-answer-input").value = "";
-                document.getElementById("user-answer-input").disabled = false;
-            } else {
-                textGroup.style.display = "none";
-                optionsGroup.style.display = "flex";
-                optionsGroup.innerHTML = "";
-                selectedOptionIdx = null;
-
-                currentData.options.forEach((opt, idx) => {
-                    const btn = document.createElement("button");
-                    btn.className = "option-btn";
-                    btn.innerText = opt;
-                    btn.onclick = function() { selectOption(idx); };
-                    optionsGroup.appendChild(btn);
-                });
-            }
-
-            const actionBtn = document.getElementById("action-btn");
-            actionBtn.style.display = "block";
-            actionBtn.innerText = "تأكيد الإجابة والتحقق الفوري";
-            actionBtn.onclick = processAction;
-        }
-
-        function selectOption(idx) {
-            selectedOptionIdx = idx;
-            const buttons = document.querySelectorAll("#options-group .option-btn");
-            buttons.forEach((btn, index) => {
-                if (index === idx) btn.classList.add("selected");
-                else btn.classList.remove("selected");
-            });
-        }
-
-        function processAction() {
-            const globalIndex = activeQuestionsIndices[currentQuestionInPartPos];
-            const currentData = quizData[globalIndex];
-            let isCorrect = false;
-            let isPolitenessPenalty = false; 
-            let userDisplayAnswer = "";
-
-            if (currentData.type === "text") {
-                const userAnswer = document.getElementById("user-answer-input").value.trim();
-                if (!userAnswer) {
-                    alert("الرجاء كتابة إجابتك أولاً.");
-                    return;
-                }
-                document.getElementById("user-answer-input").disabled = true;
-                userDisplayAnswer = userAnswer;
-
-                if (currentData.id === "prophet_moon_q") {
-                    const baseNames = ["محمد", "الرسول", "النبي", "رسول الله"];
-                    let mentionsProphet = baseNames.some(name => userAnswer.includes(name));
-                    let hasPoliteness = currentData.keywords.some(kw => userAnswer.toLowerCase().includes(kw.toLowerCase()));
-
-                    if (mentionsProphet && !hasPoliteness) {
-                        isCorrect = false;
-                        isPolitenessPenalty = true; 
-                    } else if (mentionsProphet && hasPoliteness) {
-                        isCorrect = true;
-                    }
-                } else {
-                    isCorrect = currentData.keywords.some(kw => userAnswer.toLowerCase().includes(kw.toLowerCase()));
-                }
-            } else {
-                if (selectedOptionIdx === null) {
-                    alert("الرجاء اختيار أحد الخيارات المعروضة أولاً.");
-                    return;
-                }
-                userDisplayAnswer = currentData.options[selectedOptionIdx];
-                isCorrect = (selectedOptionIdx === currentData.answerIndex);
-
-                const buttons = document.querySelectorAll("#options-group .option-btn");
-                buttons.forEach((btn, index) => {
-                    btn.disabled = true;
-                    if (index === currentData.answerIndex) btn.classList.add("correct-highlight");
-                    if (index === selectedOptionIdx && !isCorrect) btn.classList.add("wrong-highlight");
-                });
-            }
-
-            const resultBox = document.getElementById("result-box");
-            resultBox.style.display = "block";
-            let statusText = "";
-
-            if (isPolitenessPenalty) {
-                cumulativePoints -= 5.0; 
-                partStatus[activePart].points -= 5.0;
-                scoreWrong++;
-                resultBox.className = "result-message result-fail";
-                resultBox.innerText = "❌ عليك أن تتأدب مع رسول الله ﷺ وتصلي عليه عند كتابة اسمه! تم خصم 5 نقاط من رصيدك.";
-                statusText = "خاطئة (عدم تأدب) ❌";
-            } else if (isCorrect) {
-                cumulativePoints += currentData.weight;
-                partStatus[activePart].points += currentData.weight;
-                partStatus[activePart].correct++;
-                scoreCorrect++;
-                resultBox.className = "result-message result-success";
-                resultBox.innerText = `✨ إجابة صحيحة! (+${currentData.weight} نقطة)`;
-                statusText = "صحيحة ✅";
-            } else {
-                scoreWrong++;
-                resultBox.className = "result-message result-fail";
-                resultBox.innerText = "❌ الإجابة خاطئة أو غير دقيقة!";
-                statusText = "خاطئة ❌";
-            }
-
-            document.getElementById("live-current-score").innerText = `إجمالي النقاط: ${cumulativePoints.toFixed(1)} / 60`;
-
-            detailedResults.push({
-                qNum: currentQuestionInPartPos + 1,
-                part: currentData.part,
-                userAnswer: userDisplayAnswer,
-                status: statusText,
-                isSuccess: isCorrect
-            });
-
-            document.getElementById("reveal-text").innerText = `الإجابة الصائبة: ${currentData.officialAnswer}`;
-            document.getElementById("reveal-btn").style.display = "block";
-
-            const actionBtn = document.getElementById("action-btn");
-            if (currentQuestionInPartPos < activeQuestionsIndices.length - 1) {
-                actionBtn.innerText = "السؤال التالي ➡️";
-                actionBtn.onclick = function() {
-                    currentQuestionInPartPos++;
-                    loadCurrentPartQuestion();
-                };
-            } else {
-                actionBtn.innerText = "إتمام الجزء والعودة للواجهة الرئيسة 🏁";
-                actionBtn.onclick = function() {
-                    antiCheatActive = false;
-                    partStatus[activePart].completed = true;
-                    
-                    // حفظ التقدم مباشرة في الكاش
-                    saveProgressToCache();
-
-                    goToDashboard();
-                };
-            }
-        }
-
-        function showCorrectAnswer() {
-            document.getElementById("reveal-text").style.display = "block";
-        }
-
-        // مستشعرات الحماية نشطة فقط أثناء خوض الأسئلة
-        document.addEventListener("visibilitychange", function() {
-            if (document.hidden && antiCheatActive && !isQuizFinishedFinished) {
-                disqualifyUserAction();
-            }
-        });
-
-        window.addEventListener("blur", function() {
-            if (antiCheatActive && !isQuizFinishedFinished) {
-                disqualifyUserAction();
-            }
-        });
-
-        function disqualifyUserAction() {
-            localStorage.setItem("quiz_grand_disqualified_2026", "true");
-            triggerBlockView("أنت مقصي تماماً من هذه المسابقة لأنك قمت بمغادرة نطاق صفحة الأسئلة!");
-        }
-
-        function triggerBlockView(message) {
-            antiCheatActive = false;
-            document.getElementById("welcome-screen").style.display = "none";
-            document.getElementById("countdown-screen").style.display = "none";
-            document.getElementById("parts-dashboard").style.display = "none";
-            document.getElementById("quiz-screen").style.display = "none";
-            document.getElementById("name-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "none";
-            document.getElementById("main-logo-header").style.display = "flex";
-            document.getElementById("blocked-text").innerHTML = message;
-            document.getElementById("blocked-screen").style.display = "block";
-        }
-
-        function showNameRegistrationScreen() {
-            antiCheatActive = false;
-            document.getElementById("parts-dashboard").style.display = "none";
-            document.getElementById("name-screen").style.display = "block";
-            document.getElementById("main-logo-header").style.display = "flex";
-            document.getElementById("part-tag").innerText = "تسجيل بيانات المتسابق";
-            document.querySelector('.wrapper').scrollTop = 0;
-        }
-
-        function validateNameAndProceed() {
-            const nameInput = document.getElementById("participant-name").value.trim();
-            if(!nameInput || nameInput.split(' ').length < 2) {
-                alert("الرجاء كتابة اسمك الكامل لتسجيله بشكل صحيح.");
-                return;
-            }
-
-            isQuizFinishedFinished = true;
-            document.getElementById("name-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "block";
-            document.getElementById("main-logo-header").style.display = "flex";
-            document.getElementById("part-tag").innerText = "وثيقة النتيجة المعتمدة";
-
-            document.getElementById("pdf-name").innerText = nameInput;
-            
-            const now = new Date();
-            const dateStr = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate();
-            const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
-            document.getElementById("pdf-datetime").innerText = dateStr + " الساعة " + timeStr;
-
-            const securityToken = generateCryptoToken(16);
-            document.getElementById("pdf-token").innerText = securityToken;
-
-            document.getElementById("total-correct").innerText = scoreCorrect;
-            document.getElementById("total-wrong").innerText = scoreWrong;
-            document.getElementById("final-points").innerText = cumulativePoints.toFixed(1);
-            
-            let calculatedGrade = (cumulativePoints / 3);
-            if (calculatedGrade < 0) calculatedGrade = 0; 
-            document.getElementById("final-grade").innerText = calculatedGrade.toFixed(2);
-
-            const statusBox = document.getElementById("qualification-status-box");
-            const statusTextEl = document.getElementById("qualification-text");
-            statusBox.style.display = "block";
-
-            if (calculatedGrade === 20.00) {
-                const raffleToken = "LUCKY-" + generateCryptoToken(6);
-                statusBox.style.backgroundColor = "#fef3c7";
-                statusBox.style.color = "#92400e";
-                statusBox.style.border = "1px solid #fde68a";
-                statusTextEl.innerHTML = `🏆 <b>فائز بالمسابقة الكبرى</b> | 🎟️ رمز القرعة: <span class="token-container-box" style="background-color: #fef3c7 !important;">${raffleToken}</span>`;
-            } else if (calculatedGrade >= 10.00) {
-                statusBox.style.backgroundColor = "#dcfce7";
-                statusBox.style.color = "#14532d";
-                statusBox.style.border = "1px solid #86efac";
-                statusTextEl.innerHTML = "🥇 <b>مؤهل رسمياً للمرحلة النهائية</b>";
-            } else if (calculatedGrade < 10.00 && (scoreCorrect === 28 || scoreCorrect === 29)) {
-                statusBox.style.backgroundColor = "#e0f2fe";
-                statusBox.style.color = "#075985";
-                statusBox.style.border = "1px solid #bae6fd";
-                statusTextEl.innerHTML = "⚡ <b>متأهل للمرحلة المؤهلة للمرحلة النهائية</b>";
-            } else {
-                statusBox.style.backgroundColor = "#fee2e2";
-                statusBox.style.color = "#991b1b";
-                statusBox.style.border = "1px solid #fca5a5";
-                statusTextEl.innerHTML = "❌ لم يتم تحقيق شروط التأهل للمراحل النهائية";
-            }
-
-            const tPart1 = document.getElementById("table-part1-rows");
-            const tPart2 = document.getElementById("table-part2-rows");
-            const tPart3 = document.getElementById("table-part3-rows");
-            
-            tPart1.innerHTML = "";
-            tPart2.innerHTML = "";
-            tPart3.innerHTML = "";
-            
-            let localCounterPart1 = 1;
-            let localCounterPart2 = 1;
-            let localCounterPart3 = 1;
-
-            detailedResults.forEach(res => {
-                let scoreColorClass = res.isSuccess ? "text-success-score" : "text-danger-score";
-                let rowHtml = `
-                    <tr>
-                        <td>${res.part === 1 ? localCounterPart1 : (res.part === 2 ? localCounterPart2 : localCounterPart3)}</td>
-                        <td style="text-align: right; font-size:0.85rem;">${res.userAnswer}</td>
-                        <td class="${scoreColorClass}">${res.status}</td>
-                    </tr>
-                `;
-                
-                if (res.part === 1) {
-                    tPart1.innerHTML += rowHtml;
-                    localCounterPart1++;
-                } else if (res.part === 2) {
-                    tPart2.innerHTML += rowHtml;
-                    localCounterPart2++;
-                } else if (res.part === 3) {
-                    tPart3.innerHTML += rowHtml;
-                    localCounterPart3++;
-                }
-            });
-
-            localStorage.setItem("quiz_grand_completed_2026", "true");
-            document.querySelector('.wrapper').scrollTop = 0;
-        }
-
-        function generateCryptoToken(length) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let token = '';
-            for (let i = 0; i < length; i++) {
-                token += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return token;
-        }
-
-        function generatePdfAndEmail() {
-            const btn = document.getElementById("download-pdf-btn");
-            const participantName = document.getElementById("pdf-name").innerText || "متسابق";
-            const securityToken = document.getElementById("pdf-token").innerText;
-            const grade = document.getElementById("final-grade").innerText;
-            const qualText = document.getElementById("qualification-text").innerText;
-            const emailAddress = "khaled.basri745@gmail.com";
-
-            if (isPdfDownloaded) {
-                const subject = encodeURIComponent(`وثيقة المسابقة المعتمدة للمتسابق: ${participantName}`);
-                const body = encodeURIComponent(`السلام عليكم ورحمة الله وبركاته،\n\nأرفق لكم كشف النقاط والمعدل النهائي الموثق من تطبيق مسابقة كنوز الإسلام:\n\n- اسم المتسابق الكامل: ${participantName}\n- المعدل النهائي الإجمالي: [ ${grade} / 20 ]\n- النقاط المستحقة: ${cumulativePoints.toFixed(1)} من 60\n- حالة التأهل: ${qualText}\n- الرمز الأمني للتوثيق الرقمي: [ ${securityToken} ]\n\n(ملاحظة: وثيقة الـ PDF تم حفظها في جهازي ويسرني إرفاقها لكم).\n\nشكراً لكم.`);
-
-                window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerText = "⏳ جاري توليد وثيقة الـ PDF وحفظها...";
-
-            const element = document.getElementById('pdf-content');
-
-            const opt = {
-                margin:       [5, 5, 5, 5], 
-                filename:     `نتائج_المسابقة_${participantName.replace(/\s+/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save().then(() => {
-                isPdfDownloaded = true;
-                btn.disabled = false;
-                
-                btn.innerHTML = "📧 إرسال النتيجة عبر البريد الإلكتروني الآن";
-                btn.style.background = "linear-gradient(135deg, #1877F2, #1d4ed8)";
-                btn.style.borderColor = "#1e40af";
-
-                alert("تم تحميل وثيقة الـ PDF بنجاح على جهازك! اضغط الآن على زر إرسال النتيجة للتواصل عبر البريد.");
-            }).catch(err => {
-                console.error("PDF generation error:", err);
-                alert("حدث خطأ أثناء تحميل الملف، يرجى إعادة المحاولة.");
-                btn.disabled = false;
-                btn.innerText = "تحميل تقرير الـ PDF التفصيلي وإرسال النتيجة";
-            });
-        }
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }, 1000);
     </script>
 </body>
 </html>
+
