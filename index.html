@@ -13,15 +13,15 @@
     <style>
         :root {
             --primary-color: #0d5c3a;
-            --primary-dark: #0a472d;
+            --primary-dark: #094229;
             --primary-light: #15803d;
             --gold-color: #d4af37;
             --gold-hover: #b8860b;
             --bg-color: #f2f7f4;
             --card-bg: #ffffff;
             --text-color: #1b382b;
-            --shadow-subtle: 0 12px 40px rgba(13, 92, 58, 0.12);
-            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-subtle: 0 12px 36px rgba(13, 92, 58, 0.11);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         *, *::before, *::after {
@@ -39,91 +39,103 @@
             scroll-behavior: smooth;
         }
 
-        .wrapper {
+        #knoz-app-wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100%;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
-        .content-area {
+        #knoz-content-area {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding-bottom: 40px;
+            padding-bottom: 44px;
         }
 
-        .navbar-container {
+        /* شريط التنقل المحدّث (Toolbar) */
+        #knoz-toolbar-shell {
             width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            padding: 8px 12px;
-            box-shadow: 0 4px 20px rgba(13, 92, 58, 0.08);
-            border-bottom: 1px solid #d1fae5;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 10px 14px;
+            box-shadow: 0 6px 24px rgba(13, 92, 58, 0.1);
+            border-bottom: 2px solid #bbf7d0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            margin-bottom: 15px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 18px;
         }
 
-        .nav-inner {
-            max-width: 720px;
+        #knoz-toolbar-inner {
+            max-width: 780px;
             margin: 0 auto;
-        }
-
-        .nav-tabs {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            gap: 4px;
-            width: 100%;
+            gap: 10px;
         }
 
-        .tab-btn {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: none;
-            padding: 8px 10px;
-            border-radius: 10px;
+        #knoz-toolbar-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 0.85rem;
-            font-weight: bold;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            background: #f0fdf4;
+            border: 1px solid #a7f3d0;
+            padding: 6px 12px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        #knoz-toolbar-tabs {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .knoz-nav-btn {
+            background-color: #f8faf9;
+            color: var(--primary-color);
+            border: 1px solid #d1fae5;
+            padding: 8px 11px;
+            border-radius: 12px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 700;
             cursor: pointer;
             transition: var(--transition-smooth);
             flex: 1;
-            text-align: center;
-            display: flex;
-            flex-direction: row;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
-        .tab-btn i {
-            font-size: 0.95rem;
-            transition: transform 0.3s ease;
-        }
-
-        .tab-btn:hover {
-            background-color: #f0fdf4;
+        .knoz-nav-btn:hover {
+            background-color: #ecfdf5;
+            border-color: var(--gold-color);
             color: var(--gold-hover);
+            transform: translateY(-1px);
         }
 
-        .tab-btn:hover i {
-            transform: scale(1.1);
-        }
-
-        .tab-btn.active {
+        .knoz-nav-btn.is-active {
             background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-            color: white;
-            box-shadow: 0 4px 12px rgba(13, 92, 58, 0.25);
+            color: #ffffff;
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 14px rgba(13, 92, 58, 0.25);
         }
 
-        .logo-container {
-            margin-top: 15px;
-            margin-bottom: 15px;
+        #knoz-brand-header {
+            margin-top: 10px;
+            margin-bottom: 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -131,81 +143,70 @@
             width: 100%;
             text-align: center;
             user-select: none;
-            animation: fadeInDown 0.8s ease-out;
         }
-        
-        .main-logo {
-            max-width: 90px;
+
+        #knoz-main-logo-img {
+            max-width: 92px;
             height: auto;
             object-fit: contain;
-            border: none;
-            background: transparent;
-            box-shadow: none;
-            margin: 0 auto 8px auto;
+            margin: 0 auto 10px auto;
             display: block;
         }
 
-        .dedication-banner {
-            background: linear-gradient(135deg, #0d5c3a, #0a472d);
-            color: #fff;
+        #knoz-dedication-pill {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: #ffffff;
             border: 1px solid var(--gold-color);
-            padding: 12px 25px;
+            padding: 10px 24px;
             border-radius: 30px;
-            font-size: 1rem;
+            font-size: 0.98rem;
             font-family: 'Reem Kufi', sans-serif;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(13, 92, 58, 0.25);
-            display: inline-block;
-            text-align: center;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(13, 92, 58, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .tab-content {
-            display: none;
-            width: 100%;
-            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .main-container {
-            width: 90%;
-            max-width: 720px;
+        #knoz-pages-container {
+            width: 92%;
+            max-width: 780px;
             margin: 0 auto;
         }
 
-        .card {
+        .knoz-page-section {
+            display: none;
+            width: 100%;
+        }
+
+        .knoz-page-section.is-visible {
+            display: block;
+            animation: knozFadeUp 0.35s ease-out;
+        }
+
+        @keyframes knozFadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .knoz-card-box {
             background-color: var(--card-bg);
-            padding: 30px;
-            margin-bottom: 25px;
+            padding: 28px;
+            margin-bottom: 24px;
             border-radius: 22px;
             box-shadow: var(--shadow-subtle);
             border-top: 6px solid var(--primary-color);
             border-bottom: 3px solid var(--gold-color);
             text-align: right;
-            position: relative;
         }
 
-        .card-title {
+        .knoz-card-heading {
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             color: var(--primary-color);
             margin-top: 0;
             margin-bottom: 18px;
-            font-weight: bold;
+            font-weight: 700;
             text-align: center;
             display: flex;
             align-items: center;
@@ -213,190 +214,189 @@
             gap: 10px;
         }
 
-        .card-text {
+        .knoz-body-copy {
             font-size: 1.1rem;
             line-height: 1.9;
             color: var(--text-color);
-            margin-bottom: 20px;
-            text-align: right;
+            margin-bottom: 18px;
         }
 
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 25px 0;
+        /* عدّاد تنازلي للجمعة القادمة 20:00 */
+        #knoz-friday-countdown-box {
+            background: linear-gradient(135deg, #f0fdf4, #e6f4ed);
+            border: 1px solid #a7f3d0;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 20px 0;
             text-align: center;
         }
 
-        .countdown-box {
-            background: linear-gradient(135deg, #f0fdf4, #e6f4ed);
-            border: 1px solid #a7f3d0;
-            border-radius: 14px;
-            padding: 14px 5px;
-            box-shadow: 0 4px 12px rgba(13,92,58,0.06);
+        #knoz-friday-countdown-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            margin: 0 0 6px 0;
+            font-weight: 700;
         }
 
-        .countdown-number {
+        #knoz-friday-countdown-sub {
+            font-size: 0.98rem;
+            color: #4b5563;
+            margin: 0 0 16px 0;
+        }
+
+        #knoz-friday-countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .knoz-time-unit {
+            background: #ffffff;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 12px 6px;
+            box-shadow: 0 4px 12px rgba(13, 92, 58, 0.06);
+        }
+
+        .knoz-time-val {
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.55rem;
+            font-weight: 700;
             color: var(--primary-color);
-            font-weight: bold;
             display: block;
         }
 
-        .countdown-label {
+        .knoz-time-lbl {
             font-size: 0.85rem;
             color: #4b5563;
-            margin-top: 5px;
             display: block;
+            margin-top: 4px;
         }
 
-        .btn {
-            color: white;
+        .knoz-action-btn {
+            color: #ffffff;
             border: none;
             width: 100%;
-            padding: 15px;
-            font-size: 1.15rem;
+            padding: 14px 18px;
+            font-size: 1.1rem;
             font-family: 'Reem Kufi', sans-serif;
-            font-weight: bold;
+            font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
-            margin-top: 12px;
-            margin-bottom: 12px;
+            margin-top: 10px;
+            margin-bottom: 10px;
             transition: var(--transition-smooth);
             background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             border-bottom: 4px solid var(--gold-color);
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(13, 92, 58, 0.2);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-        }
-        
-        .btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark), #116631);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(13, 92, 58, 0.3);
+            text-decoration: none;
         }
 
-        .btn-gold {
+        .knoz-action-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            transform: translateY(-2px);
+        }
+
+        .knoz-gold-btn {
             background: linear-gradient(135deg, var(--gold-color), var(--gold-hover));
             border-bottom: 4px solid #92400e;
             color: #1b382b;
         }
-        
-        .btn-gold:hover {
-            background: linear-gradient(135deg, #b8860b, #92400e);
+
+        .knoz-gold-btn:hover {
+            background: linear-gradient(135deg, var(--gold-hover), #92400e);
             color: #ffffff;
         }
 
-        .action-card-grid {
+        .knoz-grid-two {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+            gap: 14px;
+            margin-top: 18px;
         }
 
-        .action-card-item {
+        .knoz-tile-btn {
             background: linear-gradient(135deg, #f0fdf4, #e6f4ed);
             border: 1px solid #a7f3d0;
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition-smooth);
-            box-shadow: 0 4px 15px rgba(13,92,58,0.05);
         }
 
-        .action-card-item:hover {
-            transform: translateY(-4px);
+        .knoz-tile-btn:hover {
+            transform: translateY(-3px);
             background: linear-gradient(135deg, #dcfce7, #ccfbf1);
             border-color: var(--primary-color);
-            box-shadow: 0 8px 25px rgba(13,92,58,0.15);
         }
 
-        .action-card-item i {
-            font-size: 2rem;
+        .knoz-tile-btn i {
+            font-size: 1.9rem;
             color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: block;
         }
 
-        .action-card-item span {
+        .knoz-tile-btn span {
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.05rem;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 700;
             color: var(--primary-color);
         }
 
-        .news-item {
+        .knoz-news-entry {
             background: #fffdf9;
             border: 1px solid #e6d5a7;
             border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 20px;
+            padding: 20px;
+            margin-bottom: 18px;
             border-right: 5px solid var(--gold-color);
-            transition: var(--transition-smooth);
         }
 
-        .news-item:hover {
-            box-shadow: 0 6px 20px rgba(212,175,55,0.18);
-            transform: translateX(-3px);
-        }
-
-        .news-item-title {
+        .knoz-news-title {
             font-family: 'Reem Kufi', sans-serif;
             color: var(--primary-color);
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 8px;
-            font-weight: bold;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .news-item-date {
+        .knoz-news-meta {
             font-size: 0.9rem;
-            color: #718096;
-            margin-bottom: 12px;
+            color: #6b7280;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .timeline-container {
-            position: relative;
-            margin: 20px 0;
-            padding-right: 20px;
-            border-right: 2px dashed #a7f3d0;
+        #knoz-account-points-slot {
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 1px solid var(--gold-color);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 14px 0 18px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-weight: 700;
+            color: var(--text-color);
         }
 
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            right: -25px;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--gold-color);
-            border: 2px solid white;
-        }
-
-        .modal-overlay {
+        /* نوافذ منبثقة بمعرّفات فريدة */
+        .knoz-modal-backdrop {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(10, 30, 20, 0.65);
             backdrop-filter: blur(8px);
             z-index: 2000;
@@ -406,712 +406,698 @@
             opacity: 0;
             visibility: hidden;
             transition: var(--transition-smooth);
-            padding: 20px;
+            padding: 18px;
         }
 
-        .modal-overlay.active {
+        .knoz-modal-backdrop.is-open {
             opacity: 1;
             visibility: visible;
         }
 
-        .modal-container {
+        .knoz-modal-dialog {
             background: var(--card-bg);
             width: 100%;
-            max-width: 580px;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            max-width: 560px;
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
             border-top: 6px solid var(--primary-color);
             border-bottom: 4px solid var(--gold-color);
-            padding: 30px;
+            padding: 26px;
             text-align: right;
-            transform: translateY(20px) scale(0.95);
-            transition: var(--transition-smooth);
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
         }
 
-        .modal-overlay.active .modal-container {
-            transform: translateY(0) scale(1);
-        }
-
-        .modal-close-btn {
+        .knoz-modal-dismiss {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 18px;
+            left: 18px;
             background: #fef2f2;
             color: #dc2626;
             border: 1px solid #fca5a5;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition-smooth);
-            font-size: 1.1rem;
-        }
-
-        .modal-close-btn:hover {
-            background: #dc2626;
-            color: white;
-            transform: rotate(90deg);
-        }
-
-        .modal-title {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-left: 40px;
-        }
-
-        .form-group {
-            margin-top: 15px;
-            margin-bottom: 15px;
-            text-align: right;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--primary-color);
-            font-family: 'Reem Kufi', sans-serif;
             font-size: 1rem;
         }
 
-        .form-control {
+        .knoz-modal-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.35rem;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 18px;
+            padding-left: 42px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .knoz-field-group {
+            margin-top: 14px;
+            margin-bottom: 14px;
+        }
+
+        .knoz-field-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 0.98rem;
+        }
+
+        .knoz-field-input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 15px;
             border: 1px solid #a7f3d0;
             border-radius: 12px;
-            box-sizing: border-box;
             font-family: 'Amiri', serif;
             font-size: 1.05rem;
             background-color: #fcfdfc;
             color: var(--text-color);
-            transition: var(--transition-smooth);
         }
-        
-        .form-control:focus {
+
+        .knoz-field-input:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(13, 92, 58, 0.15);
+            box-shadow: 0 0 0 3px rgba(13, 92, 58, 0.14);
             background-color: #ffffff;
         }
 
-        .points-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #fef9c3, #fef08a);
-            border: 1px solid var(--gold-color);
-            color: #1b382b;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-family: 'Reem Kufi', sans-serif;
-            font-weight: bold;
-            font-size: 1.05rem;
-            margin: 10px 0 15px 0;
-        }
-
-        .quiz-box {
-            background: #fffdf9;
-            border: 1px solid #e6d5a7;
-            border-radius: 16px;
+        #knoz-site-footer {
             padding: 20px;
-            margin-top: 20px;
-            border-right: 5px solid var(--primary-color);
-        }
-
-        .quiz-option-btn {
-            display: block;
-            width: 100%;
-            text-align: right;
-            padding: 12px 16px;
-            margin-top: 10px;
-            border-radius: 12px;
-            border: 1px solid #a7f3d0;
-            background: #f0fdf4;
-            color: var(--text-color);
-            font-family: 'Amiri', serif;
-            font-size: 1.05rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .quiz-option-btn:hover:not(:disabled) {
-            background: #dcfce7;
-            border-color: var(--primary-color);
-        }
-
-        .quiz-option-btn:disabled {
-            opacity: 0.7;
-            cursor: default;
-        }
-
-        footer {
-            padding: 22px;
             font-size: 0.95rem;
             color: var(--primary-color);
             text-align: center;
-            font-weight: bold;
+            font-weight: 700;
             background: rgba(244, 247, 244, 0.95);
             width: 100%;
-            box-sizing: border-box;
             border-top: 1px solid #a7f3d0;
             margin-top: auto;
         }
 
-        @media (max-width: 600px) {
-            .countdown-grid {
+        @media (max-width: 720px) {
+            #knoz-toolbar-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #knoz-toolbar-brand {
+                justify-content: center;
+            }
+            #knoz-friday-countdown-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .tab-btn {
-                font-size: 0.75rem;
-                padding: 6px 4px;
+            .knoz-nav-btn {
+                font-size: 0.78rem;
+                padding: 7px 6px;
                 gap: 4px;
             }
-            .tab-btn i {
-                font-size: 0.85rem;
-            }
-            .card {
+            .knoz-card-box {
                 padding: 20px;
             }
-            .action-card-grid {
+            .knoz-grid-two {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-<body style="overflow: hidden;">
+<body>
 
-    <div class="wrapper">
-        <div class="content-area">
-            
-            <div class="navbar-container">
-                <nav class="nav-inner">
-                    <div class="nav-tabs">
-                        <button class="tab-btn active" onclick="switchTab('home', event)">
+    <div id="knoz-app-wrapper">
+        <div id="knoz-content-area">
+
+            <!-- شريط التنقل العلوي المحدّث -->
+            <div id="knoz-toolbar-shell">
+                <nav id="knoz-toolbar-inner" aria-label="التنقل الرئيسي">
+                    <div id="knoz-toolbar-brand">
+                        <i class="fa-solid fa-mosque" style="color: var(--gold-hover);"></i>
+                        <span>كنوز الإسلام</span>
+                    </div>
+                    <div id="knoz-toolbar-tabs">
+                        <button id="knoz-tab-btn-home" class="knoz-nav-btn is-active" onclick="knozSwitchTab('home', event)">
                             <i class="fa-solid fa-house"></i>
                             <span>الرئيسية</span>
                         </button>
-                        <button class="tab-btn" onclick="switchTab('news', event)">
+                        <button id="knoz-tab-btn-news" class="knoz-nav-btn" onclick="knozSwitchTab('news', event)">
                             <i class="fa-solid fa-bullhorn"></i>
                             <span>المستجدات</span>
                         </button>
-                        <button class="tab-btn" onclick="switchTab('articles', event)">
+                        <button id="knoz-tab-btn-articles" class="knoz-nav-btn" onclick="knozSwitchTab('articles', event)">
                             <i class="fa-solid fa-pen-nib"></i>
                             <span>المقالات</span>
                         </button>
-                        <button class="tab-btn" onclick="switchTab('account', event)">
-                            <i class="fa-solid fa-user-check"></i>
+                        <button id="knoz-tab-btn-account" class="knoz-nav-btn" onclick="knozSwitchTab('account', event)">
+                            <i class="fa-solid fa-user-gear"></i>
                             <span>الحساب</span>
                         </button>
                     </div>
                 </nav>
             </div>
 
-            <div class="logo-container">
-                <img src="https://lh3.googleusercontent.com/d/1lzBzzmhHYpQRdLe7HV2Dq83UTIqw6K1Z" alt="شعار كنز الإسلام" class="main-logo">
-                <div class="dedication-banner">
-                    <i class="fa-solid fa-heart" style="color: var(--gold-color);"></i> صدقة جارية لروح المرحوم الوالد: <b>بصري بومدين</b>
+            <!-- ترويسة الشعار والإهداء -->
+            <header id="knoz-brand-header">
+                <img id="knoz-main-logo-img" src="https://lh3.googleusercontent.com/d/1lzBzzmhHYpQRdLe7HV2Dq83UTIqw6K1Z" alt="شعار كنز الإسلام">
+                <div id="knoz-dedication-pill">
+                    <i class="fa-solid fa-heart" style="color: var(--gold-color);"></i>
+                    <span>صدقة جارية لروح المرحوم الوالد: <b>بصري بومدين</b></span>
                 </div>
-            </div>
+            </header>
 
-            <div class="main-container">
-                
-                <!-- 1. الرئيسية -->
-                <div id="home-tab" class="tab-content active">
-                    <div class="card">
-                        <div class="card-title"><i class="fa-solid fa-lock" style="color: var(--gold-color);"></i> الموقع مغلق حالياً للصيانة وتجهيز الافتتاح</div>
-                        
-                        <div style="background: linear-gradient(135deg, #f0fdf4, #e6f4ed); border: 1px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 15px rgba(13,92,58,0.08);">
-                            <i class="fa-solid fa-quran" style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
-                            <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 0 0 8px 0; font-size: 1.25rem;">أثر مبارك وعلم ينتفع به</h3>
-                            <p style="margin: 0; font-family: 'Amiri', serif; font-size: 1.1rem; color: var(--text-color); line-height: 1.8;">
+            <!-- حاوية الصفحات -->
+            <main id="knoz-pages-container">
+
+                <!-- 1. الرئيسية (مفتوحة بالكامل + عدّاد الجمعة القادمة 20:00 للسؤال الأول في أول جمعة) -->
+                <section id="knoz-page-home" class="knoz-page-section is-visible">
+                    <div id="knoz-home-main-card" class="knoz-card-box">
+                        <h1 id="knoz-home-heading" class="knoz-card-heading">
+                            <i class="fa-solid fa-sun" style="color: var(--gold-color);"></i>
+                            <span>مرحباً بكم في منصة كنوز الإسلام</span>
+                        </h1>
+
+                        <div id="knoz-waqf-box" style="background: linear-gradient(135deg, #f0fdf4, #e6f4ed); border: 1px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                            <i class="fa-solid fa-quran" style="font-size: 2.1rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
+                            <h2 id="knoz-waqf-title" style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 0 0 8px 0; font-size: 1.2rem;">أثر مبارك وعلم ينتفع به</h2>
+                            <p id="knoz-waqf-text" style="margin: 0; font-size: 1.1rem; color: var(--text-color); line-height: 1.85;">
                                 اللهم اجعل هذا العمل المبارك، وكل حرف ونفع يُنشر عبر هذه المنصة، صدقة جارية ونوراً ساطعاً في قبر المرحوم الوالد <b>بصري بومدين</b>، وتغمده بواسع رحمتك وأسكنه فسيح جناتك.
                             </p>
                         </div>
 
-                        <p class="card-text">
-                            نعمل بكل جهد على تطوير البنية التحتية للمنصة ورفع مستوى الأداء. سيتم إعادة فتح البوابة الرسمية للموقع رسمياً يوم <b>21/11/2026</b> في تمام الساعة الثامنة مساءً بتوقيت مكة المكرمة.
-                        </p>
-                        
-                        <div class="countdown-grid">
-                            <div class="countdown-box">
-                                <span class="countdown-number" id="days">--</span>
-                                <span class="countdown-label">يوم</span>
-                            </div>
-                            <div class="countdown-box">
-                                <span class="countdown-number" id="hours">--</span>
-                                <span class="countdown-label">ساعة</span>
-                            </div>
-                            <div class="countdown-box">
-                                <span class="countdown-number" id="minutes">--</span>
-                                <span class="countdown-label">دقيقة</span>
-                            </div>
-                            <div class="countdown-box">
-                                <span class="countdown-number" id="seconds">--</span>
-                                <span class="countdown-label">ثانية</span>
-                            </div>
-                        </div>
-
-                        <hr style="border: 0; border-top: 1px dashed #a7f3d0; margin: 25px 0;">
-
-                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 24px; margin-top: 15px;">
-                            <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.35rem; display: flex; align-items: center; gap: 10px;">
-                                <i class="fa-solid fa-trophy" style="color: var(--gold-color);"></i> الحدث الرئيسي للافتتاح: الإعلان عن نتائج "المسابقة الكبرى 1"
+                        <!-- العد التنازلي للجمعة القادمة الساعة 20:00 للسؤال الأول في أول جمعة -->
+                        <div id="knoz-friday-countdown-box">
+                            <h3 id="knoz-friday-countdown-title">
+                                <i class="fa-solid fa-hourglass-half" style="color: var(--gold-hover);"></i>
+                                <span>العد التنازلي للسؤال الأول في أول جمعة</span>
                             </h3>
-                            <p style="line-height: 1.9; margin-bottom: 15px; text-align: right;">
-                                يأتي الافتتاح الكبير المقرر في تاريخ <b>21/11/2026</b> خصيصاً ليشكل المحطة التاريخية البارزة للإعلان الرسمي عن أسماء الفائزين وتتويج المتصدرين في فعاليات <b>"المسابقة الكبرى 1"</b> في فروعها المتعددة التي شملت حفظ القرآن الكريم، السيرة النبوية الشريفة، والبحوث الفقهية المعاصرة.
+                            <p id="knoz-friday-countdown-sub">
+                                الموعد المحدد: يوم الجمعة القادم الساعة <b>20:00</b> (<span id="knoz-friday-target-date">--/--/----</span>)
                             </p>
-                            
-                            <div class="timeline-container">
-                                <div class="timeline-item">
-                                    <b>فرز التقييمات واختبارات الإتقان:</b> خضعت إجابات المشاركين لعمليات مراجعة دقيقة وصارمة تحت إشراف لجان تحكيم متخصصة لضمان أعلى معايير الشفافية والموضوعية.
+                            <div id="knoz-friday-countdown-grid">
+                                <div id="knoz-cd-days-card" class="knoz-time-unit">
+                                    <span id="knoz-cd-days" class="knoz-time-val">--</span>
+                                    <span id="knoz-cd-days-lbl" class="knoz-time-lbl">يوم</span>
                                 </div>
-                                <div class="timeline-item">
-                                    <b>لوحة الشرف وتوزيع الجوائز:</b> سيتم نشر اللوحة الشرفية الكاملة للمتوجين الأوائل وتفعيل برامج الجوائز الرمزية والعينية فور انطلاق الصفحة الرئيسية في الموعد المحدد.
+                                <div id="knoz-cd-hours-card" class="knoz-time-unit">
+                                    <span id="knoz-cd-hours" class="knoz-time-val">--</span>
+                                    <span id="knoz-cd-hours-lbl" class="knoz-time-lbl">ساعة</span>
+                                </div>
+                                <div id="knoz-cd-minutes-card" class="knoz-time-unit">
+                                    <span id="knoz-cd-minutes" class="knoz-time-val">--</span>
+                                    <span id="knoz-cd-minutes-lbl" class="knoz-time-lbl">دقيقة</span>
+                                </div>
+                                <div id="knoz-cd-seconds-card" class="knoz-time-unit">
+                                    <span id="knoz-cd-seconds" class="knoz-time-val">--</span>
+                                    <span id="knoz-cd-seconds-lbl" class="knoz-time-lbl">ثانية</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="action-card-grid">
-                            <div class="action-card-item" onclick="openModal('dedicationModal')">
+                        <div id="knoz-home-tiles-grid" class="knoz-grid-two">
+                            <div id="knoz-open-dedication-tile" class="knoz-tile-btn" onclick="knozOpenModal('knoz-modal-dedication')">
                                 <i class="fa-solid fa-hands-praying"></i>
                                 <span>رسالة إهداء الوالد</span>
                             </div>
-                            <div class="action-card-item" onclick="openModal('platformModal')">
+                            <div id="knoz-open-platform-tile" class="knoz-tile-btn" onclick="knozOpenModal('knoz-modal-platform')">
                                 <i class="fa-solid fa-circle-info"></i>
                                 <span>عن المنصة والأهداف</span>
                             </div>
                         </div>
 
-                        <div style="margin-top: 25px; text-align: center;">
-                            <p style="font-size: 1rem; color: #4b5563; margin-bottom: 12px;">يمكنكم استعراض إصداراتنا ومشاريعنا الحالية عبر موقعنا المفتوح:</p>
-                            <a href="https://khaledbasri745-byte.github.io/KHBSR-/" target="_blank" class="btn btn-gold" style="text-decoration: none; display: inline-flex; width: auto; padding: 12px 30px;">
-                                <i class="fa-solid fa-globe"></i> زيارة منصة KHBSR الرسمية
+                        <div id="knoz-external-link-box" style="margin-top: 24px; text-align: center;">
+                            <p id="knoz-external-link-label" style="font-size: 1rem; color: #4b5563; margin-bottom: 10px;">
+                                استعرض إصداراتنا ومشاريعنا الحالية عبر البوابة المفتوحة:
+                            </p>
+                            <a id="knoz-khbsr-link" href="https://khaledbasri745-byte.github.io/KHBSR-/" target="_blank" class="knoz-action-btn knoz-gold-btn" style="width: auto; padding: 11px 28px;">
+                                <i class="fa-solid fa-globe"></i>
+                                <span>زيارة منصة KHBSR الرسمية</span>
                             </a>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- 2. آخر المستجدات والإطلاقات -->
-                <div id="news-tab" class="tab-content">
-                    <div class="card" style="text-align: right;">
-                        <div class="card-title"><i class="fa-solid fa-bullhorn" style="color: var(--primary-color);"></i> آخر المستجدات والجدول الزمني للإطلاقات</div>
-                        
-                        <div class="news-item" style="border-right-color: var(--gold-color); background: #fffdf9;">
-                            <div class="news-item-title" style="color: var(--primary-color);">
-                                <i class="fa-solid fa-book-open-reader" style="color: var(--gold-color);"></i> إطلاق نافذة "قصص ومعلومات دينية" الخاصة بأيام الجمعة
+                <!-- 2. آخر المستجدات -->
+                <section id="knoz-page-news" class="knoz-page-section">
+                    <div id="knoz-news-card" class="knoz-card-box">
+                        <h2 id="knoz-news-heading" class="knoz-card-heading">
+                            <i class="fa-solid fa-bullhorn" style="color: var(--primary-color);"></i>
+                            <span>آخر المستجدات والإطلاقات</span>
+                        </h2>
+
+                        <div id="knoz-news-item-1" class="knoz-news-entry" style="border-right-color: var(--gold-color); background: #fffdf9;">
+                            <div id="knoz-news-title-1" class="knoz-news-title">
+                                <i class="fa-solid fa-book-open-reader" style="color: var(--gold-color);"></i>
+                                <span>السؤال الأول في أول جمعة الساعة 20:00</span>
                             </div>
-                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> تاريخ بدء النشر: 27/11/2026</span>
-                            <p style="margin: 0; line-height: 1.8; color: var(--text-color);">
-                                تعلن إدارة المنصة عن إطلاق سلسلة أسبوعية حصرية تبث كل يوم جمعة بدءاً من تاريخ <b>27/11/2026</b>، تتضمن باقة منتقاة من القصص القرآنية الموثقة، العبر النبوية، والمعلومات الفقهية والإسلامية المختارة بعناية لإثراء الروح المعرفية للمستفيدين تزامناً مع نفحات يوم الجمعة المبارك.
+                            <span id="knoz-news-date-1" class="knoz-news-meta">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>يوم الجمعة القادم - 20:00</span>
+                            </span>
+                            <p id="knoz-news-body-1" style="margin: 0; line-height: 1.85;">
+                                يُطرح السؤال الأول في أول جمعة الساعة الثامنة مساءً (20:00)، وتُسجّل نقاط الحساب مباشرة في ملف العضو.
                             </p>
                         </div>
 
-                        <div class="news-item" style="border-right-color: var(--primary-color); background: #f0fdf4;">
-                            <div class="news-item-title" style="color: var(--primary-color);">
-                                <i class="fa-solid fa-mobile-screen-button"></i> موعد الإطلاق الرسمي لتطبيق "كنوز الإسلام" الهاتفي
+                        <div id="knoz-news-item-2" class="knoz-news-entry" style="border-right-color: var(--primary-color); background: #f0fdf4;">
+                            <div id="knoz-news-title-2" class="knoz-news-title">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                                <span>تطوير تطبيق "كنوز الإسلام" للهواتف الذكية</span>
                             </div>
-                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> التاريخ المحدد: 21 نوفمبر 2027</span>
-                            <p style="margin: 0; line-height: 1.8; color: var(--text-color);">
-                                تعلن إدارة المنصة رسمياً أن تاريخ <b>21/11/2027</b> سيكون موعد الإصدار العالمي لتطبيق الهواتف الذكية المستقل (Android & iOS). سيتضمن التطبيق واجهات عصرية مصممة بأعلى معايير الأداء، نظام إشعارات ذكي، مكتبة تفاعلية متكاملة، ووصولاً مباشراً ومبسطاً لجميع الفعاليات والمسابقات القادمة.
+                            <span id="knoz-news-date-2" class="knoz-news-meta">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>تحديثات مستمرة</span>
+                            </span>
+                            <p id="knoz-news-body-2" style="margin: 0; line-height: 1.85;">
+                                العمل جارٍ على تحسين واجهات التطبيق وتسهيل الوصول إلى المقالات والحسابات الشخصية.
                             </p>
                         </div>
 
-                        <div class="news-item">
-                            <div class="news-item-title">
-                                <i class="fa-solid fa-star" style="color: var(--gold-color);"></i> الجدول الزمني لدورات "المسابقة الكبرى" السنوية
+                        <div id="knoz-news-item-ramadan" class="knoz-news-entry" style="border-right-color: var(--gold-hover); background: #fffdf9;">
+                            <div id="knoz-news-title-ramadan" class="knoz-news-title">
+                                <i class="fa-solid fa-moon" style="color: var(--gold-hover);"></i>
+                                <span>مسابقة رمضان</span>
                             </div>
-                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> 21 نوفمبر من كل عام</span>
-                            <p style="margin: 0; line-height: 1.8;">
-                                تم اعتماد تاريخ 21 نوفمبر من كل سنة ميلادية موعداً سنوياً ثابتاً لإطلاق دورات التنافس المعرفي الكبرى، لتكون محطة سنوية مرتقبة لطلبة العلم وحفظة القرآن الكريم حول العالم الإسلامي.
+                            <span id="knoz-news-date-ramadan" class="knoz-news-meta">
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                                <span>شرط التأهل: أكثر من 30 نقطة</span>
+                            </span>
+                            <p id="knoz-news-body-ramadan" style="margin: 0; line-height: 1.85;">
+                                للمشاركة في مسابقة رمضان يجب أن تحصل على <b>أكثر من 30 نقطة</b> في رصيد حسابك.
                             </p>
                         </div>
 
-                        <div class="news-item">
-                            <div class="news-item-title">
-                                <i class="fa-solid fa-moon"></i> الترتيبات الخاصة بفوازير ومسابقات شهر رمضان المبارك
+                        <div id="knoz-news-item-grand-contest" class="knoz-news-entry" style="border-right-color: var(--primary-color); background: #f0fdf4;">
+                            <div id="knoz-news-title-grand-contest" class="knoz-news-title">
+                                <i class="fa-solid fa-trophy" style="color: var(--gold-color);"></i>
+                                <span>تجميع النقاط للمشاركة في المسابقة الكبرى (21/11/2027)</span>
                             </div>
-                            <span class="news-item-date"><i class="fa-regular fa-calendar"></i> قيد التحضير والتطوير</span>
-                            <p style="margin: 0; line-height: 1.8;">
-                                يجري العمل على تصميم مسابقات يومية تفاعلية ولوحات شرف خاصة بشهر رمضان الفضيل، والتي ستتطلب إنشاء حساب مسبق عبر المنصة لتفعيل تجميع النقاط والمشاركة.
+                            <span id="knoz-news-date-grand-contest" class="knoz-news-meta">
+                                <i class="fa-regular fa-calendar-check"></i>
+                                <span>المسابقة الكبرى: 21/11/2027 - الهدف: 100 نقطة</span>
+                            </span>
+                            <p id="knoz-news-body-grand-contest" style="margin: 0; line-height: 1.85;">
+                                استمر في تجميع النقاط في حسابك بحيث يصل رصيدك إلى <b>100 نقطة</b> للمشاركة في المسابقة الكبرى بتاريخ <b>21/11/2027</b>.
+                            </p>
+                        </div>
+
+                        <div id="knoz-news-item-app-2030" class="knoz-news-entry" style="border-right-color: var(--gold-color); background: #fffdf9;">
+                            <div id="knoz-news-title-app-2030" class="knoz-news-title">
+                                <i class="fa-solid fa-rocket" style="color: var(--primary-color);"></i>
+                                <span>موعد إطلاق التطبيق الرسمي (21/11/2030)</span>
+                            </div>
+                            <span id="knoz-news-date-app-2030" class="knoz-news-meta">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>تاريخ إطلاق التطبيق: 21/11/2030</span>
+                            </span>
+                            <p id="knoz-news-body-app-2030" style="margin: 0; line-height: 1.85;">
+                                تم تحديد تاريخ <b>21/11/2030</b> موعداً لإطلاق التطبيق الرسمي لمنصة كنوز الإسلام.
                             </p>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- 3. قسم المقالات (سيرة الشيخ سيدي بومدين البصري رحمه الله) -->
-                <div id="articles-tab" class="tab-content">
-                    <div class="card">
-                        <div class="card-title"><i class="fa-solid fa-pen-nib" style="color: var(--gold-color);"></i> الشيخ سيدي بومدين البصري رحمه الله</div>
-                        
-                        <div style="font-size: 1.15rem; line-height: 2.1; color: var(--text-color); text-align: justify;">
-                            <p style="margin-top: 0; font-weight: bold; color: var(--primary-color); text-align: center; font-family: 'Reem Kufi', sans-serif; font-size: 1.3rem;">
+                <!-- 3. المقالات -->
+                <section id="knoz-page-articles" class="knoz-page-section">
+                    <div id="knoz-articles-card" class="knoz-card-box">
+                        <h2 id="knoz-articles-heading" class="knoz-card-heading">
+                            <i class="fa-solid fa-pen-nib" style="color: var(--gold-color);"></i>
+                            <span>الشيخ سيدي بومدين البصري رحمه الله</span>
+                        </h2>
+
+                        <div id="knoz-article-body" style="font-size: 1.15rem; line-height: 2.1; color: var(--text-color); text-align: justify;">
+                            <p id="knoz-article-lead" style="margin-top: 0; font-weight: 700; color: var(--primary-color); text-align: center; font-family: 'Reem Kufi', sans-serif; font-size: 1.25rem;">
                                 قامةٌ من قامات القنادسة، ورجلٌ جمع بين النضال، والعلم، والتعليم، والإمامة والإصلاح، وترك وراءه سيرةً حافلة بالعطاء وبصمةً طيبة لا تزال حاضرة في ذاكرة أبناء المنطقة.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p1">
                                 وُلد الشيخ سيدي بومدين البصري سنة 1934 بالقنادسة، ونشأ في بيت علم ودين. وفي سن الثانية عشرة، حفظ القرآن الكريم على يد سي حمادة مؤدن، معلّم القرآن بالقصر، ثم واصل دراسته في الفقه والحديث واللغة العربية وآدابها على يد والده الشيخ محمد البصري، إلى جانب عدد من علماء القنادسة.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p2">
                                 ومنذ شبابه، اختار طريق النضال، فالتحق سنة 1955 بجبهة التحرير الوطني ضمن المنظمة الخاصة. وبأوامر من قيادة الثورة، شارك رفقة الشهيد رابح رزوق في التخطيط للهجوم على مركز الخيالة ببلهادي، وهي العملية التي نُفذت بنجاح في مارس 1956. كما تولّى مهمة جمع التبرعات للثورة من عمال المناجم وسكان القصر.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p3">
                                 وبعد أن اكتشفت السلطات الاستعمارية الفرنسية تورطه في العملية، اضطر إلى مغادرة المنطقة والالتحاق بصفوف جيش التحرير الوطني في أبريل 1956، حاملاً معه مبلغ 4000 فرنك فرنسي من تبرعات الثورة، إضافة إلى الوثائق السرية التي كانت بحوزته.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p4">
                                 التحق بسرية القائد حمزة، واسمه الحقيقي خيثري البشير، وشارك في عدة عمليات على محاور جبل بني سمير وجبل مزي وزوزفانة، كما شارك في العملية الشهيرة المعروفة باسم «المحول الأخضر» تحت قيادة الشهيد سليمان دحماني، المعروف بشعيب.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p5">
                                 وفي سنة 1961، أصيب على مستوى عينيه إثر قصف بقنابل النابالم بمنطقة عين الصفراء، فنُقل إلى مقر القيادة ببني ونيف، حيث واصل بعد ذلك خدمته في الشرطة العسكرية.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p6">
                                 وبعد الاستقلال، عُرض عليه الالتحاق بالجيش الوطني الشعبي ضابطاً في الشرطة العسكرية، غير أنه اختار طريقاً آخر، طريق التعليم وبناء الإنسان. فقد آمن بأن معركة الاستقلال لا تكتمل إلا ببناء جيل متعلم ومتمسك بلغته العربية.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p7">
                                 وهكذا، كان يوم 13 نوفمبر 1962 محطةً بارزة في مسيرته، حين أصبح أول مدرس للغة العربية في ولاية بشار.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p8">
                                 تنقل في مساره التعليمي بين بشار وتيميمون، ثم عاد إلى التدريس بمدرسة باستور في بشار. وفي سنة 1964، استُدعي إلى الجيش الوطني الشعبي بتلمسان لفترة تدريب، وعُرض عليه كذلك منصب قاضٍ، لكنه اعتذر لأسباب صحية، ليعود بعدها إلى القنادسة، حيث واصل رسالته التعليمية، ثم تولّى إدارة مدرسة البنات، التي حملت لاحقاً اسم رفيقه الشهيد رابح رزوق.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p9">
                                 وفي سنة 1973، توّج مساره العلمي بالحصول على شهادة الليسانس في الأدب العربي من جامعة وهران، بالتزامن مع مواصلته خدمة الناس إماماً متطوعاً في مسجد سيدي الحاج العتيق ومسجد سيدي محمد.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p10">
                                 لم يكن عطاؤه مقتصراً على التعليم والإمامة، فقد كان حاضراً في شؤون الناس، يسعى إلى الإصلاح والصلح، ويساعد في صياغة بعض الوثائق المدنية، ومنها عقود الزواج والميراث. ولهذا عُرف في القنادسة بلقب «الفقيه»، وهو لقب يختصر مكانةً علمية وإنسانية اكتسبها بالعمل والاستقامة.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p11">
                                 تقاعد سنة 1989، لكنه لم يتقاعد عن العطاء؛ فقد ظل حاضراً بعلمه ونصحه ووقاره بين أبناء بلدته.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p12">
                                 كان الشيخ سيدي بومدين البصري رحمه الله رجل نزاهة واستقامة، يفرض احترامه بهدوء حضوره، قليل الكلام، كثير الفعل، متواضعاً رغم مكانته، أنيقاً في مظهره، رفيعاً في أخلاقه، وكانت أفعاله شاهدةً على معدن رجلٍ عاش حياته وفياً لمبادئه وخادماً لمجتمعه.
                             </p>
 
-                            <p>
+                            <p id="knoz-article-p13">
                                 رحل عن دنيانا فجر يوم الأحد 21 نوفمبر 2021، لكن أمثال هؤلاء لا يغيبون؛ فتبقى سيرتهم في ذاكرة الناس، وتبقى أعمالهم شاهدةً عليهم.
                             </p>
 
-                            <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center;">
-                                <p style="margin: 0; font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); font-size: 1.2rem;">
+                            <div id="knoz-article-dua-box" style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center;">
+                                <p id="knoz-article-dua-main" style="margin: 0; font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); font-size: 1.18rem;">
                                     رحم الله الشيخ سيدي بومدين البصري رحمةً واسعة، وجزاه عن العلم والتعليم والنضال وخدمة الناس خير الجزاء.
                                 </p>
-                                <p style="margin-top: 10px; margin-bottom: 0; font-style: italic; color: #4b5563;">
+                                <p id="knoz-article-dua-sub" style="margin-top: 10px; margin-bottom: 0; font-style: italic; color: #4b5563;">
                                     اللهمَّ ألحقه بعبادك الصالحين في جنات النعيم، واغفر له وارحمه، واجعل ما قدّمه من علمٍ وعملٍ صالحٍ وصدقةٍ وإصلاحٍ في ميزان حسناته، وارفع به درجاته، واغفر لموتى المسلمين أجمعين.
                                 </p>
                             </div>
                         </div>
-
                     </div>
-                </div>
+                </section>
 
-                <!-- 4. الحساب والدخول والمسابقة -->
-                <div id="account-tab" class="tab-content">
-                    <div class="card">
-                        <div class="card-title"><i class="fa-solid fa-user-check" style="color: var(--gold-color);"></i> بوابة الحساب والمسابقة</div>
+                <!-- 4. الحساب (مرتبط بمعرّف الحساب في قاعدة البيانات + مكان للنقاط بدون مسابقة + واجهة منبثقة للإعدادات) -->
+                <section id="knoz-page-account" class="knoz-page-section">
+                    <div id="knoz-account-card" class="knoz-card-box">
+                        <h2 id="knoz-account-heading" class="knoz-card-heading">
+                            <i class="fa-solid fa-user-gear" style="color: var(--gold-color);"></i>
+                            <span>بوابة الحساب</span>
+                        </h2>
 
-                        <div id="auth-message" style="display: none; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-weight: bold;"></div>
+                        <div id="knoz-account-guest-panel" style="text-align: center;">
+                            <p id="knoz-account-guest-copy" class="knoz-body-copy" style="text-align: center;">
+                                يمكنك إنشاء حساب جديد أو تسجيل الدخول للوصول إلى بيانات حسابك ونقاطك:
+                            </p>
+                            <div id="knoz-guest-actions-grid" class="knoz-grid-two">
+                                <div id="knoz-trigger-register-modal" class="knoz-tile-btn" onclick="knozOpenModal('knoz-modal-register')">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    <span>إنشاء حساب جديد</span>
+                                </div>
+                                <div id="knoz-trigger-login-modal" class="knoz-tile-btn" onclick="knozOpenModal('knoz-modal-login')">
+                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                    <span>تسجيل الدخول</span>
+                                </div>
+                            </div>
+                        </div>
 
-                        <!-- لوحة المستخدم بعد تسجيل الدخول -->
-                        <div id="user-dashboard" style="display: none;">
-                            <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px;">
-                                <i class="fa-solid fa-circle-check" style="font-size: 2.3rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
-                                <h3 id="welcome-user-name" style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 5px 0;">مرحباً بك</h3>
-                                <p id="user-email-display" style="color: #4b5563; margin-bottom: 8px;"></p>
-                                <div class="points-badge">
+                        <div id="knoz-account-member-panel" style="display: none; text-align: center;">
+                            <div id="knoz-member-summary-card" style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 22px; margin-bottom: 14px;">
+                                <i class="fa-solid fa-circle-user" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
+                                <h3 id="knoz-member-fullname" style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 5px 0;">مرحباً بك</h3>
+                                <p id="knoz-member-email" style="color: #4b5563; margin: 6px 0;"></p>
+                                <p id="knoz-member-uid-line" style="color: #6b7280; font-size: 0.9rem; margin: 4px 0 0 0;" dir="ltr">
+                                    ID: <span id="knoz-member-uid-value">--</span>
+                                </p>
+                            </div>
+
+                            <!-- مكان النقاط داخل الحساب بدون مسابقة -->
+                            <div id="knoz-account-points-slot">
+                                <span id="knoz-account-points-label">
                                     <i class="fa-solid fa-coins" style="color: var(--gold-hover);"></i>
-                                    <span>نقاطك الحالية: <b id="user-points-display">0</b> نقطة</span>
-                                </div>
-                                <div>
-                                    <button class="btn btn-gold" onclick="logoutUser()" style="width: auto; padding: 10px 25px;">
-                                        <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
-                                    </button>
-                                </div>
+                                    <span>نقاط الحساب</span>
+                                </span>
+                                <span id="knoz-account-points-value" style="font-size: 1.25rem; color: var(--primary-color);">0</span>
                             </div>
 
-                            <!-- تعديل بيانات الحساب -->
-                            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
-                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
-                                    <i class="fa-solid fa-user-pen"></i> تعديل معلومات الحساب
-                                </h3>
-                                <div class="form-group">
-                                    <label class="form-label">الاسم:</label>
-                                    <input type="text" id="edit-fname" class="form-control" placeholder="تعديل الاسم...">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">اللقب:</label>
-                                    <input type="text" id="edit-lname" class="form-control" placeholder="تعديل اللقب...">
-                                </div>
-                                <button class="btn" id="btn-update-profile" onclick="updateUserProfile()">
-                                    <i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات
-                                </button>
-                            </div>
-
-                            <!-- مسابقة جمع النقاط -->
-                            <div class="quiz-box">
-                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-award" style="color: var(--gold-color);"></i> مسابقة كنوز الإسلام (اجمع النقاط)
-                                </h3>
-                                <p style="margin-top: 0; color: #4b5563; font-size: 1rem;">أجب عن الأسئلة لتضيف نقاطاً مباشرة إلى رصيد حسابك في قاعدة البيانات.</p>
-                                <div id="quiz-questions-container"></div>
-                            </div>
+                            <button id="knoz-open-settings-btn" class="knoz-action-btn" onclick="knozOpenModal('knoz-modal-settings')">
+                                <i class="fa-solid fa-gear"></i>
+                                <span>الإعدادات</span>
+                            </button>
                         </div>
-
-                        <!-- نماذج التسجيل والدخول -->
-                        <div id="auth-forms-container">
-                            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
-                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
-                                    <i class="fa-solid fa-user-plus"></i> إنشاء حساب جديد
-                                </h3>
-                                <div class="form-group">
-                                    <label class="form-label">الاسم:</label>
-                                    <input type="text" id="reg-fname" class="form-control" placeholder="أدخل اسمك...">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">اللقب:</label>
-                                    <input type="text" id="reg-lname" class="form-control" placeholder="أدخل لقبك...">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">البريد الإلكتروني:</label>
-                                    <input type="email" id="reg-email" class="form-control" placeholder="example@gmail.com" dir="ltr" style="text-align: right;">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">كلمة المرور:</label>
-                                    <input type="password" id="reg-pass" class="form-control" placeholder="6 أحرف أو أرقام على الأقل...">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">تأكيد كلمة المرور:</label>
-                                    <input type="password" id="reg-confirm-pass" class="form-control" placeholder="أعد كتابة كلمة المرور...">
-                                </div>
-                                <button class="btn" id="btn-register" onclick="registerUser()">
-                                    <i class="fa-solid fa-check"></i> إتمام التسجيل
-                                </button>
-                            </div>
-
-                            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px;">
-                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
-                                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
-                                </h3>
-                                <div class="form-group">
-                                    <label class="form-label">البريد الإلكتروني:</label>
-                                    <input type="email" id="login-email" class="form-control" placeholder="أدخل بريدك الإلكتروني..." dir="ltr" style="text-align: right;">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">كلمة المرور:</label>
-                                    <input type="password" id="login-pass" class="form-control" placeholder="أدخل كلمة المرور...">
-                                </div>
-                                <button class="btn btn-gold" id="btn-login" onclick="loginUser()">
-                                    <i class="fa-solid fa-unlock"></i> تسجيل الدخول
-                                </button>
-                            </div>
-                        </div>
-
                     </div>
-                </div>
+                </section>
 
-            </div>
-
+            </main>
         </div>
 
-        <footer>
+        <footer id="knoz-site-footer">
             جميع الحقوق محفوظة لمنصة كنوز الإسلام &copy; 2026 - صدقة جارية لروح المرحوم الوالد بصري بومدين
         </footer>
     </div>
 
-    <!-- نافذة إشعار المقالة (تظهر كأول خطوة قبل فتح الموقع في المرة الأولى فقط) -->
-    <div id="articlePopupModal" class="modal-overlay" onclick="closeModalOutside(event, 'articlePopupModal')">
-        <div class="modal-container" style="border-top-color: var(--gold-color);">
-            <div class="modal-close-btn" onclick="dismissWelcomeArticleModal()"><i class="fa-solid fa-xmark"></i></div>
-            <h3 class="modal-title"><i class="fa-solid fa-book-bookmark" style="color: var(--gold-color);"></i> إشعار المقالة المميزة</h3>
-            <div style="font-family: 'Amiri', serif; font-size: 1.1rem; line-height: 1.8; color: var(--text-color);">
-                <p style="margin-top: 0; font-weight: bold; color: var(--primary-color);">
-                    مرحباً بكم في منصة كنوز الإسلام. نضع بين أيديكم سيرة عطرة لقامة من قامات القنادسة:
-                </p>
-                <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 14px; padding: 15px; text-align: center; margin: 15px 0;">
-                    <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.2rem; color: var(--primary-color); display: block; font-weight: bold;">الشيخ سيدي بومدين البصري رحمه الله</span>
-                    <span style="font-size: 0.9rem; color: #4b5563; display: block; margin-top: 4px;">رجل النضال، العلم، والتعليم والإصلاح (1934 - 2021)</span>
-                </div>
-                <p style="margin-bottom: 0;">
-                    يمكنكم الاطلاع على تفاصيل سيرته الكاملة والمباركة عبر الانتقال إلى قسم <b>"المقالات"</b> في القائمة الرئيسية للموقع.
-                </p>
+    <!-- واجهة منبثقة: إنشاء حساب جديد -->
+    <div id="knoz-modal-register" class="knoz-modal-backdrop" onclick="knozCloseOutside(event, 'knoz-modal-register')">
+        <div id="knoz-dialog-register" class="knoz-modal-dialog">
+            <button id="knoz-close-register" class="knoz-modal-dismiss" onclick="knozCloseModal('knoz-modal-register')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="knoz-title-register" class="knoz-modal-title">
+                <i class="fa-solid fa-user-plus" style="color: var(--primary-color);"></i>
+                <span>إنشاء حساب جديد</span>
+            </h3>
+            <div id="knoz-msg-register" style="display: none; padding: 10px; border-radius: 10px; margin-bottom: 12px; text-align: center; font-weight: 700;"></div>
+
+            <div class="knoz-field-group">
+                <label for="knoz-input-reg-fname" class="knoz-field-label">الاسم:</label>
+                <input type="text" id="knoz-input-reg-fname" class="knoz-field-input" placeholder="أدخل اسمك...">
             </div>
-            <button class="btn btn-gold" style="margin-top: 25px;" onclick="goToArticleTab()">قراءة المقالة كاملة الآن</button>
+            <div class="knoz-field-group">
+                <label for="knoz-input-reg-lname" class="knoz-field-label">اللقب:</label>
+                <input type="text" id="knoz-input-reg-lname" class="knoz-field-input" placeholder="أدخل لقبك...">
+            </div>
+            <div class="knoz-field-group">
+                <label for="knoz-input-reg-email" class="knoz-field-label">البريد الإلكتروني:</label>
+                <input type="email" id="knoz-input-reg-email" class="knoz-field-input" placeholder="example@gmail.com" dir="ltr" style="text-align: right;">
+            </div>
+            <div class="knoz-field-group">
+                <label for="knoz-input-reg-pass" class="knoz-field-label">كلمة المرور:</label>
+                <input type="password" id="knoz-input-reg-pass" class="knoz-field-input" placeholder="6 أحرف أو أرقام على الأقل...">
+            </div>
+            <div class="knoz-field-group">
+                <label for="knoz-input-reg-confirm" class="knoz-field-label">تأكيد كلمة المرور:</label>
+                <input type="password" id="knoz-input-reg-confirm" class="knoz-field-input" placeholder="أعد كتابة كلمة المرور...">
+            </div>
+
+            <button id="knoz-submit-register-btn" class="knoz-action-btn" onclick="knozRegisterUser()">
+                <i class="fa-solid fa-check"></i>
+                <span>إتمام التسجيل</span>
+            </button>
         </div>
     </div>
 
-    <!-- النافذة المنبثقة الأولى: رسالة إهداء الوالد بومدين بصري -->
-    <div id="dedicationModal" class="modal-overlay" onclick="closeModalOutside(event, 'dedicationModal')">
-        <div class="modal-container">
-            <div class="modal-close-btn" onclick="closeModal('dedicationModal')"><i class="fa-solid fa-xmark"></i></div>
-            <h3 class="modal-title"><i class="fa-solid fa-hands-praying" style="color: var(--gold-color);"></i> رسالة وفاء وصدقة جارية</h3>
-            <div style="font-family: 'Amiri', serif; font-size: 1.15rem; line-height: 2; color: var(--text-color);">
-                <p style="margin-top: 0;">
-                    أُسست هذه المنصة الرقمية المباركة وتُكرس بكل أعمالها، ومسابقاتها، وعلومه النافعة لتكون <b>صدقة جارية خالصة لوجه الله تعالى</b>، وإهداءً متواضعاً لروح والدنا الحبيب المرحوم:
-                </p>
-                <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 14px; padding: 15px; text-align: center; margin: 15px 0;">
-                    <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.3rem; color: var(--primary-color); display: block; font-weight: bold;">المرحوم الوالد: بصري بومدين</span>
-                    <span style="font-size: 0.95rem; color: #4b5563; display: block; margin-top: 5px;">تغمده الله بواسع رحمته وأسكنه الفردوس الأعلى</span>
-                </div>
-                <p style="margin-bottom: 0;">
-                    نسأل الله العلي القدير أن يجعل كل حرف يُقرأ، وكل علم يُستفاد منه عبر هذا الموقع في ميزان حسناته، وأن يرحمه برحمته الواسعة التي وسعت كل شيء. آمين يارب العالمين.
-                </p>
+    <!-- واجهة منبثقة: تسجيل الدخول -->
+    <div id="knoz-modal-login" class="knoz-modal-backdrop" onclick="knozCloseOutside(event, 'knoz-modal-login')">
+        <div id="knoz-dialog-login" class="knoz-modal-dialog">
+            <button id="knoz-close-login" class="knoz-modal-dismiss" onclick="knozCloseModal('knoz-modal-login')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="knoz-title-login" class="knoz-modal-title">
+                <i class="fa-solid fa-right-to-bracket" style="color: var(--gold-hover);"></i>
+                <span>تسجيل الدخول</span>
+            </h3>
+            <div id="knoz-msg-login" style="display: none; padding: 10px; border-radius: 10px; margin-bottom: 12px; text-align: center; font-weight: 700;"></div>
+
+            <div class="knoz-field-group">
+                <label for="knoz-input-login-email" class="knoz-field-label">البريد الإلكتروني:</label>
+                <input type="email" id="knoz-input-login-email" class="knoz-field-input" placeholder="أدخل بريدك الإلكتروني..." dir="ltr" style="text-align: right;">
             </div>
-            <button class="btn btn-gold" style="margin-top: 25px;" onclick="closeModal('dedicationModal')">إغلاق النافذة</button>
+            <div class="knoz-field-group">
+                <label for="knoz-input-login-pass" class="knoz-field-label">كلمة المرور:</label>
+                <input type="password" id="knoz-input-login-pass" class="knoz-field-input" placeholder="أدخل كلمة المرور...">
+            </div>
+
+            <button id="knoz-submit-login-btn" class="knoz-action-btn knoz-gold-btn" onclick="knozLoginUser()">
+                <i class="fa-solid fa-unlock"></i>
+                <span>تسجيل الدخول</span>
+            </button>
         </div>
     </div>
 
-    <!-- النافذة المنبثقة الثانية: معلومات عن المنصة -->
-    <div id="platformModal" class="modal-overlay" onclick="closeModalOutside(event, 'platformModal')">
-        <div class="modal-container">
-            <div class="modal-close-btn" onclick="closeModal('platformModal')"><i class="fa-solid fa-xmark"></i></div>
-            <h3 class="modal-title"><i class="fa-solid fa-circle-info" style="color: var(--primary-color);"></i> عن منصة كنوز الإسلام</h3>
-            <div style="font-family: 'Amiri', serif; font-size: 1.12rem; line-height: 1.9; color: var(--text-color);">
-                <p style="margin-top: 0;">
-                    منصة رقمية إسلامية متكاملة تهدف إلى إثراء المحتوى الديني الموثق، نشر المعارف القرآنية، والسيرة النبوية، وتنظيم مسابقات علمية سنوية كبرى تخدم طلبة العلم وحفظة كتاب الله.
-                </p>
-                <ul style="padding-right: 20px; margin: 15px 0; text-align: right;">
-                    <li style="margin-bottom: 8px;">تنظيم مسابقات سنوية كبرى في حفظ القرآن والسيرة.</li>
-                    <li style="margin-bottom: 8px;">إصدار سلاسل أسبوعية في القصص والعبر الدينية كل يوم جمعة.</li>
-                    <li style="margin-bottom: 8px;">التطوير المستمر لأدوات رقمية وتطبيقات ذكية تخدم المتابع المسلم.</li>
-                </ul>
-                <p style="margin-bottom: 0;">
-                    تخضع المنصة لإشراف تقني وعلمي دقيق لضمان تقديم محتوى عالي الجودة يتناسب مع تطلعات المستفيدين في شتى بقاع العالم الإسلامي.
-                </p>
+    <!-- واجهة منبثقة: إعدادات الحساب -->
+    <div id="knoz-modal-settings" class="knoz-modal-backdrop" onclick="knozCloseOutside(event, 'knoz-modal-settings')">
+        <div id="knoz-dialog-settings" class="knoz-modal-dialog">
+            <button id="knoz-close-settings" class="knoz-modal-dismiss" onclick="knozCloseModal('knoz-modal-settings')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="knoz-title-settings" class="knoz-modal-title">
+                <i class="fa-solid fa-gear" style="color: var(--primary-color);"></i>
+                <span>إعدادات الحساب</span>
+            </h3>
+            <div id="knoz-msg-settings" style="display: none; padding: 10px; border-radius: 10px; margin-bottom: 12px; text-align: center; font-weight: 700;"></div>
+
+            <div class="knoz-field-group">
+                <label for="knoz-input-edit-fname" class="knoz-field-label">الاسم:</label>
+                <input type="text" id="knoz-input-edit-fname" class="knoz-field-input" placeholder="تعديل الاسم...">
             </div>
-            <button class="btn" style="margin-top: 25px;" onclick="closeModal('platformModal')">فهمت ذلك</button>
+            <div class="knoz-field-group">
+                <label for="knoz-input-edit-lname" class="knoz-field-label">اللقب:</label>
+                <input type="text" id="knoz-input-edit-lname" class="knoz-field-input" placeholder="تعديل اللقب...">
+            </div>
+
+            <button id="knoz-save-profile-btn" class="knoz-action-btn" onclick="knozUpdateProfile()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>حفظ التعديلات</span>
+            </button>
+
+            <hr id="knoz-settings-divider" style="border: 0; border-top: 1px dashed #a7f3d0; margin: 16px 0;">
+
+            <button id="knoz-logout-account-btn" class="knoz-action-btn knoz-gold-btn" onclick="knozLogoutUser()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>تسجيل الخروج</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- واجهة منبثقة: رسالة إهداء الوالد -->
+    <div id="knoz-modal-dedication" class="knoz-modal-backdrop" onclick="knozCloseOutside(event, 'knoz-modal-dedication')">
+        <div id="knoz-dialog-dedication" class="knoz-modal-dialog">
+            <button id="knoz-close-dedication" class="knoz-modal-dismiss" onclick="knozCloseModal('knoz-modal-dedication')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="knoz-title-dedication" class="knoz-modal-title">
+                <i class="fa-solid fa-hands-praying" style="color: var(--gold-color);"></i>
+                <span>رسالة وفاء وصدقة جارية</span>
+            </h3>
+            <p id="knoz-dedication-copy" style="font-size: 1.12rem; line-height: 1.95; margin: 0;">
+                أُسست هذه المنصة وتُكرس بكل أعمالها، وعلومه النافعة لتكون <b>صدقة جارية خالصة لوجه الله تعالى</b>، وإهداءً متواضعاً لروح والدنا المرحوم: <b>بصري بومدين</b>. نسأل الله أن يرحمه ويغفر له ويجعل هذا العمل في ميزان حسناته.
+            </p>
+            <button id="knoz-done-dedication-btn" class="knoz-action-btn knoz-gold-btn" style="margin-top: 20px;" onclick="knozCloseModal('knoz-modal-dedication')">
+                <span>إغلاق</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- واجهة منبثقة: عن المنصة -->
+    <div id="knoz-modal-platform" class="knoz-modal-backdrop" onclick="knozCloseOutside(event, 'knoz-modal-platform')">
+        <div id="knoz-dialog-platform" class="knoz-modal-dialog">
+            <button id="knoz-close-platform" class="knoz-modal-dismiss" onclick="knozCloseModal('knoz-modal-platform')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="knoz-title-platform" class="knoz-modal-title">
+                <i class="fa-solid fa-circle-info" style="color: var(--primary-color);"></i>
+                <span>عن منصة كنوز الإسلام</span>
+            </h3>
+            <p id="knoz-platform-copy" style="font-size: 1.12rem; line-height: 1.95; margin: 0;">
+                منصة معرفية إسلامية تهدف إلى نشر المقالات والسير الموثقة، وتوفير حسابات شخصية لإدارة بيانات الأعضاء ونقاطهم بسهولة.
+            </p>
+            <button id="knoz-done-platform-btn" class="knoz-action-btn" style="margin-top: 20px;" onclick="knozCloseModal('knoz-modal-platform')">
+                <span>فهمت ذلك</span>
+            </button>
         </div>
     </div>
 
     <script>
-        function switchTab(tabId, event) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        function knozSwitchTab(pageKey, clickEvent) {
+            document.querySelectorAll('.knoz-nav-btn').forEach(btn => btn.classList.remove('is-active'));
+            document.querySelectorAll('.knoz-page-section').forEach(sec => sec.classList.remove('is-visible'));
 
-            document.getElementById(tabId + '-tab').classList.add('active');
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
-            } else {
-                const tabs = document.querySelectorAll('.tab-btn');
-                if(tabId === 'home') tabs[0].classList.add('active');
-                if(tabId === 'news') tabs[1].classList.add('active');
-                if(tabId === 'articles') tabs[2].classList.add('active');
-                if(tabId === 'account') tabs[3].classList.add('active');
+            const targetSection = document.getElementById('knoz-page-' + pageKey);
+            if (targetSection) {
+                targetSection.classList.add('is-visible');
             }
+
+            if (clickEvent && clickEvent.currentTarget) {
+                clickEvent.currentTarget.classList.add('is-active');
+            } else {
+                const targetBtn = document.getElementById('knoz-tab-btn-' + pageKey);
+                if (targetBtn) targetBtn.classList.add('is-active');
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showWelcomeArticleIfFirstTime(scopeKey = "guest") {
-            const storageKey = "knozislam_welcome_article_shown_" + scopeKey;
-            const modal = document.getElementById("articlePopupModal");
-            if (!localStorage.getItem(storageKey)) {
-                modal.classList.add("active");
-                document.body.style.overflow = "hidden";
-            } else {
-                modal.classList.remove("active");
-                document.body.style.overflow = "auto";
+        function knozOpenModal(modalId) {
+            const modalEl = document.getElementById(modalId);
+            if (modalEl) {
+                modalEl.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
             }
         }
 
-        function markWelcomeArticleShown() {
-            const uid = window.currentAuthUid || "guest";
-            localStorage.setItem("knozislam_welcome_article_shown_" + uid, "true");
-            localStorage.setItem("knozislam_welcome_article_shown_guest", "true");
-        }
-
-        function dismissWelcomeArticleModal() {
-            markWelcomeArticleShown();
-            closeModal('articlePopupModal');
-        }
-
-        function goToArticleTab() {
-            markWelcomeArticleShown();
-            closeModal('articlePopupModal');
-            switchTab('articles');
-        }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(modalId) {
-            if (modalId === 'articlePopupModal') {
-                markWelcomeArticleShown();
+        function knozCloseModal(modalId) {
+            const modalEl = document.getElementById(modalId);
+            if (modalEl) {
+                modalEl.classList.remove('is-open');
+                document.body.style.overflow = 'auto';
             }
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
         }
 
-        function closeModalOutside(event, modalId) {
-            if (event.target.classList.contains('modal-overlay')) {
-                closeModal(modalId);
+        function knozCloseOutside(event, modalId) {
+            if (event.target && event.target.id === modalId) {
+                knozCloseModal(modalId);
             }
         }
 
         document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") {
-                const welcomeModal = document.getElementById("articlePopupModal");
-                if (welcomeModal && welcomeModal.classList.contains("active")) {
-                    markWelcomeArticleShown();
-                }
-                document.querySelectorAll('.modal-overlay').forEach(modal => {
-                    modal.classList.remove('active');
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.knoz-modal-backdrop').forEach(modal => {
+                    modal.classList.remove('is-open');
                 });
                 document.body.style.overflow = 'auto';
             }
         });
 
-        // إظهار نافذة المقالة أولاً قبل فتح الموقع في الزيارة الأولى
-        showWelcomeArticleIfFirstTime("guest");
+        // حساب موعد الجمعة القادمة الساعة 20:00 للسؤال الأول في أول جمعة
+        function getNextFridayAt20() {
+            const now = new Date();
+            const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20, 0, 0, 0);
+            const dayOfWeek = now.getDay(); // 5 = الجمعة
+            let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
 
-        const countDownDate = new Date("Nov 21, 2026 20:00:00").getTime();
+            if (daysUntilFriday === 0 && now.getTime() >= target.getTime()) {
+                daysUntilFriday = 7;
+            }
 
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
+            target.setDate(now.getDate() + daysUntilFriday);
+            return target;
+        }
 
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("days").innerText = "00";
-                document.getElementById("hours").innerText = "00";
-                document.getElementById("minutes").innerText = "00";
-                document.getElementById("seconds").innerText = "00";
+        const nextFridayTarget = getNextFridayAt20();
+        const targetDateLabel = document.getElementById("knoz-friday-target-date");
+        if (targetDateLabel) {
+            const dd = String(nextFridayTarget.getDate()).padStart(2, "0");
+            const mm = String(nextFridayTarget.getMonth() + 1).padStart(2, "0");
+            const yyyy = nextFridayTarget.getFullYear();
+            targetDateLabel.innerText = `${dd}/${mm}/${yyyy}`;
+        }
+
+        const fridayTimer = setInterval(function() {
+            const nowMs = new Date().getTime();
+            const diff = nextFridayTarget.getTime() - nowMs;
+
+            if (diff <= 0) {
+                clearInterval(fridayTimer);
+                document.getElementById("knoz-cd-days").innerText = "00";
+                document.getElementById("knoz-cd-hours").innerText = "00";
+                document.getElementById("knoz-cd-minutes").innerText = "00";
+                document.getElementById("knoz-cd-seconds").innerText = "00";
                 return;
             }
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById("knoz-cd-days").innerText = String(days).padStart(2, "0");
+            document.getElementById("knoz-cd-hours").innerText = String(hours).padStart(2, "0");
+            document.getElementById("knoz-cd-minutes").innerText = String(minutes).padStart(2, "0");
+            document.getElementById("knoz-cd-seconds").innerText = String(seconds).padStart(2, "0");
         }, 1000);
     </script>
 
-    <!-- ربط Firebase Authentication + Realtime Database -->
+    <!-- ربط Firebase Authentication + Realtime Database بمعرّف الحساب -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1132,281 +1118,177 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        const quizQuestions = [
-            {
-                id: "q1",
-                question: "ما هي أول سورة نزلت من القرآن الكريم؟",
-                options: ["سورة الفاتحة", "سورة العلق", "سورة البقرة"],
-                correctIndex: 1,
-                reward: 10
-            },
-            {
-                id: "q2",
-                question: "في أي عام ميلادي وُلد الشيخ سيدي بومدين البصري رحمه الله؟",
-                options: ["1934م", "1945م", "1954م"],
-                correctIndex: 0,
-                reward: 15
-            },
-            {
-                id: "q3",
-                question: "كم عدد سور القرآن الكريم؟",
-                options: ["112 سورة", "114 سورة", "116 سورة"],
-                correctIndex: 1,
-                reward: 10
-            }
-        ];
-
-        let currentUserData = {
-            firstName: "",
-            lastName: "",
-            points: 0,
-            answeredQuestions: {}
-        };
-
-        function showAuthMessage(text, isError = true) {
-            const msgBox = document.getElementById("auth-message");
-            msgBox.style.display = "block";
-            msgBox.innerText = text;
-            msgBox.style.backgroundColor = isError ? "#fef2f2" : "#f0fdf4";
-            msgBox.style.color = isError ? "#991b1b" : "#0d5c3a";
-            msgBox.style.border = isError ? "1px solid #fca5a5" : "1px solid #a7f3d0";
+        function knozNotify(targetId, message, isError = true) {
+            const box = document.getElementById(targetId);
+            if (!box) return;
+            box.style.display = "block";
+            box.innerText = message;
+            box.style.backgroundColor = isError ? "#fef2f2" : "#f0fdf4";
+            box.style.color = isError ? "#991b1b" : "#0d5c3a";
+            box.style.border = isError ? "1px solid #fca5a5" : "1px solid #a7f3d0";
         }
 
-        function renderQuiz() {
-            const container = document.getElementById("quiz-questions-container");
-            if (!container) return;
-            container.innerHTML = "";
-
-            quizQuestions.forEach((q, idx) => {
-                const alreadyAnswered = !!(currentUserData.answeredQuestions && currentUserData.answeredQuestions[q.id]);
-                const qCard = document.createElement("div");
-                qCard.style.marginBottom = "18px";
-                qCard.style.paddingBottom = "14px";
-                qCard.style.borderBottom = idx < quizQuestions.length - 1 ? "1px dashed #e6d5a7" : "none";
-
-                const titleEl = document.createElement("p");
-                titleEl.style.fontWeight = "bold";
-                titleEl.style.margin = "0 0 8px 0";
-                titleEl.style.color = "var(--primary-color)";
-                titleEl.innerHTML = `${idx + 1}. ${q.question} <span style="color: var(--gold-hover); font-size: 0.9rem;">(+${q.reward} نقاط)</span>`;
-                qCard.appendChild(titleEl);
-
-                q.options.forEach((optText, optIdx) => {
-                    const btn = document.createElement("button");
-                    btn.className = "quiz-option-btn";
-                    btn.innerText = optText;
-                    btn.disabled = alreadyAnswered;
-                    btn.onclick = () => submitQuizAnswer(q, optIdx);
-                    qCard.appendChild(btn);
-                });
-
-                if (alreadyAnswered) {
-                    const doneNote = document.createElement("div");
-                    doneNote.style.marginTop = "8px";
-                    doneNote.style.fontSize = "0.95rem";
-                    doneNote.style.color = "#0d5c3a";
-                    doneNote.style.fontWeight = "bold";
-                    doneNote.innerText = "تمت الإجابة على هذا السؤال مسبقاً.";
-                    qCard.appendChild(doneNote);
-                }
-
-                container.appendChild(qCard);
-            });
-        }
-
-        window.submitQuizAnswer = async function(questionObj, selectedIndex) {
-            const user = auth.currentUser;
-            if (!user) {
-                showAuthMessage("يرجى تسجيل الدخول أولاً للمشاركة في المسابقة.");
-                return;
-            }
-            if (currentUserData.answeredQuestions && currentUserData.answeredQuestions[questionObj.id]) {
-                showAuthMessage("لقد أجبت على هذا السؤال من قبل.");
-                return;
-            }
-
-            if (selectedIndex !== questionObj.correctIndex) {
-                showAuthMessage("إجابة غير صحيحة، حاول في سؤال آخر!");
-                return;
-            }
-
-            const newPoints = (Number(currentUserData.points) || 0) + questionObj.reward;
-            const updatedAnswered = Object.assign({}, currentUserData.answeredQuestions || {}, {
-                [questionObj.id]: true
-            });
-
-            try {
-                await update(ref(db, "users/" + user.uid), {
-                    points: newPoints,
-                    answeredQuestions: updatedAnswered
-                });
-
-                currentUserData.points = newPoints;
-                currentUserData.answeredQuestions = updatedAnswered;
-                document.getElementById("user-points-display").innerText = newPoints;
-                renderQuiz();
-                showAuthMessage(`أحسنت! أُضيفت ${questionObj.reward} نقاط إلى رصيدك.`, false);
-            } catch (err) {
-                showAuthMessage("تعذر تحديث النقاط: " + err.message);
-            }
-        };
-
-        window.updateUserProfile = async function() {
-            const user = auth.currentUser;
-            if (!user) return;
-
-            const newFname = document.getElementById("edit-fname").value.trim();
-            const newLname = document.getElementById("edit-lname").value.trim();
-
-            if (!newFname || !newLname) {
-                showAuthMessage("يرجى إدخال الاسم واللقب معاً.");
-                return;
-            }
-
-            const btn = document.getElementById("btn-update-profile");
-            try {
-                btn.disabled = true;
-                btn.innerText = "جاري حفظ التعديلات...";
-
-                await update(ref(db, "users/" + user.uid), {
-                    firstName: newFname,
-                    lastName: newLname
-                });
-
-                currentUserData.firstName = newFname;
-                currentUserData.lastName = newLname;
-                document.getElementById("welcome-user-name").innerText = `مرحباً بك، ${newFname} ${newLname}`;
-                showAuthMessage("تم تحديث معلومات حسابك بنجاح!", false);
-            } catch (err) {
-                showAuthMessage("حدث خطأ أثناء تعديل الحساب: " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات';
-            }
-        };
-
-        window.registerUser = async function() {
-            const fname = document.getElementById("reg-fname").value.trim();
-            const lname = document.getElementById("reg-lname").value.trim();
-            const email = document.getElementById("reg-email").value.trim();
-            const pass = document.getElementById("reg-pass").value;
-            const confirmPass = document.getElementById("reg-confirm-pass").value;
+        window.knozRegisterUser = async function() {
+            const fname = document.getElementById("knoz-input-reg-fname").value.trim();
+            const lname = document.getElementById("knoz-input-reg-lname").value.trim();
+            const email = document.getElementById("knoz-input-reg-email").value.trim();
+            const pass = document.getElementById("knoz-input-reg-pass").value;
+            const confirmPass = document.getElementById("knoz-input-reg-confirm").value;
 
             if (!fname || !lname || !email || !pass || !confirmPass) {
-                showAuthMessage("يرجى إدخال الاسم واللقب والبريد الإلكتروني وكلمة المرور وتأكيدها.");
+                knozNotify("knoz-msg-register", "يرجى ملء جميع الحقول المطلوبة.");
                 return;
             }
             if (pass.length < 6) {
-                showAuthMessage("يجب أن تتكون كلمة المرور من 6 أحرف أو أرقام على الأقل.");
+                knozNotify("knoz-msg-register", "كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل.");
                 return;
             }
             if (pass !== confirmPass) {
-                showAuthMessage("كلمة المرور وتأكيد كلمة المرور غير متطابقتين.");
+                knozNotify("knoz-msg-register", "كلمتا المرور غير متطابقتين.");
                 return;
             }
 
-            const btn = document.getElementById("btn-register");
+            const submitBtn = document.getElementById("knoz-submit-register-btn");
             try {
-                btn.disabled = true;
-                btn.innerText = "جاري إنشاء الحساب...";
+                submitBtn.disabled = true;
+                submitBtn.innerText = "جاري إنشاء الحساب...";
 
-                const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                const user = userCredential.user;
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                const accountId = cred.user.uid;
 
-                await set(ref(db, "users/" + user.uid), {
+                await set(ref(db, "users/" + accountId), {
+                    uid: accountId,
                     firstName: fname,
                     lastName: lname,
                     email: email,
                     points: 0,
-                    answeredQuestions: {},
                     createdAt: new Date().toISOString()
                 });
 
-                showAuthMessage("تم إنشاء الحساب وحفظ بياناتك بنجاح!", false);
+                knozNotify("knoz-msg-register", "تم إنشاء الحساب بنجاح!", false);
+                setTimeout(() => {
+                    knozCloseModal("knoz-modal-register");
+                    document.getElementById("knoz-msg-register").style.display = "none";
+                }, 700);
             } catch (error) {
                 if (error.code === "auth/email-already-in-use") {
-                    showAuthMessage("هذا البريد الإلكتروني مسجل مسبقاً.");
+                    knozNotify("knoz-msg-register", "هذا البريد الإلكتروني مستخدم بالفعل.");
                 } else if (error.code === "auth/invalid-email") {
-                    showAuthMessage("صيغة البريد الإلكتروني غير صحيحة.");
+                    knozNotify("knoz-msg-register", "صيغة البريد الإلكتروني غير صحيحة.");
                 } else {
-                    showAuthMessage("حدث خطأ أثناء التسجيل: " + error.message);
+                    knozNotify("knoz-msg-register", "تعذر التسجيل: " + error.message);
                 }
             } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> إتمام التسجيل';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-check"></i><span>إتمام التسجيل</span>';
             }
         };
 
-        window.loginUser = async function() {
-            const email = document.getElementById("login-email").value.trim();
-            const pass = document.getElementById("login-pass").value;
+        window.knozLoginUser = async function() {
+            const email = document.getElementById("knoz-input-login-email").value.trim();
+            const pass = document.getElementById("knoz-input-login-pass").value;
 
             if (!email || !pass) {
-                showAuthMessage("يرجى إدخال البريد الإلكتروني وكلمة المرور.");
+                knozNotify("knoz-msg-login", "يرجى إدخال البريد الإلكتروني وكلمة المرور.");
                 return;
             }
 
-            const btn = document.getElementById("btn-login");
+            const loginBtn = document.getElementById("knoz-submit-login-btn");
             try {
-                btn.disabled = true;
-                btn.innerText = "جاري تسجيل الدخول...";
+                loginBtn.disabled = true;
+                loginBtn.innerText = "جاري تسجيل الدخول...";
 
                 await signInWithEmailAndPassword(auth, email, pass);
-                showAuthMessage("تم تسجيل الدخول بنجاح!", false);
+                knozNotify("knoz-msg-login", "تم تسجيل الدخول بنجاح!", false);
+                setTimeout(() => {
+                    knozCloseModal("knoz-modal-login");
+                    document.getElementById("knoz-msg-login").style.display = "none";
+                }, 650);
             } catch (error) {
-                showAuthMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة.");
+                knozNotify("knoz-msg-login", "بيانات الدخول غير صحيحة.");
             } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-unlock"></i> تسجيل الدخول';
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i><span>تسجيل الدخول</span>';
             }
         };
 
-        window.logoutUser = async function() {
+        window.knozUpdateProfile = async function() {
+            const activeUser = auth.currentUser;
+            if (!activeUser) return;
+
+            const newFname = document.getElementById("knoz-input-edit-fname").value.trim();
+            const newLname = document.getElementById("knoz-input-edit-lname").value.trim();
+
+            if (!newFname || !newLname) {
+                knozNotify("knoz-msg-settings", "يرجى إدخال الاسم واللقب معاً.");
+                return;
+            }
+
+            const saveBtn = document.getElementById("knoz-save-profile-btn");
+            try {
+                saveBtn.disabled = true;
+                saveBtn.innerText = "جاري حفظ التعديلات...";
+
+                await update(ref(db, "users/" + activeUser.uid), {
+                    firstName: newFname,
+                    lastName: newLname
+                });
+
+                document.getElementById("knoz-member-fullname").innerText = `مرحباً بك، ${newFname} ${newLname}`;
+                knozNotify("knoz-msg-settings", "تم حفظ تعديلات الحساب بنجاح!", false);
+            } catch (error) {
+                knozNotify("knoz-msg-settings", "تعذر التعديل: " + error.message);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i><span>حفظ التعديلات</span>';
+            }
+        };
+
+        window.knozLogoutUser = async function() {
             await signOut(auth);
-            document.getElementById("auth-message").style.display = "none";
+            knozCloseModal("knoz-modal-settings");
+            document.getElementById("knoz-msg-settings").style.display = "none";
         };
 
         onAuthStateChanged(auth, async (user) => {
-            const formsContainer = document.getElementById("auth-forms-container");
-            const dashboard = document.getElementById("user-dashboard");
+            const guestPanel = document.getElementById("knoz-account-guest-panel");
+            const memberPanel = document.getElementById("knoz-account-member-panel");
 
             if (user) {
-                window.currentAuthUid = user.uid;
-                formsContainer.style.display = "none";
-                dashboard.style.display = "block";
-                document.getElementById("user-email-display").innerText = user.email;
+                const accountId = user.uid;
+                guestPanel.style.display = "none";
+                memberPanel.style.display = "block";
+                document.getElementById("knoz-member-email").innerText = user.email;
+                document.getElementById("knoz-member-uid-value").innerText = accountId;
+
+                let firstName = "";
+                let lastName = "";
+                let points = 0;
 
                 try {
-                    const snapshot = await get(ref(db, "users/" + user.uid));
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        currentUserData = {
-                            firstName: data.firstName || "",
-                            lastName: data.lastName || "",
-                            points: Number(data.points) || 0,
-                            answeredQuestions: data.answeredQuestions || {}
-                        };
-                    } else {
-                        currentUserData = { firstName: "", lastName: "", points: 0, answeredQuestions: {} };
+                    const snap = await get(ref(db, "users/" + accountId));
+                    if (snap.exists()) {
+                        const val = snap.val();
+                        firstName = val.firstName || "";
+                        lastName = val.lastName || "";
+                        points = Number(val.points) || 0;
                     }
                 } catch (err) {
-                    currentUserData = { firstName: "", lastName: "", points: 0, answeredQuestions: {} };
+                    firstName = "";
+                    lastName = "";
+                    points = 0;
                 }
 
-                const fullName = `${currentUserData.firstName} ${currentUserData.lastName}`.trim();
-                document.getElementById("welcome-user-name").innerText = fullName ? `مرحباً بك، ${fullName}` : "مرحباً بك";
-                document.getElementById("edit-fname").value = currentUserData.firstName;
-                document.getElementById("edit-lname").value = currentUserData.lastName;
-                document.getElementById("user-points-display").innerText = currentUserData.points;
-                renderQuiz();
-
-                // إظهار نافذة المقالة في المرة الأولى عند تسجيل الدخول
-                showWelcomeArticleIfFirstTime(user.uid);
+                const fullName = `${firstName} ${lastName}`.trim();
+                document.getElementById("knoz-member-fullname").innerText = fullName ? `مرحباً بك، ${fullName}` : "مرحباً بك";
+                document.getElementById("knoz-input-edit-fname").value = firstName;
+                document.getElementById("knoz-input-edit-lname").value = lastName;
+                document.getElementById("knoz-account-points-value").innerText = points;
             } else {
-                window.currentAuthUid = null;
-                formsContainer.style.display = "block";
-                dashboard.style.display = "none";
-                showWelcomeArticleIfFirstTime("guest");
+                guestPanel.style.display = "block";
+                memberPanel.style.display = "none";
+                document.getElementById("knoz-member-uid-value").innerText = "--";
+                document.getElementById("knoz-account-points-value").innerText = "0";
             }
         });
     </script>
