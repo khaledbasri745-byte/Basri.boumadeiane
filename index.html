@@ -366,18 +366,6 @@
             gap: 6px;
         }
 
-        .locked-notice-box {
-            background: #fef2f2;
-            border: 1px solid #fca5a5;
-            border-radius: 16px;
-            padding: 22px;
-            text-align: center;
-            color: #991b1b;
-            margin-bottom: 20px;
-            font-family: 'Reem Kufi', sans-serif;
-            line-height: 1.8;
-        }
-
         .timeline-container {
             position: relative;
             margin: 20px 0;
@@ -573,7 +561,7 @@
                             <span>المقالات</span>
                         </button>
                         <button class="tab-btn" onclick="switchTab('account', event)">
-                            <i class="fa-solid fa-user-lock"></i>
+                            <i class="fa-solid fa-user-check"></i>
                             <span>الحساب</span>
                         </button>
                     </div>
@@ -790,39 +778,66 @@
                 <!-- 4. الحساب والدخول -->
                 <div id="account-tab" class="tab-content">
                     <div class="card">
-                        <div class="card-title"><i class="fa-solid fa-user-lock" style="color: var(--gold-color);"></i> بوابة الحسابات والمصادقة المركزية</div>
-                        
-                        <div class="locked-notice-box">
-                            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.2rem; margin-bottom: 12px; display: block; color: #dc2626;"></i>
-                            <b>قسم إنشاء الحسابات وتسجيل الدخول مغلق تماماً</b><br>
-                            لا يمكن إنشاء حساب جديد أو تسجيل الدخول في الوقت الحالي نظراً لأن المنصة مغلقة كلياً. سيتم فتح بوابات التسجيل وإصدار معرفات المستخدمين (ID) تلقائياً فور الافتتاح الرسمي للموقع بتاريخ <b>21/11/2026</b>.
+                        <div class="card-title"><i class="fa-solid fa-user-check" style="color: var(--gold-color);"></i> بوابة الحسابات والمصادقة</div>
+
+                        <!-- لوحة المستخدم بعد تسجيل الدخول -->
+                        <div id="user-dashboard" style="display: none; background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px;">
+                            <i class="fa-solid fa-circle-check" style="font-size: 2.4rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
+                            <h3 id="welcome-user-name" style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 5px 0;">مرحباً بك</h3>
+                            <p id="user-email-display" style="color: #4b5563; margin-bottom: 15px;"></p>
+                            <button class="btn btn-gold" onclick="logoutUser()" style="width: auto; padding: 10px 25px;">
+                                <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
+                            </button>
                         </div>
 
-                        <div style="opacity: 0.5; pointer-events: none; filter: grayscale(40%);">
+                        <!-- نماذج التسجيل والدخول -->
+                        <div id="auth-forms-container">
+                            <div id="auth-message" style="display: none; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-weight: bold;"></div>
+
                             <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
-                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: #4b5563; margin-top: 0; font-size: 1.15rem;">
-                                    <i class="fa-solid fa-user-plus"></i> نموذج إنشاء حساب جديد (مغلق)
+                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
+                                    <i class="fa-solid fa-user-plus"></i> إنشاء حساب جديد
                                 </h3>
                                 <div class="form-group">
-                                    <label class="form-label">الاسم الكامل:</label>
-                                    <input type="text" class="form-control" placeholder="مغلق حتى تاريخ الافتتاح..." disabled>
+                                    <label class="form-label">الاسم:</label>
+                                    <input type="text" id="reg-fname" class="form-control" placeholder="أدخل اسمك...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">اللقب:</label>
+                                    <input type="text" id="reg-lname" class="form-control" placeholder="أدخل لقبك...">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">البريد الإلكتروني:</label>
-                                    <input type="text" class="form-control" placeholder="مغلق حتى تاريخ الافتتاح..." disabled>
+                                    <input type="email" id="reg-email" class="form-control" placeholder="example@gmail.com" dir="ltr" style="text-align: right;">
                                 </div>
-                                <button class="btn btn-disabled">إتمام التسجيل (غير متاح)</button>
+                                <div class="form-group">
+                                    <label class="form-label">كلمة المرور:</label>
+                                    <input type="password" id="reg-pass" class="form-control" placeholder="6 أحرف أو أرقام على الأقل...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">تأكيد كلمة المرور:</label>
+                                    <input type="password" id="reg-confirm-pass" class="form-control" placeholder="أعد كتابة كلمة المرور...">
+                                </div>
+                                <button class="btn" id="btn-register" onclick="registerUser()">
+                                    <i class="fa-solid fa-check"></i> إتمام التسجيل
+                                </button>
                             </div>
 
                             <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px;">
-                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: #4b5563; margin-top: 0; font-size: 1.15rem;">
-                                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول بالمعرف ID (مغلق)
+                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
+                                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
                                 </h3>
                                 <div class="form-group">
-                                    <label class="form-label">معرف المستخدم (ID):</label>
-                                    <input type="text" class="form-control" placeholder="أدخل معرف الـ ID..." disabled>
+                                    <label class="form-label">البريد الإلكتروني:</label>
+                                    <input type="email" id="login-email" class="form-control" placeholder="أدخل بريدك الإلكتروني..." dir="ltr" style="text-align: right;">
                                 </div>
-                                <button class="btn btn-disabled">التحقق من الحساب (غير متاح)</button>
+                                <div class="form-group">
+                                    <label class="form-label">كلمة المرور:</label>
+                                    <input type="password" id="login-pass" class="form-control" placeholder="أدخل كلمة المرور...">
+                                </div>
+                                <button class="btn btn-gold" id="btn-login" onclick="loginUser()">
+                                    <i class="fa-solid fa-unlock"></i> تسجيل الدخول
+                                </button>
                             </div>
                         </div>
 
@@ -975,6 +990,142 @@
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
         }, 1000);
+    </script>
+
+    <!-- ربط Firebase Authentication + Realtime Database -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        // ضع بيانات مشروعك من Firebase هنا
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        function showAuthMessage(text, isError = true) {
+            const msgBox = document.getElementById("auth-message");
+            msgBox.style.display = "block";
+            msgBox.innerText = text;
+            msgBox.style.backgroundColor = isError ? "#fef2f2" : "#f0fdf4";
+            msgBox.style.color = isError ? "#991b1b" : "#0d5c3a";
+            msgBox.style.border = isError ? "1px solid #fca5a5" : "1px solid #a7f3d0";
+        }
+
+        window.registerUser = async function() {
+            const fname = document.getElementById("reg-fname").value.trim();
+            const lname = document.getElementById("reg-lname").value.trim();
+            const email = document.getElementById("reg-email").value.trim();
+            const pass = document.getElementById("reg-pass").value;
+            const confirmPass = document.getElementById("reg-confirm-pass").value;
+
+            if (!fname || !lname || !email || !pass || !confirmPass) {
+                showAuthMessage("يرجى إدخال الاسم واللقب والبريد الإلكتروني وكلمة المرور وتأكيدها.");
+                return;
+            }
+            if (pass.length < 6) {
+                showAuthMessage("يجب أن تتكون كلمة المرور من 6 أحرف أو أرقام على الأقل.");
+                return;
+            }
+            if (pass !== confirmPass) {
+                showAuthMessage("كلمة المرور وتأكيد كلمة المرور غير متطابقتين.");
+                return;
+            }
+
+            const btn = document.getElementById("btn-register");
+            try {
+                btn.disabled = true;
+                btn.innerText = "جاري إنشاء الحساب...";
+
+                const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                const user = userCredential.user;
+
+                await set(ref(db, "users/" + user.uid), {
+                    firstName: fname,
+                    lastName: lname,
+                    email: email,
+                    createdAt: new Date().toISOString()
+                });
+
+                showAuthMessage("تم إنشاء الحساب وحفظ بياناتك بنجاح!", false);
+            } catch (error) {
+                if (error.code === "auth/email-already-in-use") {
+                    showAuthMessage("هذا البريد الإلكتروني مسجل مسبقاً.");
+                } else if (error.code === "auth/invalid-email") {
+                    showAuthMessage("صيغة البريد الإلكتروني غير صحيحة.");
+                } else {
+                    showAuthMessage("حدث خطأ أثناء التسجيل: " + error.message);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> إتمام التسجيل';
+            }
+        };
+
+        window.loginUser = async function() {
+            const email = document.getElementById("login-email").value.trim();
+            const pass = document.getElementById("login-pass").value;
+
+            if (!email || !pass) {
+                showAuthMessage("يرجى إدخال البريد الإلكتروني وكلمة المرور.");
+                return;
+            }
+
+            const btn = document.getElementById("btn-login");
+            try {
+                btn.disabled = true;
+                btn.innerText = "جاري تسجيل الدخول...";
+
+                await signInWithEmailAndPassword(auth, email, pass);
+                showAuthMessage("تم تسجيل الدخول بنجاح!", false);
+            } catch (error) {
+                showAuthMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-unlock"></i> تسجيل الدخول';
+            }
+        };
+
+        window.logoutUser = async function() {
+            await signOut(auth);
+            document.getElementById("auth-message").style.display = "none";
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            const formsContainer = document.getElementById("auth-forms-container");
+            const dashboard = document.getElementById("user-dashboard");
+
+            if (user) {
+                formsContainer.style.display = "none";
+                dashboard.style.display = "block";
+                document.getElementById("user-email-display").innerText = user.email;
+
+                try {
+                    const snapshot = await get(ref(db, "users/" + user.uid));
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        document.getElementById("welcome-user-name").innerText = `مرحباً بك، ${data.firstName} ${data.lastName}`;
+                    } else {
+                        document.getElementById("welcome-user-name").innerText = "مرحباً بك";
+                    }
+                } catch (err) {
+                    document.getElementById("welcome-user-name").innerText = "مرحباً بك";
+                }
+            } else {
+                formsContainer.style.display = "block";
+                dashboard.style.display = "none";
+            }
+        });
     </script>
 </body>
 </html>
