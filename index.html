@@ -506,6 +506,56 @@
             background-color: #ffffff;
         }
 
+        .points-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #fef9c3, #fef08a);
+            border: 1px solid var(--gold-color);
+            color: #1b382b;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin: 10px 0 15px 0;
+        }
+
+        .quiz-box {
+            background: #fffdf9;
+            border: 1px solid #e6d5a7;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .quiz-option-btn {
+            display: block;
+            width: 100%;
+            text-align: right;
+            padding: 12px 16px;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: 1px solid #a7f3d0;
+            background: #f0fdf4;
+            color: var(--text-color);
+            font-family: 'Amiri', serif;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .quiz-option-btn:hover:not(:disabled) {
+            background: #dcfce7;
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option-btn:disabled {
+            opacity: 0.7;
+            cursor: default;
+        }
+
         footer {
             padding: 22px;
             font-size: 0.95rem;
@@ -540,7 +590,7 @@
         }
     </style>
 </head>
-<body>
+<body style="overflow: hidden;">
 
     <div class="wrapper">
         <div class="content-area">
@@ -775,25 +825,60 @@
                     </div>
                 </div>
 
-                <!-- 4. الحساب والدخول -->
+                <!-- 4. الحساب والدخول والمسابقة -->
                 <div id="account-tab" class="tab-content">
                     <div class="card">
-                        <div class="card-title"><i class="fa-solid fa-user-check" style="color: var(--gold-color);"></i> بوابة الحسابات والمصادقة</div>
+                        <div class="card-title"><i class="fa-solid fa-user-check" style="color: var(--gold-color);"></i> بوابة الحساب والمسابقة</div>
+
+                        <div id="auth-message" style="display: none; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-weight: bold;"></div>
 
                         <!-- لوحة المستخدم بعد تسجيل الدخول -->
-                        <div id="user-dashboard" style="display: none; background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px;">
-                            <i class="fa-solid fa-circle-check" style="font-size: 2.4rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
-                            <h3 id="welcome-user-name" style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 5px 0;">مرحباً بك</h3>
-                            <p id="user-email-display" style="color: #4b5563; margin-bottom: 15px;"></p>
-                            <button class="btn btn-gold" onclick="logoutUser()" style="width: auto; padding: 10px 25px;">
-                                <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
-                            </button>
+                        <div id="user-dashboard" style="display: none;">
+                            <div style="background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px;">
+                                <i class="fa-solid fa-circle-check" style="font-size: 2.3rem; color: var(--primary-color); margin-bottom: 10px; display: block;"></i>
+                                <h3 id="welcome-user-name" style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin: 5px 0;">مرحباً بك</h3>
+                                <p id="user-email-display" style="color: #4b5563; margin-bottom: 8px;"></p>
+                                <div class="points-badge">
+                                    <i class="fa-solid fa-coins" style="color: var(--gold-hover);"></i>
+                                    <span>نقاطك الحالية: <b id="user-points-display">0</b> نقطة</span>
+                                </div>
+                                <div>
+                                    <button class="btn btn-gold" onclick="logoutUser()" style="width: auto; padding: 10px 25px;">
+                                        <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- تعديل بيانات الحساب -->
+                            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
+                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
+                                    <i class="fa-solid fa-user-pen"></i> تعديل معلومات الحساب
+                                </h3>
+                                <div class="form-group">
+                                    <label class="form-label">الاسم:</label>
+                                    <input type="text" id="edit-fname" class="form-control" placeholder="تعديل الاسم...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">اللقب:</label>
+                                    <input type="text" id="edit-lname" class="form-control" placeholder="تعديل اللقب...">
+                                </div>
+                                <button class="btn" id="btn-update-profile" onclick="updateUserProfile()">
+                                    <i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات
+                                </button>
+                            </div>
+
+                            <!-- مسابقة جمع النقاط -->
+                            <div class="quiz-box">
+                                <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-solid fa-award" style="color: var(--gold-color);"></i> مسابقة كنوز الإسلام (اجمع النقاط)
+                                </h3>
+                                <p style="margin-top: 0; color: #4b5563; font-size: 1rem;">أجب عن الأسئلة لتضيف نقاطاً مباشرة إلى رصيد حسابك في قاعدة البيانات.</p>
+                                <div id="quiz-questions-container"></div>
+                            </div>
                         </div>
 
                         <!-- نماذج التسجيل والدخول -->
                         <div id="auth-forms-container">
-                            <div id="auth-message" style="display: none; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-weight: bold;"></div>
-
                             <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; margin-bottom: 20px;">
                                 <h3 style="font-family: 'Reem Kufi', sans-serif; color: var(--primary-color); margin-top: 0; font-size: 1.2rem;">
                                     <i class="fa-solid fa-user-plus"></i> إنشاء حساب جديد
@@ -853,10 +938,10 @@
         </footer>
     </div>
 
-    <!-- نافذة إشعار المقالة الترحيبية عند فتح الموقع -->
-    <div id="articlePopupModal" class="modal-overlay active" onclick="closeModalOutside(event, 'articlePopupModal')">
+    <!-- نافذة إشعار المقالة (تظهر كأول خطوة قبل فتح الموقع في المرة الأولى فقط) -->
+    <div id="articlePopupModal" class="modal-overlay" onclick="closeModalOutside(event, 'articlePopupModal')">
         <div class="modal-container" style="border-top-color: var(--gold-color);">
-            <div class="modal-close-btn" onclick="closeModal('articlePopupModal')"><i class="fa-solid fa-xmark"></i></div>
+            <div class="modal-close-btn" onclick="dismissWelcomeArticleModal()"><i class="fa-solid fa-xmark"></i></div>
             <h3 class="modal-title"><i class="fa-solid fa-book-bookmark" style="color: var(--gold-color);"></i> إشعار المقالة المميزة</h3>
             <div style="font-family: 'Amiri', serif; font-size: 1.1rem; line-height: 1.8; color: var(--text-color);">
                 <p style="margin-top: 0; font-weight: bold; color: var(--primary-color);">
@@ -935,7 +1020,31 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function showWelcomeArticleIfFirstTime(scopeKey = "guest") {
+            const storageKey = "knozislam_welcome_article_shown_" + scopeKey;
+            const modal = document.getElementById("articlePopupModal");
+            if (!localStorage.getItem(storageKey)) {
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            } else {
+                modal.classList.remove("active");
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        function markWelcomeArticleShown() {
+            const uid = window.currentAuthUid || "guest";
+            localStorage.setItem("knozislam_welcome_article_shown_" + uid, "true");
+            localStorage.setItem("knozislam_welcome_article_shown_guest", "true");
+        }
+
+        function dismissWelcomeArticleModal() {
+            markWelcomeArticleShown();
+            closeModal('articlePopupModal');
+        }
+
         function goToArticleTab() {
+            markWelcomeArticleShown();
             closeModal('articlePopupModal');
             switchTab('articles');
         }
@@ -946,6 +1055,9 @@
         }
 
         function closeModal(modalId) {
+            if (modalId === 'articlePopupModal') {
+                markWelcomeArticleShown();
+            }
             document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = 'auto';
         }
@@ -958,12 +1070,19 @@
 
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
+                const welcomeModal = document.getElementById("articlePopupModal");
+                if (welcomeModal && welcomeModal.classList.contains("active")) {
+                    markWelcomeArticleShown();
+                }
                 document.querySelectorAll('.modal-overlay').forEach(modal => {
                     modal.classList.remove('active');
                 });
                 document.body.style.overflow = 'auto';
             }
         });
+
+        // إظهار نافذة المقالة أولاً قبل فتح الموقع في الزيارة الأولى
+        showWelcomeArticleIfFirstTime("guest");
 
         const countDownDate = new Date("Nov 21, 2026 20:00:00").getTime();
 
@@ -996,7 +1115,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCXCCeOwx--ZfEdFiGL6ttNYlNnBozQkdo",
@@ -1013,6 +1132,37 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
+        const quizQuestions = [
+            {
+                id: "q1",
+                question: "ما هي أول سورة نزلت من القرآن الكريم؟",
+                options: ["سورة الفاتحة", "سورة العلق", "سورة البقرة"],
+                correctIndex: 1,
+                reward: 10
+            },
+            {
+                id: "q2",
+                question: "في أي عام ميلادي وُلد الشيخ سيدي بومدين البصري رحمه الله؟",
+                options: ["1934م", "1945م", "1954م"],
+                correctIndex: 0,
+                reward: 15
+            },
+            {
+                id: "q3",
+                question: "كم عدد سور القرآن الكريم؟",
+                options: ["112 سورة", "114 سورة", "116 سورة"],
+                correctIndex: 1,
+                reward: 10
+            }
+        ];
+
+        let currentUserData = {
+            firstName: "",
+            lastName: "",
+            points: 0,
+            answeredQuestions: {}
+        };
+
         function showAuthMessage(text, isError = true) {
             const msgBox = document.getElementById("auth-message");
             msgBox.style.display = "block";
@@ -1021,6 +1171,119 @@
             msgBox.style.color = isError ? "#991b1b" : "#0d5c3a";
             msgBox.style.border = isError ? "1px solid #fca5a5" : "1px solid #a7f3d0";
         }
+
+        function renderQuiz() {
+            const container = document.getElementById("quiz-questions-container");
+            if (!container) return;
+            container.innerHTML = "";
+
+            quizQuestions.forEach((q, idx) => {
+                const alreadyAnswered = !!(currentUserData.answeredQuestions && currentUserData.answeredQuestions[q.id]);
+                const qCard = document.createElement("div");
+                qCard.style.marginBottom = "18px";
+                qCard.style.paddingBottom = "14px";
+                qCard.style.borderBottom = idx < quizQuestions.length - 1 ? "1px dashed #e6d5a7" : "none";
+
+                const titleEl = document.createElement("p");
+                titleEl.style.fontWeight = "bold";
+                titleEl.style.margin = "0 0 8px 0";
+                titleEl.style.color = "var(--primary-color)";
+                titleEl.innerHTML = `${idx + 1}. ${q.question} <span style="color: var(--gold-hover); font-size: 0.9rem;">(+${q.reward} نقاط)</span>`;
+                qCard.appendChild(titleEl);
+
+                q.options.forEach((optText, optIdx) => {
+                    const btn = document.createElement("button");
+                    btn.className = "quiz-option-btn";
+                    btn.innerText = optText;
+                    btn.disabled = alreadyAnswered;
+                    btn.onclick = () => submitQuizAnswer(q, optIdx);
+                    qCard.appendChild(btn);
+                });
+
+                if (alreadyAnswered) {
+                    const doneNote = document.createElement("div");
+                    doneNote.style.marginTop = "8px";
+                    doneNote.style.fontSize = "0.95rem";
+                    doneNote.style.color = "#0d5c3a";
+                    doneNote.style.fontWeight = "bold";
+                    doneNote.innerText = "تمت الإجابة على هذا السؤال مسبقاً.";
+                    qCard.appendChild(doneNote);
+                }
+
+                container.appendChild(qCard);
+            });
+        }
+
+        window.submitQuizAnswer = async function(questionObj, selectedIndex) {
+            const user = auth.currentUser;
+            if (!user) {
+                showAuthMessage("يرجى تسجيل الدخول أولاً للمشاركة في المسابقة.");
+                return;
+            }
+            if (currentUserData.answeredQuestions && currentUserData.answeredQuestions[questionObj.id]) {
+                showAuthMessage("لقد أجبت على هذا السؤال من قبل.");
+                return;
+            }
+
+            if (selectedIndex !== questionObj.correctIndex) {
+                showAuthMessage("إجابة غير صحيحة، حاول في سؤال آخر!");
+                return;
+            }
+
+            const newPoints = (Number(currentUserData.points) || 0) + questionObj.reward;
+            const updatedAnswered = Object.assign({}, currentUserData.answeredQuestions || {}, {
+                [questionObj.id]: true
+            });
+
+            try {
+                await update(ref(db, "users/" + user.uid), {
+                    points: newPoints,
+                    answeredQuestions: updatedAnswered
+                });
+
+                currentUserData.points = newPoints;
+                currentUserData.answeredQuestions = updatedAnswered;
+                document.getElementById("user-points-display").innerText = newPoints;
+                renderQuiz();
+                showAuthMessage(`أحسنت! أُضيفت ${questionObj.reward} نقاط إلى رصيدك.`, false);
+            } catch (err) {
+                showAuthMessage("تعذر تحديث النقاط: " + err.message);
+            }
+        };
+
+        window.updateUserProfile = async function() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            const newFname = document.getElementById("edit-fname").value.trim();
+            const newLname = document.getElementById("edit-lname").value.trim();
+
+            if (!newFname || !newLname) {
+                showAuthMessage("يرجى إدخال الاسم واللقب معاً.");
+                return;
+            }
+
+            const btn = document.getElementById("btn-update-profile");
+            try {
+                btn.disabled = true;
+                btn.innerText = "جاري حفظ التعديلات...";
+
+                await update(ref(db, "users/" + user.uid), {
+                    firstName: newFname,
+                    lastName: newLname
+                });
+
+                currentUserData.firstName = newFname;
+                currentUserData.lastName = newLname;
+                document.getElementById("welcome-user-name").innerText = `مرحباً بك، ${newFname} ${newLname}`;
+                showAuthMessage("تم تحديث معلومات حسابك بنجاح!", false);
+            } catch (err) {
+                showAuthMessage("حدث خطأ أثناء تعديل الحساب: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات';
+            }
+        };
 
         window.registerUser = async function() {
             const fname = document.getElementById("reg-fname").value.trim();
@@ -1054,6 +1317,8 @@
                     firstName: fname,
                     lastName: lname,
                     email: email,
+                    points: 0,
+                    answeredQuestions: {},
                     createdAt: new Date().toISOString()
                 });
 
@@ -1106,6 +1371,7 @@
             const dashboard = document.getElementById("user-dashboard");
 
             if (user) {
+                window.currentAuthUid = user.uid;
                 formsContainer.style.display = "none";
                 dashboard.style.display = "block";
                 document.getElementById("user-email-display").innerText = user.email;
@@ -1114,16 +1380,33 @@
                     const snapshot = await get(ref(db, "users/" + user.uid));
                     if (snapshot.exists()) {
                         const data = snapshot.val();
-                        document.getElementById("welcome-user-name").innerText = `مرحباً بك، ${data.firstName} ${data.lastName}`;
+                        currentUserData = {
+                            firstName: data.firstName || "",
+                            lastName: data.lastName || "",
+                            points: Number(data.points) || 0,
+                            answeredQuestions: data.answeredQuestions || {}
+                        };
                     } else {
-                        document.getElementById("welcome-user-name").innerText = "مرحباً بك";
+                        currentUserData = { firstName: "", lastName: "", points: 0, answeredQuestions: {} };
                     }
                 } catch (err) {
-                    document.getElementById("welcome-user-name").innerText = "مرحباً بك";
+                    currentUserData = { firstName: "", lastName: "", points: 0, answeredQuestions: {} };
                 }
+
+                const fullName = `${currentUserData.firstName} ${currentUserData.lastName}`.trim();
+                document.getElementById("welcome-user-name").innerText = fullName ? `مرحباً بك، ${fullName}` : "مرحباً بك";
+                document.getElementById("edit-fname").value = currentUserData.firstName;
+                document.getElementById("edit-lname").value = currentUserData.lastName;
+                document.getElementById("user-points-display").innerText = currentUserData.points;
+                renderQuiz();
+
+                // إظهار نافذة المقالة في المرة الأولى عند تسجيل الدخول
+                showWelcomeArticleIfFirstTime(user.uid);
             } else {
+                window.currentAuthUid = null;
                 formsContainer.style.display = "block";
                 dashboard.style.display = "none";
+                showWelcomeArticleIfFirstTime("guest");
             }
         });
     </script>
