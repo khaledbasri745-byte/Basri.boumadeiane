@@ -221,59 +221,6 @@
             margin-bottom: 18px;
         }
 
-        /* عدّاد تنازلي للجمعة القادمة 20:00 */
-        #knoz-friday-countdown-box {
-            background: linear-gradient(135deg, #f0fdf4, #e6f4ed);
-            border: 1px solid #a7f3d0;
-            border-radius: 18px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        #knoz-friday-countdown-title {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.15rem;
-            color: var(--primary-color);
-            margin: 0 0 6px 0;
-            font-weight: 700;
-        }
-
-        #knoz-friday-countdown-sub {
-            font-size: 0.98rem;
-            color: #4b5563;
-            margin: 0 0 16px 0;
-        }
-
-        #knoz-friday-countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .knoz-time-unit {
-            background: #ffffff;
-            border: 1px solid #bbf7d0;
-            border-radius: 14px;
-            padding: 12px 6px;
-            box-shadow: 0 4px 12px rgba(13, 92, 58, 0.06);
-        }
-
-        .knoz-time-val {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.55rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            display: block;
-        }
-
-        .knoz-time-lbl {
-            font-size: 0.85rem;
-            color: #4b5563;
-            display: block;
-            margin-top: 4px;
-        }
-
         .knoz-action-btn {
             color: #ffffff;
             border: none;
@@ -510,9 +457,6 @@
             #knoz-toolbar-brand {
                 justify-content: center;
             }
-            #knoz-friday-countdown-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
             .knoz-nav-btn {
                 font-size: 0.78rem;
                 padding: 7px 6px;
@@ -572,7 +516,7 @@
             <!-- حاوية الصفحات -->
             <main id="knoz-pages-container">
 
-                <!-- 1. الرئيسية (مفتوحة بالكامل + عدّاد الجمعة القادمة 20:00 للسؤال الأول في أول جمعة) -->
+                <!-- 1. الرئيسية -->
                 <section id="knoz-page-home" class="knoz-page-section is-visible">
                     <div id="knoz-home-main-card" class="knoz-card-box">
                         <h1 id="knoz-home-heading" class="knoz-card-heading">
@@ -586,35 +530,6 @@
                             <p id="knoz-waqf-text" style="margin: 0; font-size: 1.1rem; color: var(--text-color); line-height: 1.85;">
                                 اللهم اجعل هذا العمل المبارك، وكل حرف ونفع يُنشر عبر هذه المنصة، صدقة جارية ونوراً ساطعاً في قبر المرحوم الوالد <b>بصري بومدين</b>، وتغمده بواسع رحمتك وأسكنه فسيح جناتك.
                             </p>
-                        </div>
-
-                        <!-- العد التنازلي للجمعة القادمة الساعة 20:00 للسؤال الأول في أول جمعة -->
-                        <div id="knoz-friday-countdown-box">
-                            <h3 id="knoz-friday-countdown-title">
-                                <i class="fa-solid fa-hourglass-half" style="color: var(--gold-hover);"></i>
-                                <span>العد التنازلي للسؤال الأول في أول جمعة</span>
-                            </h3>
-                            <p id="knoz-friday-countdown-sub">
-                                الموعد المحدد: يوم الجمعة القادم الساعة <b>20:00</b> (<span id="knoz-friday-target-date">--/--/----</span>)
-                            </p>
-                            <div id="knoz-friday-countdown-grid">
-                                <div id="knoz-cd-days-card" class="knoz-time-unit">
-                                    <span id="knoz-cd-days" class="knoz-time-val">--</span>
-                                    <span id="knoz-cd-days-lbl" class="knoz-time-lbl">يوم</span>
-                                </div>
-                                <div id="knoz-cd-hours-card" class="knoz-time-unit">
-                                    <span id="knoz-cd-hours" class="knoz-time-val">--</span>
-                                    <span id="knoz-cd-hours-lbl" class="knoz-time-lbl">ساعة</span>
-                                </div>
-                                <div id="knoz-cd-minutes-card" class="knoz-time-unit">
-                                    <span id="knoz-cd-minutes" class="knoz-time-val">--</span>
-                                    <span id="knoz-cd-minutes-lbl" class="knoz-time-lbl">دقيقة</span>
-                                </div>
-                                <div id="knoz-cd-seconds-card" class="knoz-time-unit">
-                                    <span id="knoz-cd-seconds" class="knoz-time-val">--</span>
-                                    <span id="knoz-cd-seconds-lbl" class="knoz-time-lbl">ثانية</span>
-                                </div>
-                            </div>
                         </div>
 
                         <div id="knoz-home-tiles-grid" class="knoz-grid-two">
@@ -651,14 +566,14 @@
                         <div id="knoz-news-item-1" class="knoz-news-entry" style="border-right-color: var(--gold-color); background: #fffdf9;">
                             <div id="knoz-news-title-1" class="knoz-news-title">
                                 <i class="fa-solid fa-book-open-reader" style="color: var(--gold-color);"></i>
-                                <span>السؤال الأول في أول جمعة الساعة 20:00</span>
+                                <span>تحديث نظام النقاط وحسابات الأعضاء</span>
                             </div>
                             <span id="knoz-news-date-1" class="knoz-news-meta">
                                 <i class="fa-regular fa-calendar"></i>
-                                <span>يوم الجمعة القادم - 20:00</span>
+                                <span>مستجدات المنصة</span>
                             </span>
                             <p id="knoz-news-body-1" style="margin: 0; line-height: 1.85;">
-                                يُطرح السؤال الأول في أول جمعة الساعة الثامنة مساءً (20:00)، وتُسجّل نقاط الحساب مباشرة في ملف العضو.
+                                تُحدّث نقاط الأعضاء مباشرة في ملف الحساب الشخصي، ويمكن متابعة الرصيد والاستعداد للمراحل القادمة عبر المنصة.
                             </p>
                         </div>
 
@@ -682,25 +597,11 @@
                                 <span>مسابقة رمضان</span>
                             </div>
                             <span id="knoz-news-date-ramadan" class="knoz-news-meta">
-                                <i class="fa-solid fa-star-half-stroke"></i>
-                                <span>شرط التأهل: أكثر من 30 نقطة</span>
+                                <i class="fa-solid fa-coins"></i>
+                                <span>مسابقة رمضان</span>
                             </span>
                             <p id="knoz-news-body-ramadan" style="margin: 0; line-height: 1.85;">
-                                للمشاركة في مسابقة رمضان يجب أن تحصل على <b>أكثر من 30 نقطة</b> في رصيد حسابك.
-                            </p>
-                        </div>
-
-                        <div id="knoz-news-item-grand-contest" class="knoz-news-entry" style="border-right-color: var(--primary-color); background: #f0fdf4;">
-                            <div id="knoz-news-title-grand-contest" class="knoz-news-title">
-                                <i class="fa-solid fa-trophy" style="color: var(--gold-color);"></i>
-                                <span>تجميع النقاط للمشاركة في المسابقة الكبرى (21/11/2027)</span>
-                            </div>
-                            <span id="knoz-news-date-grand-contest" class="knoz-news-meta">
-                                <i class="fa-regular fa-calendar-check"></i>
-                                <span>المسابقة الكبرى: 21/11/2027 - الهدف: 100 نقطة</span>
-                            </span>
-                            <p id="knoz-news-body-grand-contest" style="margin: 0; line-height: 1.85;">
-                                استمر في تجميع النقاط في حسابك بحيث يصل رصيدك إلى <b>100 نقطة</b> للمشاركة في المسابقة الكبرى بتاريخ <b>21/11/2027</b>.
+                                مسابقة رمضان تشارك لتجمع النقاط.
                             </p>
                         </div>
 
@@ -1047,54 +948,6 @@
                 document.body.style.overflow = 'auto';
             }
         });
-
-        // حساب موعد الجمعة القادمة الساعة 20:00 للسؤال الأول في أول جمعة
-        function getNextFridayAt20() {
-            const now = new Date();
-            const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20, 0, 0, 0);
-            const dayOfWeek = now.getDay(); // 5 = الجمعة
-            let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
-
-            if (daysUntilFriday === 0 && now.getTime() >= target.getTime()) {
-                daysUntilFriday = 7;
-            }
-
-            target.setDate(now.getDate() + daysUntilFriday);
-            return target;
-        }
-
-        const nextFridayTarget = getNextFridayAt20();
-        const targetDateLabel = document.getElementById("knoz-friday-target-date");
-        if (targetDateLabel) {
-            const dd = String(nextFridayTarget.getDate()).padStart(2, "0");
-            const mm = String(nextFridayTarget.getMonth() + 1).padStart(2, "0");
-            const yyyy = nextFridayTarget.getFullYear();
-            targetDateLabel.innerText = `${dd}/${mm}/${yyyy}`;
-        }
-
-        const fridayTimer = setInterval(function() {
-            const nowMs = new Date().getTime();
-            const diff = nextFridayTarget.getTime() - nowMs;
-
-            if (diff <= 0) {
-                clearInterval(fridayTimer);
-                document.getElementById("knoz-cd-days").innerText = "00";
-                document.getElementById("knoz-cd-hours").innerText = "00";
-                document.getElementById("knoz-cd-minutes").innerText = "00";
-                document.getElementById("knoz-cd-seconds").innerText = "00";
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById("knoz-cd-days").innerText = String(days).padStart(2, "0");
-            document.getElementById("knoz-cd-hours").innerText = String(hours).padStart(2, "0");
-            document.getElementById("knoz-cd-minutes").innerText = String(minutes).padStart(2, "0");
-            document.getElementById("knoz-cd-seconds").innerText = String(seconds).padStart(2, "0");
-        }, 1000);
     </script>
 
     <!-- ربط Firebase Authentication + Realtime Database بمعرّف الحساب -->
@@ -1294,3 +1147,4 @@
     </script>
 </body>
 </html>
+
